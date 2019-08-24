@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './ThreadComponent.css';
-import { FaShareAlt, FaRegComment, FaFlag } from 'react-icons/fa';
+import { FaShareAlt, FaRegComment, FaFlag, FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import ThreadDataService from '../../api/todo/ThreadDataService.js'
 
 
 // import Icon from 'react-native-vector-icons/FontAwesome';
@@ -25,55 +26,63 @@ import { FaShareAlt, FaRegComment, FaFlag } from 'react-icons/fa';
 // );
 
 class ThreadComponent extends Component {
+
+	constructor(props){
+		super(props)
+		console.log(props)
+		this.state = {
+			tagged_channels: [],
+			content: null,
+			comments: [],
+		}
+		this.populate(this.props.id);
+	}
+
+	populate(id) {
+		var thread = ThreadDataService.retrieveThread(id)
+		this.state.content = thread.content;
+		this.state.tagged_channels = thread.tagged_channels;
+		this.state.comments = thread.comments;
+	}
+
+	submitComment(event) {
+		console.log("Comment Submitted")
+		// CommentDataService.submitComment()
+	}
+        	
     render() {
         return (
             <>
             	<div className="thread">
 	            	<div className="thread-title">
-	                	<h1>Thread Title</h1>
+	                	<h1>{this.props.title}</h1>
 	                </div>
 	                <div className="channel">
-	                	<h2>rmit/sept</h2>
+	                	<h2>{this.props.primary_channel}</h2>
 	                </div>
 	                <div className="username">
-	                	<h3>John Smith s1234567</h3>
+	                	<h3>{this.props.author}</h3>
 	                </div>
 	                <div className="thread-contents">
 	                    <p>
-	                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-	                    aliqua. Id semper risus in hendrerit. Facilisis magna etiam tempor orci eu lobortis elementum nibh. Integer quis auctor
-	                    elit sed vulputate. Arcu vitae elementum curabitur vitae nunc sed velit dignissim sodales. Pulvinar sapien et ligula
-	                    ullamcorper malesuada. Mi in nulla posuere sollicitudin aliquam. Auctor augue mauris augue neque gravida in fermentum et
-	                    sollicitudin. Tincidunt nunc pulvinar sapien et. Libero id faucibus nisl tincidunt eget nullam non. Dictum sit amet
-	                    justo donec enim diam vulputate. Sodales ut etiam sit amet nisl purus in mollis nunc. Vulputate mi sit amet mauris commodo.
-	                    Diam vulputate ut pharetra sit amet aliquam id.
-	                    </p>
-
-						<p>
-						Etiam non quam lacus suspendisse faucibus interdum posuere. Dolor morbi non arcu risus. Vulputate enim nulla aliquet
-						porttitor lacus. Malesuada fames ac turpis egestas sed tempus. Tincidunt lobortis feugiat vivamus at. Enim neque volutpat
-						ac tincidunt vitae semper quis. Vestibulum lorem sed risus ultricies tristique. Quis imperdiet massa tincidunt nunc pulvinar
-						sapien et ligula. Senectus et netus et malesuada fames ac turpis egestas. Faucibus scelerisque eleifend donec pretium
-						vulputate sapien nec sagittis aliquam. Mauris nunc congue nisi vitae suscipit tellus mauris a. Duis ut diam quam nulla
-						porttitor. Viverra aliquet eget sit amet tellus cras. Tincidunt augue interdum velit euismod in pellentesque massa.
-						Quam vulputate dignissim suspendisse in est.
+	                    	{this.state.content}
 						</p>
 	                </div>
 	                <div className="interactions">
 	                	<span className="comment-interaction"> <FaRegComment/> 3 Comments </span>
 	                	<span className="share-interaction"> <FaShareAlt/> Share </span>
 	                	<span className="report-interaction"> <FaFlag/> Report </span>
-	                	<span className="up-spike"> </span>
-	                	<span className="up-spike"> </span>
+	                	<span className="up-spike"> <FaArrowUp/> </span>
+	                	<span className="up-spike"> <FaArrowDown/> </span>
 	                </div>
 	                <div className="add-comment">
-	                	<form>
+	                	<form onSubmit={this.submitComment}>
 	                		<textarea rows="4" placeholder="What are your thoughts?"></textarea>
-	                		<input type="submit" value="Submit" />
+	                		<input type="submit" className="btn btn-success" value="Submit" />
 	                	</form>
 	                </div>
 	                <div className="comments">
-
+	                	{/*{this.state.comments.map((comment) => ( <Comment {...comment} />))}*/}
 	                </div>
 	            </div>
             </>
