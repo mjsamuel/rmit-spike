@@ -43,9 +43,11 @@ class ThreadComponent extends Component {
 
 	populate(id) {
 		var thread = ThreadDataService.retrieveThread(id)
-		this.setState({ content: thread.content })
-		this.setState({ tagged_channels: thread.tagged_channels })
-		this.setState({ comments: thread.comments })
+		this.setState({ 
+			content: thread.content,
+			tagged_channels: thread.tagged_channels,
+			comments: thread.comments 
+		})
 	}
 
 	submitComment(event) {
