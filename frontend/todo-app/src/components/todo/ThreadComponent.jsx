@@ -32,17 +32,20 @@ class ThreadComponent extends Component {
 		console.log(props)
 		this.state = {
 			tagged_channels: [],
-			content: null,
+			content: '',
 			comments: [],
 		}
+	}
+
+	componentDidMount() {
 		this.populate(this.props.id);
 	}
 
 	populate(id) {
 		var thread = ThreadDataService.retrieveThread(id)
-		this.state.content = thread.content;
-		this.state.tagged_channels = thread.tagged_channels;
-		this.state.comments = thread.comments;
+		this.setState({ content: thread.content })
+		this.setState({ tagged_channels: thread.tagged_channels })
+		this.setState({ comments: thread.comments })
 	}
 
 	submitComment(event) {
