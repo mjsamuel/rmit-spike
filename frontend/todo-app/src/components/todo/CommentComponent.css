@@ -1,0 +1,31 @@
+.comment {
+	margin-top: 20px;
+}
+
+.comment-header{
+	display: inline-block;
+}
+
+.author {
+	font-weight: bold;
+}
+
+.spikes {
+	padding: 8px;
+}
+
+.timeDelta {
+	padding: 32px;
+}
+
+.hidden-reply {
+	display: none;
+}
+
+.active-reply {
+
+}
+
+.active-report {
+	
+}

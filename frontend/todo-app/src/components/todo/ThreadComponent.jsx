@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import './ThreadComponent.css';
-import { FaShareAlt, FaRegComment, FaFlag, FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import { FaShareAlt, FaRegComment, FaFlag, FaAngleUp, FaAngleDown } from 'react-icons/fa';
 import ThreadDataService from '../../api/todo/ThreadDataService.js'
+import CommentComponent from './CommentComponent.jsx'
 
 
 // import Icon from 'react-native-vector-icons/FontAwesome';
@@ -74,11 +75,14 @@ class ThreadComponent extends Component {
 						</p>
 	                </div>
 	                <div className="interactions">
-	                	<span className="comment-interaction"> <FaRegComment/> 3 Comments </span>
-	                	<span className="share-interaction"> <FaShareAlt/> Share </span>
-	                	<span className="report-interaction"> <FaFlag/> Report </span>
-	                	<span className="up-spike"> <FaArrowUp/> </span>
-	                	<span className="up-spike"> <FaArrowDown/> </span>
+	                	<button className="up-spike" onClick={this.addUpSpike}> <FaAngleUp/> </button>
+                		<button className="down-spike" onClick={this.addDownSpike}> <FaAngleDown/> </button>
+                		<div className="divider"/>	                	
+	                	<span className="comment-interaction"> <FaRegComment/> {this.state.comments.length} Comments </span>
+                		<div className="divider"/>                
+                		<button className="share-interaction" onClick={this.share}> <FaShareAlt/> Share </button>
+                		<div className="divider"/>                		
+                		<button className="report-interaction" onClick={this.report}> <FaFlag/> Report </button>
 	                </div>
 	                <div className="add-comment">
 	                	<form onSubmit={this.submitComment}>
@@ -87,7 +91,7 @@ class ThreadComponent extends Component {
 	                	</form>
 	                </div>
 	                <div className="comments">
-	                	{/*{this.state.comments.map((comment) => ( <Comment {...comment} />))}*/}
+	                	{this.state.comments.map((comment) => ( <CommentComponent {...comment} />))}
 	                </div>
 	            </div>
             </>
