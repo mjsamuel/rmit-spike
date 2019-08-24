@@ -12,7 +12,8 @@ class CreateChannelComponent extends React.Component {
       this.state = {
           username: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME),
           channelName: "",
-          visibility: "public"
+          visibility: "public",
+          hasCreationFailed: false
       }
 
       this.handleChange = this.handleChange.bind(this)
@@ -22,10 +23,16 @@ class CreateChannelComponent extends React.Component {
     }
 
     confirmClicked() {
-      return axios.post(`${API_URL}/channel`, {
+      return axios.post(`https://acbc885c-1f6a-41ff-b8bf-b56483583084.mock.pstmn.io/channel`, {
           username: this.state.username,
           channelName: this.state.channelName,
           visibility: this.state.visibility
+      })
+      .then((response) => {
+         this.props.history.push(`/channel/${response.data.channelId}`)
+      })
+      .catch(() => {
+        this.setState({ hasCreationFailed: true })
       })
     }
 
@@ -46,19 +53,20 @@ class CreateChannelComponent extends React.Component {
     render() {
         return (
             <div className="channel-form">
-              <div class="jumbotron">
+              <div className="jumbotron">
                 <h1>Create a channel</h1>
                 <p></p>
               </div>
+              {this.state.hasCreationFailed && <div className="alert alert-warning">Something went wrong</div>}
               <form>
                 <input type="hidden" name="username" value={this.username} />
-                <div class="form-group">
-                  <label for="channelName">Channel name:</label>
-                  <input type="text" class="form-control" id="channelName"  name="channelName"  onChange={this.handleChange} placeholder="Enter channel name" required />
+                <div className="form-group">
+                  <label htmlFor="channelName">Channel name:</label>
+                  <input type="text" className="form-control" id="channelName"  name="channelName"  onChange={this.handleChange} placeholder="Enter channel name" required />
                 </div>
-                <div class="form-group">
-                  <label for="visibility">Channel visibility:</label>
-                  <select class="form-control" id="visibility" name="visibility" onChange={this.handleChange}>
+                <div className="form-group">
+                  <label htmlFor="visibility">Channel visibility:</label>
+                  <select className="form-control" id="visibility" name="visibility" onChange={this.handleChange}>
                     <option value="public">Public</option>
                     <option value="private">Private</option>
                   </select>
