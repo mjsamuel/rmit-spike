@@ -23,7 +23,7 @@ class CreateChannelComponent extends React.Component {
     }
 
     confirmClicked() {
-      return axios.post(`https://acbc885c-1f6a-41ff-b8bf-b56483583084.mock.pstmn.io/channel`, {
+      return axios.post(`${API_URL}/channel`, {
           username: this.state.username,
           channelName: this.state.channelName,
           visibility: this.state.visibility
