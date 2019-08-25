@@ -32,7 +32,6 @@ class ThreadComponent extends Component {
 			upspiked: false,
 			downspiked: false
 		}
-
 		this.refresh = this.refresh.bind(this);
 		this.activateReport = this.activateReport.bind(this);
 		this.addUpSpike = this.addUpSpike.bind(this);
@@ -44,7 +43,10 @@ class ThreadComponent extends Component {
 	 * finished executing
 	 */
 	componentDidMount() {
-		this.refresh(this.props.id);
+
+		var id = this.props.id == null && this.props.match != null ? this.props.match.params.id : this.props.id;
+		this.refresh(id);
+
 	}
 
 	/**
@@ -130,7 +132,7 @@ class ThreadComponent extends Component {
 	            	<div className="thread-title">
 	                	<h1>{this.props.title}</h1>
 	                </div>
-	                <div className="username">
+	                <div className="author">
 	                	<h3>Posted by u/{this.props.author} {this.state.timeNumber} {this.state.timeUnit} ago </h3>
 	                </div>
 	                <div className="thread-contents">
