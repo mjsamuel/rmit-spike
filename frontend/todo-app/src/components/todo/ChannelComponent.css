@@ -1,0 +1,26 @@
+.thread-list {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+
+  width: 90%;
+  max-width: 800px;
+}
+
+th a {
+  color: #000000;
+}
+
+th a:hover {
+  color: #696969;
+  text-decoration: none;
+
+}
+
+th a:visited {
+  color: #696969;
+}
+
+.pagination {
+  text-align: center;
+}
