@@ -32,10 +32,7 @@ class ChannelComponent extends Component {
         this.setState({ hasErrorOccured: true })
     })
 
-    this.setState({
-      channelName: JSON.parse(response).channelName,
-      threads: JSON.parse(response).threads
-    })
+
   }
 
   render() {
