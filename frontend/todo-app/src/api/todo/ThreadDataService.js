@@ -15,7 +15,28 @@ class ThreadDataService {
 
     retrieveChannelThreads(channel_id) {
         console.log('retrieveChannelThreads API endpoint called')
-        return axios.get(`${DATA_API_URL}/thread?chan=${channel_id}`) 
+        // return axios.get(`${DATA_API_URL}/thread?chan=${channel_id}`)
+        const response = `{
+          "channelName": "c/sept",
+          "threads": [
+            {
+              "id": "001",
+              "title": "Thread Title",
+              "author": "u/author",
+              "noComments": 0,
+              "upspikes": 0
+            },
+            {
+              "id": "002",
+              "title": "The Rise and Fall of SEPT at RMIT",
+              "author": "u/john-smith",
+              "noComments": 13,
+              "upspikes": 30
+            }
+          ]
+        }`
+
+        return JSON.parse(response)
     }
 
     retrieveThread(thread_id) {

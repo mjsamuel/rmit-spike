@@ -23,7 +23,7 @@ class TodoApp extends Component {
                             <Route path="/" exact component={LoginComponent}/>
                             <Route path="/login" component={LoginComponent}/>
                             <Route path="/thread" render={(props) => <ThreadComponent author="John Smith" title="The Rise and Fall of SEPT at RMIT" id="1" primary_channel="sept"/>} />
-                            <Route path="/channel/:channelId" component={ChannelComponent} />
+                            <Route path="/c/:channelId" component={ChannelComponent} />
                             <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent} />
                             <AuthenticatedRoute path="/todos/:id" component={TodoComponent}/>
                             <AuthenticatedRoute path="/todos" component={ListTodosComponent}/>
