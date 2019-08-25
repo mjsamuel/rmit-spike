@@ -1,6 +1,16 @@
 import React, { Component } from 'react'
 import ThreadDataService from '../../api/todo/ThreadDataService.js'
 
+
+/**
+ * AddCommentForm is a form that presents a text entry box for the user to submit
+ * a comment or report a thread or comment.
+ * It makes use of the following props:
+ * @param thread_id: id of the parent thread
+ * @param isReply: boolean indicating if the comment is in reply to another comment
+ * @param isReport: boolean indicating if the entry is a report
+ * @param updateParent: function handle to the function that refreshes the parent thread
+ */
 class AddCommentForm extends Component {
 	constructor(props) {
 		super(props);
@@ -14,17 +24,24 @@ class AddCommentForm extends Component {
 	}
 
 
+	/**
+	 * Update the DOM as the user enters text
+	 */
 	handleChange(event) {
 		this.setState({
 			value: event.target.value
 		});
 	}
 
+	/**
+	 * Construct a request to be sent to the relevant API when user selects submit
+	 * then refresh the thread and update the state of the text box to empty
+	 */
 	handleSubmit(event) {
 		const request = {
 			content: this.state.value,
 			datetime: Date.now(),
-			author_id: 1, //Needs to reflect current user
+			author_id: 1, //Placeholder: Needs to reflect current user when auth implemented
 			thread_id: this.props.thread_id,
 			reply_id: this.props.isReply ? this.props.reply_id : null,
 
@@ -38,6 +55,9 @@ class AddCommentForm extends Component {
 		event.preventDefault();
 	}
 
+	/**
+	 * Render text box
+	 */
 	render() {
 		return (
 			<form onSubmit={this.handleSubmit}>

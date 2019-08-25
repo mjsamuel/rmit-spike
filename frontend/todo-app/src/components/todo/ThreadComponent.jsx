@@ -5,6 +5,19 @@ import ThreadDataService from '../../api/todo/ThreadDataService.js'
 import CommentComponent from './CommentComponent.jsx'
 import AddCommentForm from './AddCommentForm.jsx'
 
+/**
+ * ThreadComponent is a component representing a thread. It is responsible for rendering the 
+ * content of the thread, the comments present on the thread, as well as author, spikes,
+ * time created, and possible user interactions
+ * It makes use of the following props, which are also displayed on a card on the user feed
+ * or channel page:
+ * @param id: id of the thread
+ * @param author: author of the thread
+ * @param title: the title of the thread
+ * @param timeNumber: the figure used to represent a statement such as "2 weeks ago"
+ * @param timeUnit: the unit used to represent a statement such as "2 weeks ago"
+ * @param primary_channel: The channel in which the thread was originally posted
+ */
 class ThreadComponent extends Component {
 
 	constructor(props){
@@ -26,10 +39,19 @@ class ThreadComponent extends Component {
 		this.addDownSpike = this.addDownSpike.bind(this);
 	}
 
+	/**
+	 * Loads the contents of the thread from it's props after the constructor has
+	 * finished executing
+	 */
 	componentDidMount() {
 		this.refresh(this.props.id);
 	}
 
+	/**
+	 * Refreshes the content of the thread. Makes a GET call to the API to retrieve
+	 * authoritative data and updates the state to repopulate the DOM as necessary
+	 * @param id: the id of the thread
+	 */
 	refresh(id) {
 		// console.log("Thread refreshed")
 		var thread = ThreadDataService.retrieveThread(id)
@@ -43,6 +65,10 @@ class ThreadComponent extends Component {
 		// console.log(this.state)
 	}
 
+	/**
+	 * Set the report form to active when the "Report" button is clicked. Also deactivates
+	 * the "Reply" form, as both cannot be open simultaneously.
+	 */
 	activateReport() {
 		// console.log("Activate report called");
 		this.setState({
@@ -51,6 +77,10 @@ class ThreadComponent extends Component {
 		});
 	}
 
+	/**
+	 * Increment the number of spikes on the comment and change the icon colour to
+	 * indicate that an upspike has been made. Sends request to API
+	 */
 	addUpSpike() {
 		// TODO: check if user has already up-spiked a thread
 		// console.log("Upspiked")
@@ -66,6 +96,10 @@ class ThreadComponent extends Component {
 		// console.log(this.state)
 	}
 
+	/**
+	 * Decrement the number of spikes on the comment and change the icon colour to
+	 * indicate that a downspike has been made. Sends request to API
+	 */
 	addDownSpike() {
 		// TODO: check if user has already up-spiked a thread
 		// console.log("Upspiked")
@@ -81,9 +115,11 @@ class ThreadComponent extends Component {
 		ThreadDataService.updateThread(this.props.id, updatePacket)
 		// console.log(this.state)
 	}
+	
 
-
-        	
+	/**
+	 * Renders the thread HTML
+	 */
     render() {
         return (
             <>

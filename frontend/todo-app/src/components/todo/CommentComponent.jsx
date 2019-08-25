@@ -4,6 +4,18 @@ import { FaShareAlt, FaRegComment, FaFlag, FaAngleUp, FaAngleDown } from 'react-
 import CommentDataService from '../../api/todo/CommentDataService.js'
 import AddCommentForm from './AddCommentForm.jsx'
 
+/**
+ * CommentComponent is a component representing each comment in a thread. It is responsible for
+ * rendering the content of a comment, as well as author, spikes, time created, and possible
+ * user interactions
+ * It makes use of the following props:
+ * @param id: id of the comment
+ * @param author: author of the comment
+ * @param spikes: number of spikes that the comment has received from users
+ * @param timeNumber: the figure used to represent a statement such as "2 weeks ago"
+ * @param timeUnit: the unit used to represent a statement such as "2 weeks ago"
+ * @param content: The content of the comment
+ */
 class CommentComponent extends Component {
 
 	constructor(props){
@@ -17,7 +29,6 @@ class CommentComponent extends Component {
 			downspiked: false
 		}
 
-
 		this.addUpSpike = this.addUpSpike.bind(this)
         this.addDownSpike = this.addDownSpike.bind(this)
         this.activateReply = this.activateReply.bind(this)
@@ -29,6 +40,11 @@ class CommentComponent extends Component {
 	componentDidMount() {
 	}
 
+
+	/**
+	 * Increment the number of spikes on the comment and change the icon colour to
+	 * indicate that an upspike has been made. Sends request to API
+	 */
 	addUpSpike() {
 		// TODO: check if user has already up-spiked a comment
 		// console.log("Upspiked")
@@ -44,6 +60,10 @@ class CommentComponent extends Component {
 		// console.log(this.state)
 	}
 
+	/**
+	 * Decrement the number of spikes on the comment and change the icon colour to
+	 * indicate that a downspike has been made. Sends request to API
+	 */
 	addDownSpike() {
 		// TODO: check if user has already up-spiked a comment
 		// console.log("Upspiked")
@@ -60,6 +80,10 @@ class CommentComponent extends Component {
 		// console.log(this.state)
 	}
 
+	/**
+	 * Set the reply form to active when the "Reply" button is clicked. Also deactivates
+	 * the "Report" form, as both cannot be open simultaneously.
+	 */
 	activateReply() {
 		this.setState({
 			replyActive: !this.state.replyActive,
@@ -67,10 +91,17 @@ class CommentComponent extends Component {
 		})
 	}
 
+	/**
+	 *
+	 */
 	share() {
 		// TODO: Show share options
 	}
 
+	/**
+	 * Set the report form to active when the "Report" button is clicked. Also deactivates
+	 * the "Reply" form, as both cannot be open simultaneously.
+	 */
 	activateReport() {
 		this.setState({
 			reportActive: !this.state.reportActive,
@@ -78,6 +109,9 @@ class CommentComponent extends Component {
 		})
 	}
 
+	/**
+	 * Render the comment as a card
+	 */
     render() {
         return (
         	<div className="comment">
