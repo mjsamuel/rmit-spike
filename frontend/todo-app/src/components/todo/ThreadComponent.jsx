@@ -31,17 +31,20 @@ class ThreadComponent extends Component {
 	}
 
 	refresh(id) {
-		console.log("Thread refreshed")
+		// console.log("Thread refreshed")
 		var thread = ThreadDataService.retrieveThread(id)
 		this.setState({ 
 			content: thread.content,
 			tagged_channels: thread.tagged_channels,
-			comments: thread.comments 
+			comments: thread.comments,
+			timeNumber: thread.timeNumber,
+			timeUnit: thread.timeUnit
 		})
+		// console.log(this.state)
 	}
 
 	activateReport() {
-		console.log("Activate report called");
+		// console.log("Activate report called");
 		this.setState({
 			reportActive: !this.state.reportActive,
 			replyActive: this.state.reportActive ? true : false
@@ -50,7 +53,7 @@ class ThreadComponent extends Component {
 
 	addUpSpike() {
 		// TODO: check if user has already up-spiked a thread
-		console.log("Upspiked")
+		// console.log("Upspiked")
 		this.setState({
 			upspiked: !this.state.upspiked,
 			downspiked: false
@@ -60,12 +63,12 @@ class ThreadComponent extends Component {
 		}
 		this.setState(updatePacket)
 		ThreadDataService.updateThread(this.props.id, updatePacket)
-		console.log(this.state)
+		// console.log(this.state)
 	}
 
 	addDownSpike() {
 		// TODO: check if user has already up-spiked a thread
-		console.log("Upspiked")
+		// console.log("Upspiked")
 		this.setState({
 			downspiked: !this.state.downspiked,
 			upspiked: false
@@ -76,7 +79,7 @@ class ThreadComponent extends Component {
 		}
 		this.setState(updatePacket)
 		ThreadDataService.updateThread(this.props.id, updatePacket)
-		console.log(this.state)
+		// console.log(this.state)
 	}
 
 
@@ -85,14 +88,14 @@ class ThreadComponent extends Component {
         return (
             <>
             	<div className="thread">
+            		<div className="channel">
+	                	<h2>c/{this.props.primary_channel}</h2>
+	                </div>
 	            	<div className="thread-title">
 	                	<h1>{this.props.title}</h1>
 	                </div>
-	                <div className="channel">
-	                	<h2>{this.props.primary_channel}</h2>
-	                </div>
 	                <div className="username">
-	                	<h3>{this.props.author}</h3>
+	                	<h3>Posted by u/{this.props.author} {this.state.timeNumber} {this.state.timeUnit} ago </h3>
 	                </div>
 	                <div className="thread-contents">
 	                    <p>

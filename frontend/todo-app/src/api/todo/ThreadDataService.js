@@ -22,6 +22,8 @@ class ThreadDataService {
         console.log('retrieveThread API endpoint called')
         // return axios.get(`${DATA_API_URL}/thread/${thread_id}`)
         const response = `{
+              "timeNumber": 1,
+              "timeUnit": "week",
               "tagged_channels": [
                 2,
                 3,

@@ -8,7 +8,7 @@ class AddCommentForm extends Component {
 			value: '',
 			placeholder: this.props.isReport ? "What would you like to report? Please include as much detail as possible" : "What are your thoughts?"
 		};
-		console.log(this.props)
+		// console.log(this.props)
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
@@ -31,7 +31,7 @@ class AddCommentForm extends Component {
 		}
 
 		const apiCall = this.props.isReport ? ThreadDataService.addReport : ThreadDataService.addComment
-		console.log(apiCall)
+		// console.log(apiCall)
 		apiCall(this.props.thread_id, request);
 		this.props.updateParent()
 		this.setState({value: ''})

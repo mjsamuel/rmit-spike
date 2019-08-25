@@ -31,7 +31,7 @@ class CommentComponent extends Component {
 
 	addUpSpike() {
 		// TODO: check if user has already up-spiked a comment
-		console.log("Upspiked")
+		// console.log("Upspiked")
 		this.setState({
 			upspiked: !this.state.upspiked,
 			downspiked: false
@@ -41,12 +41,12 @@ class CommentComponent extends Component {
 		}
 		this.setState(updatePacket)
 		CommentDataService.updateComment(this.props.id, updatePacket)
-		console.log(this.state)
+		// console.log(this.state)
 	}
 
 	addDownSpike() {
 		// TODO: check if user has already up-spiked a comment
-		console.log("Upspiked")
+		// console.log("Upspiked")
 		this.setState({
 			downspiked: !this.state.downspiked,
 			upspiked: false
@@ -57,7 +57,7 @@ class CommentComponent extends Component {
 		}
 		this.setState(updatePacket)
 		CommentDataService.updateComment(this.props.id, updatePacket)
-		console.log(this.state)
+		// console.log(this.state)
 	}
 
 	activateReply() {
