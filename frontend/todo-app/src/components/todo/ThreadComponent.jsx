@@ -3,46 +3,35 @@ import './ThreadComponent.css';
 import { FaShareAlt, FaRegComment, FaFlag, FaAngleUp, FaAngleDown } from 'react-icons/fa';
 import ThreadDataService from '../../api/todo/ThreadDataService.js'
 import CommentComponent from './CommentComponent.jsx'
-
-
-// import Icon from 'react-native-vector-icons/FontAwesome';
-// import { Text, StyleSheet } from 'react-native';
-
-// const shareButton = (
-//   <Icon.Button
-//     name="share"
-//     backgroundColor="#3b5998"
-//     onPress={this.share}
-//   >
-//     Share
-//   </Icon.Button>
-// );
-
-// const shareButton = (
-//   <Icon.Button name="share" backgroundColor="#3b5998">
-//     <Text style={{ fontFamily: 'Arial', fontSize: 15 }}>
-//       Share
-//     </Text>
-//   </Icon.Button>
-// );
+import AddCommentForm from './AddCommentForm.jsx'
 
 class ThreadComponent extends Component {
 
 	constructor(props){
 		super(props)
-		console.log(props)
+		// console.log(props)
 		this.state = {
 			tagged_channels: [],
 			content: '',
 			comments: [],
+			replyActive: true,
+			reportActive: false,
+			upspiked: false,
+			downspiked: false
 		}
+
+		this.refresh = this.refresh.bind(this);
+		this.activateReport = this.activateReport.bind(this);
+		this.addUpSpike = this.addUpSpike.bind(this);
+		this.addDownSpike = this.addDownSpike.bind(this);
 	}
 
 	componentDidMount() {
-		this.populate(this.props.id);
+		this.refresh(this.props.id);
 	}
 
-	populate(id) {
+	refresh(id) {
+		console.log("Thread refreshed")
 		var thread = ThreadDataService.retrieveThread(id)
 		this.setState({ 
 			content: thread.content,
@@ -51,10 +40,46 @@ class ThreadComponent extends Component {
 		})
 	}
 
-	submitComment(event) {
-		console.log("Comment Submitted")
-		// CommentDataService.submitComment()
+	activateReport() {
+		console.log("Activate report called");
+		this.setState({
+			reportActive: !this.state.reportActive,
+			replyActive: this.state.reportActive ? true : false
+		});
 	}
+
+	addUpSpike() {
+		// TODO: check if user has already up-spiked a thread
+		console.log("Upspiked")
+		this.setState({
+			upspiked: !this.state.upspiked,
+			downspiked: false
+		})
+		const updatePacket = {
+			spikes: this.state.spikes + 1
+		}
+		this.setState(updatePacket)
+		ThreadDataService.updateThread(this.props.id, updatePacket)
+		console.log(this.state)
+	}
+
+	addDownSpike() {
+		// TODO: check if user has already up-spiked a thread
+		console.log("Upspiked")
+		this.setState({
+			downspiked: !this.state.downspiked,
+			upspiked: false
+		})
+
+		const updatePacket = {
+			spikes: this.state.spikes - 1
+		}
+		this.setState(updatePacket)
+		ThreadDataService.updateThread(this.props.id, updatePacket)
+		console.log(this.state)
+	}
+
+
         	
     render() {
         return (
@@ -75,23 +100,23 @@ class ThreadComponent extends Component {
 						</p>
 	                </div>
 	                <div className="interactions">
-	                	<button className="up-spike" onClick={this.addUpSpike}> <FaAngleUp/> </button>
-                		<button className="down-spike" onClick={this.addDownSpike}> <FaAngleDown/> </button>
+                		<button className={this.state.upspiked ? 'upspiked' : 'no-spike'} onClick={this.addUpSpike}> <FaAngleUp/> </button>
+                		<button className={this.state.downspiked ? 'downspiked' : 'no-spike'} onClick={this.addDownSpike}> <FaAngleDown/> </button>
                 		<div className="divider"/>	                	
 	                	<span className="comment-interaction"> <FaRegComment/> {this.state.comments.length} Comments </span>
                 		<div className="divider"/>                
                 		<button className="share-interaction" onClick={this.share}> <FaShareAlt/> Share </button>
                 		<div className="divider"/>                		
-                		<button className="report-interaction" onClick={this.report}> <FaFlag/> Report </button>
+                		<button className="report-interaction" onClick={this.activateReport}> <FaFlag/> Report </button>
 	                </div>
-	                <div className="add-comment">
-	                	<form onSubmit={this.submitComment}>
-	                		<textarea rows="4" placeholder="What are your thoughts?"></textarea>
-	                		<input type="submit" className="btn btn-success" value="Submit" />
-	                	</form>
+	                <div className={this.state.replyActive ? 'active-reply' : 'hidden-reply'}>
+	                	<AddCommentForm thread_id={this.props.id} isReply={false} isReport={false} updateParent={this.refresh}/>
+	                </div>
+		            <div className={this.state.reportActive ? 'active-report' : 'hidden-reply'}>
+		                <AddCommentForm thread_id={this.props.thread_id} isReply={false} isReport={true} updateParent={this.props.updateParent}/>
 	                </div>
 	                <div className="comments">
-	                	{this.state.comments.map((comment) => ( <CommentComponent {...comment} />))}
+	                	{this.state.comments.map((comment, i) => ( <CommentComponent key={i} updateParent={this.refresh} {...comment} />))}
 	                </div>
 	            </div>
             </>

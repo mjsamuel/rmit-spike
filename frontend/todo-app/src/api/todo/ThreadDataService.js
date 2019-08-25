@@ -76,6 +76,16 @@ class ThreadDataService {
           });
     }
 
+    addComment(thread_id, request) {
+        console.log("addComment API endpoint called")
+        return axios.post(`${DATA_API_URL}/thread/${thread_id}/comment`)
+    }
+
+    addReport(thread_id, request) {
+        console.log("addReport API endpoint called")
+        return axios.post(`${DATA_API_URL}/thread/${thread_id}/report`)
+    }
+
 }
 
 export default new ThreadDataService()
