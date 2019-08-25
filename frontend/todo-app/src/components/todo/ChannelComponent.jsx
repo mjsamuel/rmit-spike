@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {API_URL} from '../../Constants'
 import './ChannelComponent.css';
 import axios from 'axios'
-import { FaRegComment, FaArrowUp } from 'react-icons/fa';
+import { FaRegComment, FaAngleUp } from 'react-icons/fa';
 
 
 class ChannelComponent extends Component {
@@ -27,11 +27,14 @@ class ChannelComponent extends Component {
         channelName: response.data.channelName,
         threads: response.data.threads
       })
-
-      console.log(this.state.threads)
     })
     .catch(() => {
         this.setState({ hasErrorOccured: true })
+    })
+
+    this.setState({
+      channelName: JSON.parse(response).channelName,
+      threads: JSON.parse(response).threads
     })
   }
 
@@ -40,23 +43,17 @@ class ChannelComponent extends Component {
       <div className="thread-list">
         <h1>{this.state.channelName}</h1>
         {this.state.hasErrorOccured && <div className="alert alert-warning">Something went wrong</div>}
-        <table className="table">
-          <tbody>
             {this.state.threads.map((thread, index) => {
               return (
-                <tr>
-                  <td>
+                <div className="thread-card">
                     <a href={"/thread/" + thread.id} className="title">{thread.title}</a><br/>
                     <a href={"/user/" + thread.author} className="author">{thread.author}</a><br/>
                     <div className="details-bar">
-                      <span><FaRegComment/> {thread.noComments} comments | <FaArrowUp/> {thread.upspikes} Upspikes</span>
+                      <span><FaRegComment/> {thread.noComments} comments | <FaAngleUp/> {thread.upspikes} Upspikes</span>
                     </div>
-                  </td>
-                </tr>
+                </div>
               )
             })}
-          </tbody>
-        </table>
         <ul className="pagination">
           <li className="page-item"><a className="page-link" href="#">Previous</a></li>
           <li className="page-item"><a className="page-link" href="?page1">1</a></li>
