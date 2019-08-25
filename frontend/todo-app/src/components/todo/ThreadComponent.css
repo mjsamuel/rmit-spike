@@ -1,0 +1,54 @@
+.thread {
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: left;
+}
+
+.thread-title h1 {
+	font-size: 50px;
+}
+.channel h2 {
+	font-size: 25px;
+}
+.username h3 {
+	font-size: 15px;
+}
+
+.thread-contents {
+	text-align: justify;
+	/*padding: 10px;*/
+}
+.interactions {
+	display: inline-block;
+}
+.comment-interaction {
+	width: 25%;
+	/*margin:15px;*/
+}
+.share-interaction{
+	/*padding:15px;*/
+}
+.report-interaction{
+	/*padding:15px;*/
+}
+textarea {
+	width:99%;
+}
+
+button {
+	background: none;
+	color: inherit;
+	border: none;
+	/*margin-right: 5px;*/
+	/*padding: 10px;*/
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+}
+
+.divider {
+	width: 5px;
+	height: auto;
+	display: inline-block;
+}

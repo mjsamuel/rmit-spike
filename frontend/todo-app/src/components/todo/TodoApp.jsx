@@ -9,7 +9,8 @@ import FooterComponent from './FooterComponent.jsx'
 import LogoutComponent from './LogoutComponent.jsx'
 import WelcomeComponent from './WelcomeComponent.jsx'
 import TodoComponent from './TodoComponent.jsx'
-import CreateChannelComponent from './CreateChannelComponent.jsx'
+import ThreadComponent from './ThreadComponent.jsx'
+import ChannelComponent from './ChannelComponent.jsx'
 
 class TodoApp extends Component {
     render() {
@@ -21,8 +22,9 @@ class TodoApp extends Component {
                         <Switch>
                             <Route path="/" exact component={LoginComponent}/>
                             <Route path="/login" component={LoginComponent}/>
-                            <AuthenticatedRoute path="/create-channel" component={CreateChannelComponent}/>
-                            <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent}/>
+                            <Route path="/thread" render={(props) => <ThreadComponent author="John Smith" title="The Rise and Fall of SEPT at RMIT" id="1" primary_channel="sept"/>} />
+                            <Route path="/c/:channelId" component={ChannelComponent} />
+                            <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent} />
                             <AuthenticatedRoute path="/todos/:id" component={TodoComponent}/>
                             <AuthenticatedRoute path="/todos" component={ListTodosComponent}/>
                             <AuthenticatedRoute path="/logout" component={LogoutComponent}/>
