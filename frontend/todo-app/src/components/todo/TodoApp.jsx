@@ -11,7 +11,8 @@ import WelcomeComponent from './WelcomeComponent.jsx'
 import TodoComponent from './TodoComponent.jsx'
 import ThreadComponent from './ThreadComponent.jsx'
 import ChannelComponent from './ChannelComponent.jsx'
-import CreateChannelComponent from './CreateChannelComponent'
+import CreateChannelComponent from './CreateChannelComponent.jsx'
+import WallComponent from './WallComponent.jsx'
 
 class TodoApp extends Component {
     render() {
@@ -26,6 +27,7 @@ class TodoApp extends Component {
                             <Route path="/thread" render={(props) => <ThreadComponent author="John Smith" title="The Rise and Fall of SEPT at RMIT" id="1" primary_channel="sept"/>} />
                             <Route path="/c/:channelId" component={ChannelComponent} />
                             <Route path="/create-channel" component={CreateChannelComponent} />
+                            <Route path="/wall" component={WallComponent} />
                             <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent} />
                             <AuthenticatedRoute path="/todos/:id" component={TodoComponent}/>
                             <AuthenticatedRoute path="/todos" component={ListTodosComponent}/>

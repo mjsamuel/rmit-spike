@@ -3,6 +3,7 @@ import { API_URL, JPA_API_URL, DATA_API_URL } from '../../Constants'
 
 class ChannelDataService {
   createChannel(username, channelName, visibility) {
+    console.log('createChannel API endpoint called')
     // axios.post(`${API_URL}/channel`, {
     //     username: username,
     //     channelName: channelName,
@@ -11,7 +12,6 @@ class ChannelDataService {
     // .then(() => {
     //   return `/channel/${response.data.channelId}`
     // })
-
     const response = `{
       "channelId": "sept"
     }`
