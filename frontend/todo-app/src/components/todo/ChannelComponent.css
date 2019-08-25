@@ -5,22 +5,30 @@
 
   width: 90%;
   max-width: 800px;
+
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
-th a {
+.title {
+  font-weight: bold;
+}
+
+.title:hover {
+  text-decoration: none;
+}
+
+.author {
   color: #000000;
 }
-
-th a:hover {
-  color: #696969;
+.author:hover {
   text-decoration: none;
-
 }
 
-th a:visited {
-  color: #696969;
+.details-bar {
+  text-align: center;
 }
 
 .pagination {
-  text-align: center;
+  justify-content: center;
 }

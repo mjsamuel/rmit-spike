@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import {API_URL} from '../../Constants'
 import './ChannelComponent.css';
 import axios from 'axios'
+import { FaRegComment, FaArrowUp } from 'react-icons/fa';
+
 
 class ChannelComponent extends Component {
 
@@ -10,9 +12,9 @@ class ChannelComponent extends Component {
 
     this.state = {
       channelName: '',
-			threads: [],
+      threads: [],
       hasErrorOccured: false
-		}
+    }
   }
 
   componentDidMount() {
@@ -25,6 +27,8 @@ class ChannelComponent extends Component {
         channelName: response.data.channelName,
         threads: response.data.threads
       })
+
+      console.log(this.state.threads)
     })
     .catch(() => {
         this.setState({ hasErrorOccured: true })
@@ -34,16 +38,23 @@ class ChannelComponent extends Component {
   render() {
     return (
       <div className="thread-list">
-        <h1>Channel Name</h1>
+        <h1>{this.state.channelName}</h1>
         {this.state.hasErrorOccured && <div className="alert alert-warning">Something went wrong</div>}
         <table className="table">
           <tbody>
-            <tr>
-              <th><a href="/thread"><b>The Rise and Fall of SEPT at RMIT</b><br/><i>John Smith</i></a></th>
-            </tr>
-            <tr>
-              <th><a href="/thread"><b>thread title</b><br/><i>author</i></a></th>
-            </tr>
+            {this.state.threads.map((thread, index) => {
+              return (
+                <tr>
+                  <td>
+                    <a href={"/thread/" + thread.id} className="title">{thread.title}</a><br/>
+                    <a href={"/user/" + thread.author} className="author">{thread.author}</a><br/>
+                    <div className="details-bar">
+                      <span><FaRegComment/> {thread.noComments} comments | <FaArrowUp/> {thread.upspikes} Upspikes</span>
+                    </div>
+                  </td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
         <ul className="pagination">
