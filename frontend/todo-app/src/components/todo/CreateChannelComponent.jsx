@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import {USER_NAME_SESSION_ATTRIBUTE_NAME} from './AuthenticationService.js'
-import {API_URL} from '../../Constants'
 import './CreateChannelComponent.css'
-import axios from 'axios'
+import ChannelDataService from '../../api/todo/ChannelDataService.js'
 
 class CreateChannelComponent extends React.Component {
 
@@ -13,7 +12,6 @@ class CreateChannelComponent extends React.Component {
           username: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME),
           channelName: "",
           visibility: "public",
-          hasCreationFailed: false
       }
 
       this.handleChange = this.handleChange.bind(this)
@@ -23,17 +21,9 @@ class CreateChannelComponent extends React.Component {
     }
 
     confirmClicked() {
-      return axios.post(`${API_URL}/channel`, {
-          username: this.state.username,
-          channelName: this.state.channelName,
-          visibility: this.state.visibility
-      })
-      .then((response) => {
-         this.props.history.push(`/channel/${response.data.channelId}`)
-      })
-      .catch(() => {
-        this.setState({ hasCreationFailed: true })
-      })
+      var data = ChannelDataService.createChannel(this.state.username,
+        this.state.channelName, this.state.visibility)
+      this.props.history.push(`/c/${data.channelId}`)
     }
 
     cancelClicked() {
@@ -58,7 +48,6 @@ class CreateChannelComponent extends React.Component {
                 <p></p>
               </div>
               {this.state.hasCreationFailed && <div className="alert alert-warning">Something went wrong</div>}
-              <form>
                 <input type="hidden" name="username" value={this.username} />
                 <div className="form-group">
                   <label htmlFor="channelName">Channel name:</label>
@@ -75,7 +64,6 @@ class CreateChannelComponent extends React.Component {
                   <button type="button" className="btn btn-secondary" onClick={this.cancelClicked}>Cancel</button>
                   <button type="button" className="btn btn-success ml-2" onClick={this.confirmClicked}>Confirm</button>
                 </div>
-              </form>
             </div>
         )
     }
