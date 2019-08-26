@@ -24,6 +24,7 @@ class TodoApp extends Component {
                         <Switch>
                             <Route path="/" exact component={LoginComponent}/>
                             <Route path="/login" component={LoginComponent}/>
+                            <Route path="/thread/:id" component={ThreadComponent} />
                             <Route path="/thread" render={(props) => <ThreadComponent author="John Smith" title="The Rise and Fall of SEPT at RMIT" id="1" primary_channel="sept"/>} />
                             <Route path="/c/:channelId" component={ChannelComponent} />
                             <Route path="/create-channel" component={CreateChannelComponent} />
