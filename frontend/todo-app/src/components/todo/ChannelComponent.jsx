@@ -6,6 +6,16 @@ import { FaRegComment, FaAngleUp } from 'react-icons/fa';
 
 class ChannelComponent extends Component {
 
+  /**
+   * ChannelComponent is a component representing a channel. It is responsible for rendering the
+   * content of a channel. This includes the list of threads that have been posted to that channel,
+   * along with each threads, title, author, the number of comments, the number of upspikes and the
+   * It makes use of the following props, which are also displayed on a card on the user feed
+   * or channel page
+   * It makes use of the following route paramaters in order to idetify which channel is being
+   * displayed:
+   * @param channelId: id of the channel
+   */
   constructor(props) {
     super(props)
 
@@ -16,6 +26,10 @@ class ChannelComponent extends Component {
     }
   }
 
+  /**
+   * Loads the current list of threads that belong to the current channel from the backend and updates
+   * the state variables
+   */
   componentDidMount() {
     const { match: { params } } = this.props;
     console.log(params.channelId)
@@ -27,6 +41,9 @@ class ChannelComponent extends Component {
     })
   }
 
+  /**
+   * Renders the thread HTML
+   */
   render() {
     return (
       <div className="thread-list">

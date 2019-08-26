@@ -6,6 +6,12 @@ import { FaRegComment, FaAngleUp } from 'react-icons/fa';
 
 class WallComponent extends Component {
 
+  /**
+   * ChannelComponent is a component that represents the user's wall. It is responsible for rendering
+   * all the most recent threads that have been posted to the channels that the user is subscribed to,
+   * displaying the threads. title, author, what channels it has been posted to, number of comments and
+   * the number of upspikes
+   */
   constructor(props) {
     super(props)
 
@@ -16,6 +22,10 @@ class WallComponent extends Component {
     }
   }
 
+  /**
+   * Loads the current list of threads that belong to the current channels the user is subscribed to
+   * and updates the state variables
+   */
   componentDidMount() {
     const { match: { params } } = this.props;
     console.log(params.channelId)
@@ -27,6 +37,9 @@ class WallComponent extends Component {
     })
   }
 
+  /**
+   * Renders the thread HTML
+   */
   render() {
     return (
       <div className="thread-list">

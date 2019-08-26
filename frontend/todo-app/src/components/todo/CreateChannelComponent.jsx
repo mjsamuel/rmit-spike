@@ -5,6 +5,12 @@ import ChannelDataService from '../../api/todo/ChannelDataService.js'
 
 class CreateChannelComponent extends React.Component {
 
+   /**
+    * CreateChannelComponent is a component that allows for the creation of a channel. It provides
+    * a form that has two input fields that specify the channels name and it visibility (public or
+    * private). The username of the account that has created the channel is also sent with the form
+    * in order to ensure that account is a moderator of the newly created channel
+    */
     constructor(props) {
       super(props)
 
@@ -20,17 +26,28 @@ class CreateChannelComponent extends React.Component {
       this.confirmClicked = this.confirmClicked.bind(this)
     }
 
+    /**
+     * Makes a request to the API when the confirm button is clicked, sending The
+     * form data along with the current user's username
+     */
     confirmClicked() {
       var data = ChannelDataService.createChannel(this.state.username,
         this.state.channelName, this.state.visibility)
       this.props.history.push(`/c/${data.channelId}`)
     }
 
+    /**
+     * Redirects the user to the home page if the clock the cancel button
+     */
     cancelClicked() {
       let path = '/'
       this.props.history.push(path);
     }
 
+    /**
+  	 * Updates the state of the component 'onChange' of an input field
+  	 * @param id: the event object generated
+  	 */
     handleChange(event) {
         this.setState(
             {
@@ -40,6 +57,9 @@ class CreateChannelComponent extends React.Component {
         )
     }
 
+   /**
+    * Renders the thread HTML
+    */
     render() {
         return (
             <div className="channel-form">
