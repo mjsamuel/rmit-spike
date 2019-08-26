@@ -116,12 +116,12 @@ class CommentComponent extends Component {
         return (
         	<div className="comment">
         		<div className="comment-header">
-        	    	<span className="author"> u/{this.props.author} </span>
-        			<span className="spikes"> {this.props.spikes} Spikes </span>
-        			<span className="timeDelta"> {this.props.timeNumber} {this.props.timeUnit} ago </span>
+        	    	<span className="author">u/{this.props.author}</span>
+        			<span className="spikes">{this.props.spikes} Spikes</span>
+        			<span className="timeDelta">{this.props.timeNumber} {this.props.timeUnit} ago</span>
 	        	</div>
         		<div className="content">
-        			<p> {this.props.content}</p>
+        			<p>{this.props.content}</p>
         		</div>
         		<div className="interactions">
                 	<button className={this.state.upspiked ? 'upspiked' : 'no-spike'} onClick={this.addUpSpike}> <FaAngleUp/> </button>

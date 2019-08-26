@@ -132,13 +132,11 @@ class ThreadComponent extends Component {
 	            	<div className="thread-title">
 	                	<h1>{this.props.title}</h1>
 	                </div>
-	                <div className="author">
-	                	<h3>Posted by u/{this.props.author} {this.state.timeNumber} {this.state.timeUnit} ago </h3>
+	                <div className="thread-author">
+	                	<h2>Posted by u/{this.props.author} {this.state.timeNumber} {this.state.timeUnit} ago</h2>
 	                </div>
 	                <div className="thread-contents">
-	                    <p>
-	                    	{this.state.content}
-						</p>
+	                    <p>{this.state.content}</p>
 	                </div>
 	                <div className="interactions">
                 		<button className={this.state.upspiked ? 'upspiked' : 'no-spike'} onClick={this.addUpSpike}> <FaAngleUp/> </button>
