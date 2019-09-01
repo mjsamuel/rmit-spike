@@ -4,12 +4,16 @@ FROM node:12.8.0-alpine
 # set the working directory (inside the container)
 WORKDIR /app
 
-# add `/app/node_modules/.bin` to $PATH (inside container)
-ENV PATH /app/node_modules/.bin:$PATH
+# Install app dependencies
+COPY package.json .
 
-# install and cache app dependencies
-COPY package.json /app/package.json
 RUN npm install
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Make port 8080 available to the world outside this container
+EXPOSE 8080
 
 # start application
 CMD ["npm", "start"]
