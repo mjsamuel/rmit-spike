@@ -77,7 +77,6 @@ class LoginComponent extends Component {
                 this.setState({ showSuccessMessage: false })
                 this.setState({ hasLoginFailed: true })
             })
-
     }
 
     registerClicked() {
@@ -89,10 +88,10 @@ class LoginComponent extends Component {
             <div>
               <img  src={Logo}/>
               <h1>RMIT SPIKE</h1>
-              <div className="test">
+              <div className="form">
                 {/*<ShowInvalidCredentials hasLoginFailed={this.state.hasLoginFailed}/>*/}
-                {this.state.hasLoginFailed && <div className="alert alert-warning">Invalid Credentials or something is wrong</div>}
-                {this.state.showSuccessMessage && <div>Login Sucessful</div>}
+                {this.state.hasLoginFailed && <div className="alert alert-warning" id="error">Invalid Credentials or something is wrong</div>}
+                {this.state.showSuccessMessage && <div id="success">Login Sucessful</div>}
                 {/*<ShowLoginSuccessMessage showSuccessMessage={this.state.showSuccessMessage}/>*/}
                 <div className="form-group">
                   <input type="text" className="form-control" placeholder="Username" name="username" value={this.state.username} onChange={this.handleChange} />
