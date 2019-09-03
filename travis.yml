@@ -1,0 +1,90 @@
+# Use Dockerized infrastructure
+sudo: false
+
+# Use node_js environnement
+# language: node_js
+# node_js:
+#   - "stable"
+
+# Cache Gcloud SDK between commands
+cache:
+  directories:
+    - "$HOME/google-cloud-sdk/"
+    - "frontend/todo-app/node_modules"
+
+# Install services
+services:
+  - docker
+
+# Set env vars
+env:
+  global:
+    - GOOGLE_APPLICATION_CREDENTIALS=~/gcloud-service-key.json
+    - PROJECT_NAME_STG=rmit-social-media-staging
+    - CLUSTER_NAME_STG=mssl-staging-cluster
+    - PROJECT_NAME_PRD=rmit-social-media
+    - CLUSTER_NAME_PRD=mssl-cluster
+    - CLOUDSDK_COMPUTE_ZONE=australia-southeast1-a
+    - FRONTEND_DOCKER_IMAGE_NAME=frontend
+    - BACKEND_DOCKER_IMAGE_NAME=backend
+    - FRONTEND_KUBE_DEPLOYMENT_NAME=frontend
+    - FRONTEND_KUBE_DEPLOYMENT_CONTAINER_NAME=frontend
+    - BACKEND_KUBE_DEPLOYMENT_NAME=backend
+    - BACKEND_KUBE_DEPLOYMENT_CONTAINER_NAME=backend
+    - FRONTEND_BUILD_DIR=./frontend/todo-app
+    - BACKEND_BUILD_DIR=./restful-web-services
+    - NODE_ENV=CI
+
+matrix:
+  include:
+    - language: node_js
+      node_js:
+        - "stable"
+      install:
+        - cd frontend/todo-app
+        - npm install
+        - cd ../..
+      script:
+        - cd frontend/todo-app
+        - npm test
+        - cd ../..
+
+    - language: java
+      jdk:
+        - oraclejdk8
+      install:
+        - cd restful-web-services
+        - mvn package
+        - cd ../..
+      script:
+        - cd restful-web-services
+        - mvn test
+        - cd ../..
+
+# install:
+#   - npm install
+#   - mvn install
+
+# script:
+#   - npm test
+#   - mvn test
+
+before_deploy:
+  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+  - source /home/travis/google-cloud-sdk/path.bash.inc
+  - gcloud --quiet version
+  - gcloud --quiet components update
+  - gcloud --quiet components beta update
+  - gcloud --quiet components update kubectl
+
+deploy:
+  - provider: script
+    script: ./deploy-staging.sh
+    skip_cleanup: true
+    on:
+      branch: develop
+  - provider: script
+    script: ./deploy-production.sh
+    skip_cleanup: true
+    on:
+      branch: master
