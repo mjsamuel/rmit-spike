@@ -1,4 +1,4 @@
-#  Your First Full Stack Application with React and Spring Boot
+# Your First Full Stack Application with React and Spring Boot
 
 
 ## Take your first steps towards becoming a Full Stack Developer with React and Spring Boot
