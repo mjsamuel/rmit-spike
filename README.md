@@ -1,4 +1,6 @@
-`master`:[![Build Status](https://travis-ci.com/RMIT-SEPT/mssl.svg?token=FQzurLaP8kqUsYQDzf7V&branch=master)](https://travis-ci.com/RMIT-SEPT/mssl)
+| `master` | `develop` |
+|   :---:  |    :---:  |
+| [![Build Status](https://travis-ci.com/RMIT-SEPT/mssl.svg?token=FQzurLaP8kqUsYQDzf7V&branch=master)](https://travis-ci.com/RMIT-SEPT/mssl) | [![Build Status](https://travis-ci.com/RMIT-SEPT/mssl.svg?token=FQzurLaP8kqUsYQDzf7V&branch=develop)](https://travis-ci.com/RMIT-SEPT/mssl) |
 
 # Your First Full Stack Application with React and Spring Boot
 
