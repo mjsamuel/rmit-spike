@@ -56,11 +56,11 @@ matrix:
       install:
         - cd restful-web-services
         - mvn package
-        - cd ../..
+        - cd ..
       script:
         - cd restful-web-services
         - mvn test
-        - cd ../..
+        - cd ..
 
 # install:
 #   - npm install
