@@ -37,7 +37,7 @@ matrix:
         - "stable"
       install:
         - cd frontend/todo-app
-        - npm ci
+        - npm install
         - cd ../..
       script:
         - cd frontend/todo-app
