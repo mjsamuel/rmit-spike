@@ -13,7 +13,7 @@ class ChannelComponent extends Component {
    * along with each threads, title, author, the number of comments, the number of upspikes and the
    * It makes use of the following props, which are also displayed on a card on the user feed
    * or channel page
-   * It takes use of the following route paramaters in order to idetify which channel is being
+   * It makes use of the following route paramaters in order to idetify which channel is being
    * displayed:
    * @param channelId: id of the channel
    */
