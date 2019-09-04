@@ -8,6 +8,7 @@ sudo: false
 
 # Cache Gcloud SDK between commands
 cache:
+  - npm
   directories:
     - "$HOME/google-cloud-sdk/"
     - "frontend/todo-app/node_modules"
@@ -42,12 +43,26 @@ matrix:
         - "stable"
       install:
         - cd frontend/todo-app
-        - npm install
+        - npm ci
         - cd ../..
       script:
         - cd frontend/todo-app
         - npm test
+        - npm run build
         - cd ../..
+
+      # deploy:
+      #   - provider: script
+      #     script: ./deploy-frontend-staging.sh
+      #     skip-cleanup: true
+      #     on:
+      #       branch: feature/gcr-deploy
+
+      #   - provider: script
+      #     script: ./deploy-frontend-prod.sh
+      #     skip-cleanup: true
+      #     on:
+      #       branch: master
 
     - language: java
       dist: trusty
@@ -62,6 +77,19 @@ matrix:
         - mvn test
         - cd ..
 
+      # deploy:
+      #   - provider: script
+      #     script: ./deploy-backend-staging.sh
+      #     skip-cleanup: true
+      #     on:
+      #       branch: feature/gcr-deploy
+
+      #   - provider: script
+      #     script: ./deploy-backend-prod.sh
+      #     skip-cleanup: true
+      #     on:
+      #       branch: master
+
 # install:
 #   - npm install
 #   - mvn install
@@ -70,22 +98,21 @@ matrix:
 #   - npm test
 #   - mvn test
 
-# before_deploy:
-# #  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
-#   - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf "$HOME"/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
-#   - source /home/travis/google-cloud-sdk/path.bash.inc
-#   - gcloud --quiet version
-#   - gcloud --quiet components update
-#   - gcloud --quiet components update kubectl
+before_deploy:
+  - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
+  - source /home/travis/google-cloud-sdk/path.bash.inc
+  - gcloud --quiet version
+  - gcloud --quiet components update
+  - gcloud --quiet components update kubectl
 
-# deploy:
-#   - provider: script
-#     script: ./deploy-staging.sh
-#     skip_cleanup: true
-#     on:
-#       branch: develop
-#   - provider: script
-#     script: ./deploy-production.sh
-#     skip_cleanup: true
-#     on:
-#       branch: master
+deploy:
+  - provider: script
+    script: ./deploy-staging.sh
+    skip_cleanup: true
+    on:
+      branch: feature/gcr-deploy
+  - provider: script
+    script: ./deploy-production.sh
+    skip_cleanup: true
+    on:
+      branch: master
