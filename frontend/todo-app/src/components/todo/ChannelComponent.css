@@ -1,13 +1,20 @@
 .thread-list {
-  margin-left: auto;
-  margin-right: auto;
-  text-align: left;
-
-  width: 90%;
-  max-width: 800px;
-
+  float: left;
+  margin-left: 20px;
+  width: 65%;
   padding-top: 20px;
-  padding-bottom: 20px;
+  text-align: left;
+}
+
+.side-panel {
+  float: right;
+  width: 30%;
+  padding-top: 20px;
+}
+
+.side-panel button {
+  margin-top: 10px;
+  width: 160px;
 }
 
 .thread-card {
