@@ -2,7 +2,7 @@
 sudo: false
 
 # Cache Gcloud SDK between commands
-cache: npm
+cache:
   directories:
     - "$HOME/google-cloud-sdk/"
     - "frontend/todo-app/node_modules"
