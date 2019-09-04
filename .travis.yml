@@ -1,11 +1,6 @@
 # Use Dockerized infrastructure
 sudo: false
 
-# Use node_js environnement
-# language: node_js
-# node_js:
-#   - "stable"
-
 # Cache Gcloud SDK between commands
 cache:
   - npm
@@ -89,14 +84,6 @@ matrix:
       #     skip-cleanup: true
       #     on:
       #       branch: master
-
-# install:
-#   - npm install
-#   - mvn install
-
-# script:
-#   - npm test
-#   - mvn test
 
 before_deploy:
   - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash; fi
