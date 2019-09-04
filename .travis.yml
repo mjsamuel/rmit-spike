@@ -97,7 +97,7 @@ deploy:
     script: ./deploy-staging.sh
     skip_cleanup: true
     on:
-      branch: feature/gcr-deploy
+      branch: feature/gcp-deploy
   - provider: script
     script: ./deploy-production.sh
     skip_cleanup: true
