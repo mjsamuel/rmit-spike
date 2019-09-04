@@ -59,14 +59,14 @@ class RegisterComponent extends Component {
               <img  src={Logo}/>
               <h1>RMIT SPIKE</h1>
               <div className="form">
-                {this.state.hasRegisterFailed && <div className="alert alert-warning">Invalid Credentials or something is wrong</div>}
-                {this.state.showSuccessMessage && <div>Register Sucessful</div>}
+                {this.state.hasRegisterFailed && <div className="alert alert-warning" id="error">Invalid Credentials or something is wrong</div>}
+                {this.state.showSuccessMessage && <div id="success">Register Sucessful</div>}
                 <div className="form-group">
                   <input type="text" className="form-control" placeholder="Email" name="email" value={this.state.email} onChange={this.handleChange} />
                 </div>
                 <div className="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">u/</span>
+                  <div className="input-group-prepend">
+                    <span className="input-group-text">u/</span>
                   </div>
                   <input type="text" className="form-control" placeholder="Username" name="username" value={this.state.username} onChange={this.handleChange} />
                 </div>
