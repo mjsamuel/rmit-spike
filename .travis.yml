@@ -50,6 +50,7 @@ matrix:
         - cd ../..
 
     - language: java
+      dist: trusty
       jdk:
         - oraclejdk8
       install:
