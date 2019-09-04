@@ -42,7 +42,7 @@ matrix:
       script:
         - cd frontend/todo-app
         - npm test
-        - npm run build
+        - CI=false npm run build
         - cd ../..
 
       deploy:
