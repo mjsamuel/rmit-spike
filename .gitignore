@@ -92,3 +92,7 @@ target/
 restful-web-services/.classpath
 restful-web-services/.project
 restful-web-services/.settings
+
+## Credentials
+instance/
+
