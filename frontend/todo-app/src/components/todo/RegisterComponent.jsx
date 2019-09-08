@@ -33,7 +33,14 @@ class RegisterComponent extends Component {
     }
 
     submitClicked() {
-      if (this.state.password == this.state.confirmedPassword) {
+      if (this.state.password != this.state.confirmedPassword ||
+          this.state.email.trim() == "" ||
+          this.state.username.trim() == "" ||
+          this.state.password.trim() == "" ||
+          this.state.confirmedPassword.trim == "") {
+        this.setState({ hasRegisterFailed: true })
+      }
+      else {
         AuthenticationService
             .executeJwtRegisterService(this.state.email, this.state.username, this.state.password, this.state.confirmedPassword)
             .then((response) => {
@@ -43,9 +50,6 @@ class RegisterComponent extends Component {
                 this.setState({ showSuccessMessage: false })
                 this.setState({ hasRegisterFailed: true })
             })
-      }
-      else {
-        this.setState({ hasRegisterFailed: true })
       }
     }
 
