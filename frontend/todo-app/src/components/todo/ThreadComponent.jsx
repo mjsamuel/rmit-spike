@@ -57,7 +57,10 @@ class ThreadComponent extends Component {
 	refresh(id) {
 		// console.log("Thread refreshed")
 		var thread = ThreadDataService.retrieveThread(id)
-		this.setState({ 
+		this.setState({
+			author: thread.author,
+			title: thread.title,
+			primary_channel: thread.primary_channel,
 			content: thread.content,
 			tagged_channels: thread.tagged_channels,
 			comments: thread.comments,
@@ -127,13 +130,13 @@ class ThreadComponent extends Component {
             <>
             	<div className="thread">
             		<div className="channel">
-	                	<h2>c/{this.props.primary_channel}</h2>
+	                	<h2>c/{this.state.primary_channel}</h2>
 	                </div>
 	            	<div className="thread-title">
-	                	<h1>{this.props.title}</h1>
+	                	<h1>{this.state.title}</h1>
 	                </div>
 	                <div className="thread-author">
-	                	<h2>Posted by u/{this.props.author} {this.state.timeNumber} {this.state.timeUnit} ago</h2>
+	                	<h2>Posted by u/{this.state.author} {this.state.timeNumber} {this.state.timeUnit} ago</h2>
 	                </div>
 	                <div className="thread-contents">
 	                    <p>{this.state.content}</p>

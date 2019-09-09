@@ -43,6 +43,10 @@ class ThreadDataService {
         console.log('retrieveThread API endpoint called')
         // return axios.get(`${DATA_API_URL}/thread/${thread_id}`)
         const response = `{
+              "id": 1,
+              "author": "John Smith",
+              "title": "The Rise and Fall of SEPT at RMIT",
+              "primary_channel": "sept",
               "timeNumber": 1,
               "timeUnit": "week",
               "tagged_channels": [
