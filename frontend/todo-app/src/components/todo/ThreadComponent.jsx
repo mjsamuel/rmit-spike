@@ -3,7 +3,7 @@ import './ThreadComponent.css';
 import { FaShareAlt, FaRegComment, FaFlag, FaAngleUp, FaAngleDown } from 'react-icons/fa';
 import ThreadDataService from '../../api/todo/ThreadDataService.js'
 import CommentComponent from './CommentComponent.jsx'
-import AddCommentForm from './AddCommentForm.jsx'
+import InteractionEntryForm from './InteractionEntryForm.jsx'
 
 /**
  * ThreadComponent is a component representing a thread. It is responsible for rendering the 
@@ -152,10 +152,10 @@ class ThreadComponent extends Component {
                 		<button className="report-interaction" onClick={this.activateReport}> <FaFlag/> Report </button>
 	                </div>
 	                <div className={this.state.replyActive ? 'active-reply' : 'hidden-reply'}>
-	                	<AddCommentForm thread_id={this.props.id} isReply={false} isReport={false} updateParent={this.refresh}/>
+	                	<InteractionEntryForm thread_id={this.props.id} isReply={false} isReport={false} updateParent={this.refresh}/>
 	                </div>
 		            <div className={this.state.reportActive ? 'active-report' : 'hidden-reply'}>
-		                <AddCommentForm thread_id={this.props.thread_id} isReply={false} isReport={true} updateParent={this.props.updateParent}/>
+		                <InteractionEntryForm thread_id={this.props.thread_id} isReply={false} isReport={true} updateParent={this.props.updateParent}/>
 	                </div>
 	                <div className="comments">
 	                	{this.state.comments.map((comment, i) => ( <CommentComponent key={i} updateParent={this.refresh} {...comment} />))}
