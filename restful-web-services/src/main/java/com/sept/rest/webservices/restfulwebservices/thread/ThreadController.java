@@ -35,4 +35,23 @@ public class ThreadController {
 		threadRepository.delete(thread);
 		return ResponseEntity.ok().build();
 	}
+	
+	@PutMapping("/thread/{id}")
+    public Thread updateNote(@PathVariable(value = "id") Long id,
+                           @Valid @RequestBody Thread threadDetails) throws ThreadNotFoundException {
+
+		Thread thread = threadRepository.findById(id)
+                .orElseThrow(() -> new ThreadNotFoundException(id));
+
+		thread.setTitle(threadDetails.getTitle());
+        thread.setContent(threadDetails.getContent());
+        thread.setDatetime(threadDetails.getDatetime());
+        thread.setArchived(threadDetails.isArchived());
+        thread.setUpspikes(threadDetails.getUpspikes());
+        thread.setDownspikes(threadDetails.getDownspikes());
+
+        Thread updatedBook = threadRepository.save(thread);
+
+        return updatedBook;
+    }
 }
