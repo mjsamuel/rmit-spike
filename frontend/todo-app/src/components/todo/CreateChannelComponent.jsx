@@ -37,7 +37,7 @@ class CreateChannelComponent extends React.Component {
     }
 
     /**
-     * Redirects the user to the home page if the clock the cancel button
+     * Redirects the user to the home page if they click the cancel button
      */
     cancelClicked() {
       let path = '/'
