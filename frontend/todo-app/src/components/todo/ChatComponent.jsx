@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import ChatDataService from '../../api/todo/ChatDataService.js'
 import './ChatComponent.css';
 import ChatMessageComponent from './ChatMessageComponent.jsx'
-import { FaUserAlt } from 'react-icons/fa';
 
 class ChatComponent extends Component {
 
@@ -48,7 +47,7 @@ class ChatComponent extends Component {
           {this.state.messages.map((message, index) => {
               return (
                   <ChatMessageComponent username={message.username} timeNumber={message.timeNumber}
-                  timeUnit={message.timeUnit} content={message.content}/>
+                  timeUnit={message.timeUnit} content={message.content} key={index}/>
               )
             })
           }
