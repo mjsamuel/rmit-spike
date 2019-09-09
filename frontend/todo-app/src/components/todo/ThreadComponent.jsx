@@ -3,7 +3,7 @@ import './ThreadComponent.css';
 import { FaShareAlt, FaRegComment, FaFlag, FaAngleUp, FaAngleDown } from 'react-icons/fa';
 import ThreadDataService from '../../api/todo/ThreadDataService.js'
 import CommentComponent from './CommentComponent.jsx'
-import AddCommentForm from './AddCommentForm.jsx'
+import InteractionEntryForm from './InteractionEntryForm.jsx'
 
 /**
  * ThreadComponent is a component representing a thread. It is responsible for rendering the 
@@ -57,7 +57,10 @@ class ThreadComponent extends Component {
 	refresh(id) {
 		// console.log("Thread refreshed")
 		var thread = ThreadDataService.retrieveThread(id)
-		this.setState({ 
+		this.setState({
+			author: thread.author,
+			title: thread.title,
+			primary_channel: thread.primary_channel,
 			content: thread.content,
 			tagged_channels: thread.tagged_channels,
 			comments: thread.comments,
@@ -127,13 +130,13 @@ class ThreadComponent extends Component {
             <>
             	<div className="thread">
             		<div className="channel">
-	                	<h2>c/{this.props.primary_channel}</h2>
+	                	<h2>c/{this.state.primary_channel}</h2>
 	                </div>
 	            	<div className="thread-title">
-	                	<h1>{this.props.title}</h1>
+	                	<h1>{this.state.title}</h1>
 	                </div>
 	                <div className="thread-author">
-	                	<h2>Posted by u/{this.props.author} {this.state.timeNumber} {this.state.timeUnit} ago</h2>
+	                	<h2>Posted by u/{this.state.author} {this.state.timeNumber} {this.state.timeUnit} ago</h2>
 	                </div>
 	                <div className="thread-contents">
 	                    <p>{this.state.content}</p>
@@ -149,10 +152,10 @@ class ThreadComponent extends Component {
                 		<button className="report-interaction" onClick={this.activateReport}> <FaFlag/> Report </button>
 	                </div>
 	                <div className={this.state.replyActive ? 'active-reply' : 'hidden-reply'}>
-	                	<AddCommentForm thread_id={this.props.id} isReply={false} isReport={false} updateParent={this.refresh}/>
+	                	<InteractionEntryForm thread_id={this.props.id} isReply={false} isReport={false} updateParent={this.refresh}/>
 	                </div>
 		            <div className={this.state.reportActive ? 'active-report' : 'hidden-reply'}>
-		                <AddCommentForm thread_id={this.props.thread_id} isReply={false} isReport={true} updateParent={this.props.updateParent}/>
+		                <InteractionEntryForm thread_id={this.props.thread_id} isReply={false} isReport={true} updateParent={this.props.updateParent}/>
 	                </div>
 	                <div className="comments">
 	                	{this.state.comments.map((comment, i) => ( <CommentComponent key={i} updateParent={this.refresh} {...comment} />))}
