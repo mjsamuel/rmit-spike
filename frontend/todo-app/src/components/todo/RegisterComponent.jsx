@@ -33,11 +33,11 @@ class RegisterComponent extends Component {
     }
 
     submitClicked() {
-      if (this.state.password != this.state.confirmedPassword ||
-          this.state.email.trim() == "" ||
-          this.state.username.trim() == "" ||
-          this.state.password.trim() == "" ||
-          this.state.confirmedPassword.trim == "") {
+      if (this.state.password !== this.state.confirmedPassword ||
+          this.state.email.trim() === "" ||
+          this.state.username.trim() === "" ||
+          this.state.password.trim() === "" ||
+          this.state.confirmedPassword.trim === "") {
         this.setState({ hasRegisterFailed: true })
       }
       else {
@@ -60,7 +60,7 @@ class RegisterComponent extends Component {
     render() {
         return (
             <div>
-              <img  src={Logo}/>
+              <img src={Logo} alt="RMIT Spike logo"/>
               <h1>RMIT SPIKE</h1>
               <div className="form">
                 {this.state.hasRegisterFailed && <div className="alert alert-warning" id="error">Invalid Credentials or something is wrong</div>}

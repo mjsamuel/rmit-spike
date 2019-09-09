@@ -68,7 +68,7 @@ class LoginComponent extends Component {
         //     this.setState({showSuccessMessage:false})
         //     this.setState({hasLoginFailed:true})
         // })
-        if (this.state.username.trim() == "" || this.state.password.trim() == "") {
+        if (this.state.username.trim() === "" || this.state.password.trim() === "") {
           this.setState({ hasLoginFailed: true})
         }
         else {
@@ -91,7 +91,7 @@ class LoginComponent extends Component {
     render() {
         return (
             <div>
-              <img  src={Logo}/>
+              <img src={Logo} alt="RMIT Spike logo"/>
               <h1>RMIT SPIKE</h1>
               <div className="form">
                 {/*<ShowInvalidCredentials hasLoginFailed={this.state.hasLoginFailed}/>*/}
