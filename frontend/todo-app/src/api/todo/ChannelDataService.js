@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { API_URL, JPA_API_URL, DATA_API_URL } from '../../Constants'
+import {USER_NAME_SESSION_ATTRIBUTE_NAME} from '../../components/todo/AuthenticationService.js'
+
 
 class ChannelDataService {
   retrieveChannelThreads(channel_id) {
@@ -24,7 +26,7 @@ class ChannelDataService {
           }
         ]
       }`
-      
+
       return JSON.parse(response)
   }
 
@@ -39,9 +41,17 @@ class ChannelDataService {
     //   return `/channel/${response.data.channelId}`
     // })
     const response = `{
-      "channelId": "sept"
+      "channelId": "${channelName}"
     }`
     return JSON.parse(response)
+  }
+
+  subscribeToChannel(channelId) {
+    console.log('subscribeToChannel API endpoint called')
+    return axios.put(`${API_URL}/channel`, {
+        channelId: channelId,
+        username: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME),
+    })
   }
 }
 

@@ -20,6 +20,7 @@ class ChannelComponent extends Component {
     super(props)
 
     this.state = {
+      channelId: '',
       channelName: '',
       threads: [],
       subscribed: false,
@@ -38,6 +39,7 @@ class ChannelComponent extends Component {
     const { match: { params } } = this.props;
     var data = ChannelDataService.retrieveChannelThreads(params.channelId)
     this.setState({
+      channelId: params.channelId,
       channelName: data.channelName,
       threads: data.threads
     })
@@ -50,14 +52,14 @@ class ChannelComponent extends Component {
    */
   subscribeClicked() {
     this.setState({subscribed: !this.state.subscribed})
+    ChannelDataService.subscribeToChannel(this.state.channelId)
   }
 
   /**
    * Redirects to the new thread page, passing a channel id as a paramater
    */
   newThreadClicked() {
-    const { match: { params } } = this.props;
-    this.props.history.push(`/new-thread`, {channelId: params.channelId})
+    this.props.history.push(`/new-thread`, {channelId: this.state.channelId})
   }
   /**
    * Renders the thread HTML
@@ -66,12 +68,12 @@ class ChannelComponent extends Component {
     return (
       <>
         <div className="thread-list">
-          <h1>{this.state.channelName}</h1>
+          <h1 id="channel-name-banner">{this.state.channelName}</h1>
           {this.state.threads.map((thread, index) => {
             return (
-              <div className="thread-card" id={thread.id}>
-                <a href={"/thread/" + thread.id} className="title">{thread.title}</a><br/>
-                <a href={"/user/" + thread.author} className="author">{thread.author}</a><br/>
+              <div className="thread-card" key={thread.id} id={"thread-" + thread.id}>
+                <a href={"/thread/" + thread.id} className="title" id={"thread-list-title-" + thread.id}>{thread.title}</a><br/>
+                <a href={"/user/" + thread.author} className="author" id={"thread-list-author-" + thread.id}>{thread.author}</a><br/>
                 <div className="details-bar">
                   <span><FaRegComment/> {thread.noComments} comments | <FaAngleUp/> {thread.upspikes} Upspikes</span>
                 </div>
