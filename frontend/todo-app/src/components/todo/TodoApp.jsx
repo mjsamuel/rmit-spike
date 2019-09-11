@@ -13,7 +13,8 @@ import ThreadComponent from './ThreadComponent.jsx'
 import ChannelComponent from './ChannelComponent.jsx'
 import CreateChannelComponent from './CreateChannelComponent.jsx'
 import WallComponent from './WallComponent.jsx'
-import RegisterComponent from './RegisterComponent'
+import RegisterComponent from './RegisterComponent.jsx'
+import NewThreadComponent from './NewThreadComponent.jsx'
 
 class TodoApp extends Component {
     render() {
@@ -31,6 +32,7 @@ class TodoApp extends Component {
                             <Route path="/c/:channelId" component={ChannelComponent} />
                             <Route path="/create-channel" component={CreateChannelComponent} />
                             <Route path="/wall" component={WallComponent} />
+                            <Route path="/new-thread" component={NewThreadComponent} />
                             <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent} />
                             <AuthenticatedRoute path="/todos/:id" component={TodoComponent}/>
                             <AuthenticatedRoute path="/todos" component={ListTodosComponent}/>
