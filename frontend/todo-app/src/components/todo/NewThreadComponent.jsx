@@ -6,10 +6,13 @@ import ChannelDataService from '../../api/todo/ChannelDataService.js'
 class NewThreadComponent extends Component {
 
    /**
-    * CreateChannelComponent is a component that allows for the creation of a channel. It provides
-    * a form that has two input fields that specify the channels name and it visibility (public or
-    * private). The username of the account that has created the channel is also sent with the form
-    * in order to ensure that account is a moderator of the newly created channel
+    * NewThreadComponent is a component that allows for the creation of a thread. It provides
+    * a form that has two input fields that specify the thread's title and body. The username
+    * of the creator of the thread as well as the channelId of where it is posted is also sent
+    * as well.
+    * It makes use of the following props:
+    * @param channelId: id of the channel
+    * @param channelName: name of the channel
     */
     constructor(props) {
       super(props)
@@ -29,6 +32,11 @@ class NewThreadComponent extends Component {
       this.confirmClicked = this.confirmClicked.bind(this);
     }
 
+
+    /**
+     * Sets the state of the component from it's props after the constructor has
+     * finished executing
+     */
     componentDidMount() {
       this.setState({
         channelId: this.props.location.state.channelId,
@@ -38,7 +46,7 @@ class NewThreadComponent extends Component {
 
     /**
      * Makes a request to the API when the confirm button is clicked, sending The
-     * form data along with the current user's username
+     * form data along with the current user's username and channel id
      */
     confirmClicked() {
       if (this.state.title.trim === "" || this.state.body.trim() === "") {
@@ -64,7 +72,7 @@ class NewThreadComponent extends Component {
     }
 
     /**
-     * Redirects the user to the home page if they click the cancel button
+     * Redirects the user to the channel page the came from if they click the cancel button
      */
     cancelClicked() {
       let path = '/c/' + this.state.channelId;
@@ -85,7 +93,7 @@ class NewThreadComponent extends Component {
     }
 
    /**
-    * Renders the thread HTML
+    * Renders the new thread form HTML
     */
     render() {
         return (
