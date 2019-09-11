@@ -13,36 +13,14 @@ class ThreadDataService {
         return axios.get(`${DATA_API_URL}/thread`)
     }
 
-    retrieveChannelThreads(channel_id) {
-        console.log('retrieveChannelThreads API endpoint called')
-        // return axios.get(`${DATA_API_URL}/thread?chan=${channel_id}`)
-        const response = `{
-          "channelName": "c/sept",
-          "threads": [
-            {
-              "id": "001",
-              "title": "Thread Title",
-              "author": "u/author",
-              "noComments": 0,
-              "upspikes": 0
-            },
-            {
-              "id": "002",
-              "title": "The Rise and Fall of SEPT at RMIT",
-              "author": "u/john-smith",
-              "noComments": 13,
-              "upspikes": 30
-            }
-          ]
-        }`
-
-        return JSON.parse(response)
-    }
-
     retrieveThread(thread_id) {
         console.log('retrieveThread API endpoint called')
         // return axios.get(`${DATA_API_URL}/thread/${thread_id}`)
         const response = `{
+              "id": 1,
+              "author": "John Smith",
+              "title": "The Rise and Fall of SEPT at RMIT",
+              "primary_channel": "sept",
               "timeNumber": 1,
               "timeUnit": "week",
               "tagged_channels": [
