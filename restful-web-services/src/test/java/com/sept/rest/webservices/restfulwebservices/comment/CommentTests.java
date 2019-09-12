@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 import org.junit.jupiter.api.Test;
 import javax.management.InvalidAttributeValueException;
+import java.util.Date;
 
 class CommentTests {
 
@@ -33,6 +34,14 @@ class CommentTests {
 
 		assertThrows(InvalidAttributeValueException.class, () -> {
 			comment.setDownspikes(-1);
+		});
+
+		assertThrows(InvalidAttributeValueException.class, () -> {
+			new Comment(2, new Date(), -1, 2, "Hello!", 1, 1, false);
+		});
+
+		assertThrows(InvalidAttributeValueException.class, () -> {
+			new Comment(2, new Date(), 1, -2, "Hello!", 1, 1, false);
 		});
 	}
 
@@ -67,6 +76,7 @@ class CommentTests {
 		comment.setDownspikes(10);
 		assertEquals(0.33333, comment.getSpikeRatio(), 0.0001);
 	}
+
 
 
 
