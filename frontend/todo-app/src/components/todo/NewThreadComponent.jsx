@@ -71,7 +71,7 @@ class NewThreadComponent extends Component {
       else {
         ChannelDataService.postThreadToChannel(this.state.channelId, this.state.channelId.title, this.state.body)
           .then(() => {
-            showSuccessMessage.setState({showSuccessMessage: true})
+            this.setState({showSuccessMessage: true})
             let path = '/c/' + this.state.channelId;
             this.props.history.push(path);
           })
