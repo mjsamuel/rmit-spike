@@ -23,6 +23,8 @@ class NewThreadComponent extends Component {
           title: '',
           body: '',
           hasSubmissionFailed: false,
+          recievedProps: false,
+          showSuccessMessage: false,
           errorText: ''
       };
 
@@ -38,10 +40,21 @@ class NewThreadComponent extends Component {
      * finished executing
      */
     componentDidMount() {
-      this.setState({
-        channelId: this.props.location.state.channelId,
-        channelName: this.props.location.state.channelName
-      });
+      if (!this.props.location.state) {
+        this.setState({
+          hasSubmissionFailed: true,
+          errorText: "No channel specified",
+          recievedProps: false
+        });
+      }
+      else {
+        this.setState({
+          channelId: this.props.location.state.channelId,
+          channelName: this.props.location.state.channelName,
+          recievedProps: true
+        });
+      }
+
     }
 
     /**
@@ -49,16 +62,16 @@ class NewThreadComponent extends Component {
      * form data along with the current user's username and channel id
      */
     confirmClicked() {
-      if (this.state.title.trim === "" || this.state.body.trim() === "") {
+      if (this.state.title.trim() === "" || this.state.body.trim() === "") {
         this.setState({
           hasSubmissionFailed: true,
           errorText: "Error: Missing field/s"
         });
-
       }
       else {
         ChannelDataService.postThreadToChannel(this.state.channelId, this.state.channelId.title, this.state.body)
           .then(() => {
+            showSuccessMessage.setState({showSuccessMessage: true})
             let path = '/c/' + this.state.channelId;
             this.props.history.push(path);
           })
@@ -75,7 +88,13 @@ class NewThreadComponent extends Component {
      * Redirects the user to the channel page the came from if they click the cancel button
      */
     cancelClicked() {
-      let path = '/c/' + this.state.channelId;
+      var path;
+      if (this.state.recievedProps) {
+        path = '/c/' + this.state.channelId;
+      }
+      else {
+        path = '/'
+      }
       this.props.history.push(path);
     }
 
@@ -102,7 +121,8 @@ class NewThreadComponent extends Component {
                 <h1>Post a thread</h1>
                 <p>Start a new thread in c/{this.state.channelName}</p>
               </div>
-              {this.state.hasSubmissionFailed && <div className="alert alert-warning">{this.state.errorText}</div>}
+              {this.state.hasSubmissionFailed && <div className="alert alert-warning" id="error">{this.state.errorText}</div>}
+              {this.state.showSuccessMessage && <div id="success">Thread created successfully</div>}
               <div className="form-group">
                 <label htmlFor="title">Title:</label>
                 <input type="text" className="form-control" name="title" onChange={this.handleChange} placeholder="Enter thread title" />
@@ -113,7 +133,7 @@ class NewThreadComponent extends Component {
               </div>
               <div className="button-group">
                 <button type="button" className="btn btn-secondary" onClick={this.cancelClicked}>Cancel</button>
-                <button type="button" className="btn btn-success ml-2" onClick={this.confirmClicked}>Confirm</button>
+                {this.state.recievedProps && <button type="button" className="btn btn-success ml-2" onClick={this.confirmClicked}>Confirm</button>}
               </div>
             </div>
         )
