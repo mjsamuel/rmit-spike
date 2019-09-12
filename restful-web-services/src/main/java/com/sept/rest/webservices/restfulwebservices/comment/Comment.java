@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.management.InvalidAttributeValueException;
 
 @Entity
 public class Comment {
@@ -23,49 +24,52 @@ public class Comment {
 
 	}
 
-	public Comment(long id, Date datetime, int upspikes, int downspikes, String content, long replyId, long threadId, boolean archived) {
+	public Comment(long id, Date datetime, int upspikes, int downspikes, String content, long replyId, long threadId, boolean archived) throws InvalidAttributeValueException {
 		super();
 		this.id = id;
 		this.datetime = datetime;
-		this.upspikes = upspikes;
-		this.downspikes = downspikes;
+		this.setUpspikes(upspikes);
+		this.setDownspikes(downspikes);
 		this.content = content;
 		this.replyId = replyId;
 		this.threadId = threadId;
 		this.archived = archived;
 	}
 
-	public long getId() {
-		return this.id;
-	}
+	// Getters
+	public long getId() { return this.id; }
+	public Date getDatetime() { return this.datetime; }
+	public int getUpspikes() { return this.upspikes; }
+	public int getDownspikes() { return this.downspikes; }
+	public int getSpikes() { return this.upspikes - this.downspikes; }
+	public float getSpikeRatio() { return (float)this.upspikes/((float)(this.upspikes + this.downspikes)); }
+	public String getContent() { return this.content; }
+	public long getReplyId() { return this.replyId; }
+	public long getThreadId() { return this.threadId; }
+	public boolean isArchived() { return this.archived; }
 
-	public Date getDatetime() {
-		return this.datetime;
-	}
+	// Setters
+	public void setDatetime(Date datetime) { this.datetime = datetime; }
+	public void setUpspikes(int upspikes) throws InvalidAttributeValueException { 
+		if (upspikes >= 0) {
+			this.upspikes = upspikes;		
+		}
+		else {
+			throw new InvalidAttributeValueException("Number of upspikes must be positive");
+		}
+ 	}
+	public void setDownspikes(int downspikes) throws InvalidAttributeValueException { 
+		if (downspikes >= 0) {
+			this.downspikes = downspikes;		
+		}
+		else {
+			throw new InvalidAttributeValueException("Number of downspikes must be positive");
+		}
+ 	}
 
-	public int getSpikes() {
-		return this.upspikes - this.downspikes;
-	}
+	public void setContent(String content) { this.content = content; }
+	public void isArchived(boolean archived) { this.archived = archived; }	
 
-	public float getSpikeRatio() {
-		return this.upspikes/(this.upspikes + this.downspikes);
-	}
-
-	public String getContent() {
-		return this.content;
-	}
-
-	public long getReplyId() {
-		return this.replyId;
-	}
-
-	public long getThreadId() {
-		return this.threadId;
-	}
-
-	public boolean isArchived() {
-		return this.archived;
-	}
 
 	@Override
 	public int hashCode() {
