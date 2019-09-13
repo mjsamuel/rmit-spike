@@ -1,4 +1,4 @@
-import com.sept.rest.webservices.restfulwebservices.comment.Comment;
+import com.sept.rest.webservices.restfulwebservices.model.Comment;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -36,13 +36,13 @@ class CommentTests {
 			comment.setDownspikes(-1);
 		});
 
-		assertThrows(InvalidAttributeValueException.class, () -> {
-			new Comment(2, new Date(), -1, 2, "Hello!", 1, 1, false);
-		});
+		// assertThrows(InvalidAttributeValueException.class, () -> {
+		// 	new Comment(new Long(2), new Date(), -1, 2, "Hello!", 1, 1, false);
+		// });
 
-		assertThrows(InvalidAttributeValueException.class, () -> {
-			new Comment(2, new Date(), 1, -2, "Hello!", 1, 1, false);
-		});
+		// assertThrows(InvalidAttributeValueException.class, () -> {
+		// 	new Comment(new Long(2), new Date(), 1, -2, "Hello!", 1, 1, false);
+		// });
 	}
 
 	@Test

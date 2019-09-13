@@ -1,4 +1,4 @@
-package com.sept.rest.webservices.restfulwebservices.comment;
+package com.sept.rest.webservices.restfulwebservices.resource;
 
 import java.net.URI;
 import java.util.List;
@@ -17,10 +17,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.sept.rest.webservices.restfulwebservices.model.Comment;
+import com.sept.rest.webservices.restfulwebservices.repository.CommentRepository;
 
+
+/**
+	TODO: Rename to CommentResource
+ */
 @CrossOrigin(origins="http://localhost:4200")
 @RestController
 public class CommentController {
+
+	@Autowired
+	CommentRepository commentRepository;
 
 	@PostMapping("/api/thread/{thread_id}/comment")
 	public ResponseEntity<String> createComment(
@@ -29,7 +38,18 @@ public class CommentController {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Responded", "MyController");
 		return new ResponseEntity<String>(comment, headers, HttpStatus.OK);
+	}
 
+	@PostMapping("/api/comment")
+	public List<Comment> persist(@RequestBody final Comment comment) {
+		commentRepository.save(comment);
+		return commentRepository.findAll();
+	}
+
+
+	@GetMapping("/api/comment")
+	public List<Comment> getAll() {
+		return commentRepository.findAll();
 	}
 		
 }
