@@ -22,11 +22,13 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import com.sept.rest.webservices.restfulwebservices.RestfulWebServicesApplication;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
-@ActiveProfiles("test")
+// @ActiveProfiles("test")
 // @WebMvcTest
+@AutoConfigureTestDatabase
 @SpringBootTest(classes = RestfulWebServicesApplication.class)
 public class CommentControllerTests {
 	private final static String TEST_USER_ID = "sept";
