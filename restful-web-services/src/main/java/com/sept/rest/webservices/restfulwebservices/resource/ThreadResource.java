@@ -2,6 +2,7 @@ package com.sept.rest.webservices.restfulwebservices.resource;
 
 import com.sept.rest.webservices.restfulwebservices.repository.ThreadRepository;
 import com.sept.rest.webservices.restfulwebservices.exception.ThreadNotFoundException;
+import com.sept.rest.webservices.restfulwebservices.model.Thread;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
