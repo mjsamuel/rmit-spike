@@ -3,8 +3,14 @@ package com.sept.rest.webservices.restfulwebservices.resource;
 import com.sept.rest.webservices.restfulwebservices.repository.ThreadRepository;
 import com.sept.rest.webservices.restfulwebservices.exception.ThreadNotFoundException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+
+import javax.management.InvalidAttributeValueException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,10 +26,11 @@ public class ThreadResource {
 		return threadRepository.findAll();
 	}
 	
-	@PostMapping("/api/thread")
-    public Thread createThread(@Valid @RequestBody Thread thread) {
-        return threadRepository.save(thread);
-    }
+//	@GetMapping("/api/thread")
+//	public List<Thread> getAllThreads() {
+//		List<Thread> myList = Arrays.asList(new Thread(new Long(1), "Title", "Content", false, 0, 0, "Luke Morris"), new Thread());
+//		return myList;
+//	}
 	
 	@GetMapping ("/api/thread/{id}")
 	public Thread getThread(@PathVariable(name = "id") Long id) throws ThreadNotFoundException {
@@ -31,7 +38,13 @@ public class ThreadResource {
 				.orElseThrow(() -> new ThreadNotFoundException(id));
 	}
 	
-	@DeleteMapping("api/thread/{id}")
+	@PostMapping("/api/thread")
+    public Thread createThread(@RequestBody Thread thread) {
+		//threadRepository.save(new Thread(new Long(1), "Title", "Content", false, 0, 0, "Luke Morris"));
+        return threadRepository.save(thread);
+    }
+	
+	@DeleteMapping("/api/thread/{id}")
 	public ResponseEntity<?> deleteThread(@PathVariable(name = "id") Long id) throws ThreadNotFoundException {
 		Thread thread = threadRepository.findById(id)
 				.orElseThrow(() -> new ThreadNotFoundException(id));
@@ -39,9 +52,9 @@ public class ThreadResource {
 		return ResponseEntity.ok().build();
 	}
 	
-	@PutMapping("/thread/{id}")
+	@PutMapping("/api/thread/{id}")
     public Thread updateNote(@PathVariable(value = "id") Long id,
-                           @Valid @RequestBody Thread threadDetails) throws ThreadNotFoundException {
+                           @Valid @RequestBody Thread threadDetails) throws ThreadNotFoundException, InvalidAttributeValueException {
 
 		Thread thread = threadRepository.findById(id)
                 .orElseThrow(() -> new ThreadNotFoundException(id));

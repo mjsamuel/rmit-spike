@@ -60,7 +60,10 @@ class ChannelComponent extends Component {
    * Redirects to the new thread page, passing a channel id as a paramater
    */
   newThreadClicked() {
-    this.props.history.push(`/new-thread`, {channelId: this.state.channelId})
+    this.props.history.push(`/new-thread`, {
+      channelId: this.state.channelId,
+      channelName: this.state.channelName
+    })
   }
 
   /**
