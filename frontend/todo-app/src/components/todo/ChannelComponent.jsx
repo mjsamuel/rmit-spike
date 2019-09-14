@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import ChannelDataService from '../../api/todo/ChannelDataService.js'
 import './ChannelComponent.css';
 import ThreadListItem from './ThreadListItem'
+import ChatComponent from './ChatComponent.jsx'
 
 
 class ChannelComponent extends Component {
