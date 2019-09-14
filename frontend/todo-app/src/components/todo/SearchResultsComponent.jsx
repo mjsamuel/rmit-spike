@@ -44,7 +44,7 @@ class SearchResultsComponent extends Component {
             <ul>
               {this.state.users.map((user, index) => {
                 return (
-                  <li key={index}>
+                  <li id={"search-username-" + index} key={index}>
                     <a className="dropdown-item" href={"/u/" + user.userId}>
                       {"u/" + user.username}
                     </a>
@@ -58,7 +58,7 @@ class SearchResultsComponent extends Component {
             <ul>
               {this.state.channels.map((channel, index) => {
                 return (
-                  <li key={index}>
+                  <li id={"search-channel-" + index} key={index}>
                     <a className="dropdown-item" href={"/c/" + channel.channelId}>
                       {"c/" + channel.channelName}
                     </a>
