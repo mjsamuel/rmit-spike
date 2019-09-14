@@ -38,7 +38,7 @@ class ThreadListItem extends Component {
   render() {
     return (
       <div className="thread-list-item" key={this.state.thread.id} id={"thread-" + this.state.thread.id}>
-        {this.state.displayOrigin && <a href={"/c/" + this.state.thread.channelOrigin} className="channel-origin">posted in {"/c" + this.state.thread.channelOrigin}<br/></a>}
+        {this.state.displayOrigin && <a href={"/c/" + this.state.thread.channelOrigin} className="channel-origin">posted in {"c/" + this.state.thread.channelOrigin}<br/></a>}
         <a href={"/thread/" + this.state.thread.id} className="thread-list-title" id={"thread-list-title-" + this.state.thread.id}>{this.state.thread.title}</a><br/>
         <a href={"/u/" + this.state.thread.author} className="thread-list-author" id={"thread-list-author-" + this.state.thread.id}>{"u/" + this.state.thread.author}</a><br/>
         <div className="details-bar">

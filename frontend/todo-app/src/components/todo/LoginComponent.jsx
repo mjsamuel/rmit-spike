@@ -4,7 +4,12 @@ import './LoginComponent.css'
 import Logo from '../../SpikeLogo.png'
 
 class LoginComponent extends Component {
-
+   /**
+    * LoginComponent is a component representing the login page. It is responsible for rendering
+    * text inputs for both the username and password to send the values inputted to the backend.
+    * It also displays a button to redirect to the register page and a button to submit the from
+    * data.
+    */
     constructor(props) {
         super(props)
 
@@ -14,15 +19,17 @@ class LoginComponent extends Component {
             hasLoginFailed: false,
             showSuccessMessage: false
         }
-        // this.handleUsernameChange = this.handleUsernameChange.bind(this)
-        // this.handlePasswordChange = this.handlePasswordChange.bind(this)
+
         this.handleChange = this.handleChange.bind(this)
         this.loginClicked = this.loginClicked.bind(this)
         this.registerClicked = this.registerClicked.bind(this)
     }
 
+    /**
+     * Updates the state of the component 'onChange' of an input field
+     * @param id: the event object generated
+     */
     handleChange(event) {
-        //console.log(this.state);
         this.setState(
             {
                 [event.target.name]
@@ -31,52 +38,19 @@ class LoginComponent extends Component {
         )
     }
 
-    // handleUsernameChange(event) {
-    //     console.log(event.target.name);
-    //     this.setState(
-    //         {
-    //             [event.target.name]
-    //               :event.target.value
-    //         }
-    //     )
-    // }
-
-    // handlePasswordChange(event) {
-    //     console.log(event.target.value);
-    //     this.setState({password:event.target.value})
-    // }
-
+    /**
+     * Ensures that input fields are not empty before making a POST request to the backend.
+     * If login succeeds, redirect to the user wall. If not display an error message.
+     */
     loginClicked() {
-        //sept,dummy
-        // if(this.state.username==='sept' && this.state.password==='dummy'){
-        //     AuthenticationService.registerSuccessfulLogin(this.state.username,this.state.password)
-        //     this.props.history.push(`/welcome/${this.state.username}`)
-        //     //this.setState({showSuccessMessage:true})
-        //     //this.setState({hasLoginFailed:false})
-        // }
-        // else {
-        //     this.setState({showSuccessMessage:false})
-        //     this.setState({hasLoginFailed:true})
-        // }
-
-        // AuthenticationService
-        // .executeBasicAuthenticationService(this.state.username, this.state.password)
-        // .then(() => {
-        //     AuthenticationService.registerSuccessfulLogin(this.state.username,this.state.password)
-        //     this.props.history.push(`/welcome/${this.state.username}`)
-        // }).catch( () =>{
-        //     this.setState({showSuccessMessage:false})
-        //     this.setState({hasLoginFailed:true})
-        // })
         if (this.state.username.trim() === "" || this.state.password.trim() === "") {
           this.setState({ hasLoginFailed: true})
-        }
-        else {
+        } else {
           AuthenticationService
               .executeJwtAuthenticationService(this.state.username, this.state.password)
               .then((response) => {
                   AuthenticationService.registerSuccessfulLoginForJwt(response.data.id, response.data.token)
-                  this.props.history.push(`/welcome/${this.state.username}`)
+                  this.props.history.push(`/wall`)
               }).catch(() => {
                   this.setState({ showSuccessMessage: false })
                   this.setState({ hasLoginFailed: true })
@@ -84,20 +58,24 @@ class LoginComponent extends Component {
         }
     }
 
+    /**
+     * Redirects to the register page.
+     */
     registerClicked() {
       this.props.history.push(`/register`)
     }
 
+    /**
+     * Renders the login form HTML
+     */
     render() {
         return (
             <div>
               <img src={Logo} alt="RMIT Spike logo"/>
               <h1>RMIT SPIKE</h1>
               <div className="form">
-                {/*<ShowInvalidCredentials hasLoginFailed={this.state.hasLoginFailed}/>*/}
                 {this.state.hasLoginFailed && <div className="alert alert-warning" id="error">Invalid Credentials or something is wrong</div>}
                 {this.state.showSuccessMessage && <div id="success">Login Sucessful</div>}
-                {/*<ShowLoginSuccessMessage showSuccessMessage={this.state.showSuccessMessage}/>*/}
                 <div className="form-group">
                   <input type="text" className="form-control" placeholder="Username" name="username" value={this.state.username} onChange={this.handleChange} />
                 </div>

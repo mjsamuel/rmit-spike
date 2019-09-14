@@ -7,6 +7,11 @@ import { FaSearch, FaBell, FaWrench, FaPlus, FaDoorOpen } from 'react-icons/fa';
 
 class HeaderComponent extends Component {
 
+   /**
+    * HeaderComponent is a component representing the navigation bar. It is responsible
+    * for rendering the site name, a search text input as well as a dropdown menu that
+    * links to user settigs, creating a new channel and logging out.
+    */
     constructor(props) {
       super(props);
 
@@ -20,6 +25,10 @@ class HeaderComponent extends Component {
       this.handleSearchFocus = this.handleSearchFocus.bind(this);
     }
 
+    /**
+     * Updates the state of the component 'onChange' of an input field
+     * @param id: the event object generated
+     */
     handleChange(event) {
         this.setState(
             {
@@ -29,6 +38,12 @@ class HeaderComponent extends Component {
         )
     }
 
+    /**
+     * Used for onBlur events, this function determines wether the element wether
+     * the element that is now being focused on is a part of the search results box
+     * otherwise hide the search results box.
+     * @param e: the event object generated.
+     */
     handleSearchFocus(e) {
       if (e.relatedTarget &&
       (e.relatedTarget.className === "dropdown-item" ||
@@ -40,6 +55,12 @@ class HeaderComponent extends Component {
 
     }
 
+    /**
+     * Used for onSubmit event of the search input, this function determines wether
+     * to show the search results box ot not (supressing the deafult form action as
+     * as well).
+     * @param e: the event object generated.
+     */
     handleSearch(e) {
       e.preventDefault();
 
@@ -50,7 +71,9 @@ class HeaderComponent extends Component {
       }
     }
 
-
+    /**
+     * Renders the navigation bar HTML
+     */
     render() {
         // const isUserLoggedIn = AuthenticationService.isUserLoggedIn();
         //console.log(isUserLoggedIn);
