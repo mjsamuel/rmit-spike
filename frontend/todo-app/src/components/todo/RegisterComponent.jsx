@@ -4,7 +4,13 @@ import './LoginComponent.css'
 import Logo from '../../SpikeLogo.png'
 
 class RegisterComponent extends Component {
-
+   /**
+    * RegisterComponent is a component representing the register page. It is responsible for rendering
+    * text inputs for email, username and password as well as an input to confirm password to send
+    * to the backend to register.
+    * It also displays a button to redirect to the login page and a button to submit the from
+    * data.
+    */
     constructor(props) {
         super(props)
 
@@ -22,8 +28,11 @@ class RegisterComponent extends Component {
         this.cancelClicked = this.cancelClicked.bind(this)
     }
 
+    /**
+     * Updates the state of the component 'onChange' of an input field
+     * @param id: the event object generated
+     */
     handleChange(event) {
-        //console.log(this.state);
         this.setState(
             {
                 [event.target.name]
@@ -32,12 +41,17 @@ class RegisterComponent extends Component {
         )
     }
 
+    /**
+     * Ensures that input fields are not empty before and that the password and confirmedPassword
+     * inputs match before making a POST request to the backend.
+     * If register succeeds, redirect to the user wall. If not display an error message.
+     */
     submitClicked() {
-      if (this.state.password != this.state.confirmedPassword ||
-          this.state.email.trim() == "" ||
-          this.state.username.trim() == "" ||
-          this.state.password.trim() == "" ||
-          this.state.confirmedPassword.trim == "") {
+      if (this.state.password !== this.state.confirmedPassword ||
+          this.state.email.trim() === "" ||
+          this.state.username.trim() === "" ||
+          this.state.password.trim() === "" ||
+          this.state.confirmedPassword.trim === "") {
         this.setState({ hasRegisterFailed: true })
       }
       else {
@@ -45,7 +59,7 @@ class RegisterComponent extends Component {
             .executeJwtRegisterService(this.state.email, this.state.username, this.state.password, this.state.confirmedPassword)
             .then((response) => {
                 AuthenticationService.registerSuccessfulLoginForJwt(response.data.id, response.data.token)
-                this.props.history.push(`/welcome/${this.state.username}`)
+                this.props.history.push('/wall')
             }).catch(() => {
                 this.setState({ showSuccessMessage: false })
                 this.setState({ hasRegisterFailed: true })
@@ -53,14 +67,20 @@ class RegisterComponent extends Component {
       }
     }
 
+    /**
+     * Redirects to the login page.
+     */
     cancelClicked() {
       this.props.history.push(`/login`)
     }
 
+    /**
+     * Renders the register form HTML
+     */
     render() {
         return (
             <div>
-              <img  src={Logo}/>
+              <img src={Logo} alt="RMIT Spike logo"/>
               <h1>RMIT SPIKE</h1>
               <div className="form">
                 {this.state.hasRegisterFailed && <div className="alert alert-warning" id="error">Invalid Credentials or something is wrong</div>}

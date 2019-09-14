@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import ChannelDataService from '../../api/todo/ChannelDataService.js'
 import './ChannelComponent.css';
-import { FaRegComment, FaAngleUp } from 'react-icons/fa';
-import ChatComponent from './ChatComponent.jsx'
+import ThreadListItem from './ThreadListItem'
 
 
 class ChannelComponent extends Component {
@@ -42,7 +41,8 @@ class ChannelComponent extends Component {
     this.setState({
       channelId: params.channelId,
       channelName: data.channelName,
-      threads: data.threads
+      threads: data.threads,
+      subscribed: data.subscribed
     })
   }
 
@@ -60,25 +60,23 @@ class ChannelComponent extends Component {
    * Redirects to the new thread page, passing a channel id as a paramater
    */
   newThreadClicked() {
-    this.props.history.push(`/new-thread`, {channelId: this.state.channelId})
+    this.props.history.push(`/new-thread`, {
+      channelId: this.state.channelId,
+      channelName: this.state.channelName
+    })
   }
+
   /**
-   * Renders the thread HTML
+   * Renders the channel HTML
    */
   render() {
     return (
       <div className="channel">
         <div className="thread-list">
-          <h1 id="channel-name-banner">{this.state.channelName}</h1>
+          <h1 id="channel-name-banner">{"c/" + this.state.channelName}</h1>
           {this.state.threads.map((thread, index) => {
             return (
-              <div className="thread-card" key={thread.id} id={"thread-" + thread.id}>
-                <a href={"/thread/" + thread.id} className="title" id={"thread-list-title-" + thread.id}>{thread.title}</a><br/>
-                <a href={"/user/" + thread.author} className="author" id={"thread-list-author-" + thread.id}>{thread.author}</a><br/>
-                <div className="details-bar">
-                  <span><FaRegComment/> {thread.noComments} comments | <FaAngleUp/> {thread.upspikes} Upspikes</span>
-                </div>
-              </div>
+              <ThreadListItem thread={thread} displayOrigin={false} key={index}/>
               )
             })
           }

@@ -8,19 +8,19 @@ describe('ChannelComponent', () => {
 
 	beforeEach(() => {
     channel = {
-			channelName: "c/sept",
+			channelName: "sept",
 			threads: [
 				{
 					id: "001",
 					title: "Thread Title",
-					author: "u/author",
+					author: "author",
 					noComments: 0,
 					upspikes: 0
 				},
 				{
 					id: "002",
 					title: "The Rise and Fall of SEPT at RMIT",
-					author: "u/john-smith",
+					author: "john-smith",
 					noComments: 13,
 					upspikes: 30
 				}
@@ -42,7 +42,7 @@ describe('ChannelComponent', () => {
 	it('should render the channel name', async() => {
 		await component.update();
 		let channelName = component.find('#channel-name-banner');
-		expect(channelName.text()).toEqual(channel.channelName);
+		expect(channelName.text()).toEqual("c/" + channel.channelName);
 	})
 
 	it('should render a thread', async() => {
@@ -50,7 +50,7 @@ describe('ChannelComponent', () => {
 		let threadTitle = component.find("#thread-list-title-" + channel.threads[0].id);
 		let threadAuthor = component.find("#thread-list-author-" + channel.threads[0].id);
 		expect(threadTitle.text()).toEqual(channel.threads[0].title);
-		expect(threadAuthor.text()).toEqual(channel.threads[0].author);
+		expect(threadAuthor.text()).toEqual("u/" + channel.threads[0].author);
 	})
 
 	it('displays unsubsribe when subscribe button is clicked', async() => {
