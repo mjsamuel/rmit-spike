@@ -26,7 +26,7 @@ import com.sept.rest.webservices.restfulwebservices.repository.CommentRepository
  */
 @CrossOrigin(origins="http://localhost:4200")
 @RestController
-public class CommentController {
+public class CommentResource {
 
 	@Autowired
 	CommentRepository commentRepository;

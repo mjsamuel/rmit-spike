@@ -1,15 +1,18 @@
-package com.sept.rest.webservices.restfulwebservices.thread;
+package com.sept.rest.webservices.restfulwebservices.resource;
 
-import com.sept.rest.webservices.restfulwebservices.thread.ThreadRepository;
+import com.sept.rest.webservices.restfulwebservices.repository.ThreadRepository;
+import com.sept.rest.webservices.restfulwebservices.exception.ThreadNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
 import javax.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 @RestController
-public class ThreadController {
+public class ThreadResource {
 	
+	@Autowired
 	ThreadRepository threadRepository;
 	
 	@GetMapping ("/api/thread")

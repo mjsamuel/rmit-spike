@@ -4,7 +4,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.sept.rest.webservices.restfulwebservices.resource.CommentController;
+import com.sept.rest.webservices.restfulwebservices.resource.CommentResource;
 import com.sept.rest.webservices.restfulwebservices.repository.CommentRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +30,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 // @WebMvcTest
 @AutoConfigureTestDatabase
 @SpringBootTest(classes = RestfulWebServicesApplication.class)
-public class CommentControllerTests {
+public class CommentResourceTests {
 	private final static String TEST_USER_ID = "sept";
 	@Autowired
 	private MockMvc mockMvc;

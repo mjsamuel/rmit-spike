@@ -1,6 +1,4 @@
-package com.sept.rest.webservices.restfulwebservices.channel;
-
-import com.sept.rest.webservices.restfulwebservices.channel.Channel.Visibility;
+import com.sept.rest.webservices.restfulwebservices.model.Channel.Visibility;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.junit.Assert.assertNotNull;

@@ -1,15 +1,13 @@
-package com.sept.rest.webservices.restfulwebservices.channel;
-
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import org.hamcrest.CoreMatchers.instanceOf;
+import org.junit.Assert.assertNotNull;
+import org.junit.Assert.assertThat;
+import org.junit.Assert.assertTrue;
 
 import java.util.Date;
 
 import org.junit.Test;
 
-import com.sept.rest.webservices.restfulwebservices.channel.Channel.Visibility;
+import com.sept.rest.webservices.restfulwebservices.model.Channel.Visibility;
 
 public class TestChangeChannelVisibility {
 	private static int counter = 0;

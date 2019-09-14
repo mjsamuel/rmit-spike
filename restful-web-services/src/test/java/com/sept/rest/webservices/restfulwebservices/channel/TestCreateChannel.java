@@ -1,8 +1,6 @@
-package com.sept.rest.webservices.restfulwebservices.channel;
-
 import org.junit.Test;
 
-import com.sept.rest.webservices.restfulwebservices.channel.Channel.Visibility;
+import com.sept.rest.webservices.restfulwebservices.model.Channel.Visibility;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
