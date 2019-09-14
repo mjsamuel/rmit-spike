@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.management.InvalidAttributeValueException;
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "threads")
