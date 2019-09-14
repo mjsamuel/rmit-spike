@@ -13,11 +13,15 @@ class ChatComponent extends Component {
    * @param channelId: id of the channel
    */
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       messages: [],
-    }
+      currentMessage: ""
+    };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSentMessage = this.handleSentMessage.bind(this);
   }
 
   /**
@@ -25,15 +29,43 @@ class ChatComponent extends Component {
    */
   componentDidMount() {
     if (this.props.channelId != null) {
-      var data = ChatDataService.retrieveMessages(this.props.channelId)
-      this.setState({ messages: data.messages })
-    }
-    else {
+      var data = ChatDataService.retrieveMessages(this.props.channelId);
+      this.setState({ messages: data.messages });
+    } else {
 
     }
   }
 
-  scrollToBottom = () => {
+  /**
+   * Updates the state of the component 'onChange' of an input field
+   * @param id: the event object generated
+   */
+  handleChange(event) {
+      this.setState(
+          {
+              [event.target.name]
+                  : event.target.value
+          }
+      );
+  }
+
+  handleSentMessage(e) {
+    e.preventDefault();
+
+    if (this.state.currentMessage.trim() !== "") {
+      const newMessage = {
+        username: "currentUser",
+        content: this.state.currentMessage,
+        timeNumber: 0,
+        timeUnit: "seconds"
+      };
+      const messages = this.state.messages.concat(newMessage);
+      this.setState({
+        messages: messages,
+        currentMessage: ""
+      });
+    }
+
   }
 
   /**
@@ -53,8 +85,18 @@ class ChatComponent extends Component {
           }
         </div>
         <div>
-          <input type="text" className="form-control" placeholder="Type a message..." name="message"/>
+          <form onSubmit={this.handleSentMessage}>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Type a message..."
+              name="currentMessage"
+              onChange={this.handleChange}
+              value={this.state.currentMessage}
+            />
+          </form>
         </div>
+        <div></div>
       </div>
     )
   }

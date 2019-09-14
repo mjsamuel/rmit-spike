@@ -1,3 +1,9 @@
+.wall {
+  padding-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
 .channel-origin {
   color: #000000;
   font-size: 12px;
