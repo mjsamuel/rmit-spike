@@ -13,7 +13,6 @@
   text-align: center;
   padding:5px;
   color: white;
-  /* font-style: italic; */
   font-weight: bold;
 
   border-top-left-radius: 12px;
@@ -29,7 +28,6 @@
 
   text-align: left;
   overflow-y: scroll;
-
 }
 
 .chat-message {
@@ -50,6 +48,10 @@
 .chat-message p {
   margin-left: 25px;
   font-size: 14px;
+}
+
+#messages-bottom {
+  padding: 1px;
 }
 
 .chat-panel .form-control {

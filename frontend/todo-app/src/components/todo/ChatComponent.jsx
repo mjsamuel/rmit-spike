@@ -20,8 +20,10 @@ class ChatComponent extends Component {
       currentMessage: ""
     };
 
+    this.chatBottom = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.handleSentMessage = this.handleSentMessage.bind(this);
+    this.scrollToBottom = this.scrollToBottom.bind(this);
   }
 
   /**
@@ -34,6 +36,10 @@ class ChatComponent extends Component {
     } else {
 
     }
+  }
+
+  scrollToBottom() {
+    this.el.scrollIntoView({ behavior: 'smooth' })
   }
 
   /**
@@ -59,10 +65,13 @@ class ChatComponent extends Component {
         timeNumber: 0,
         timeUnit: "seconds"
       };
+
       const messages = this.state.messages.concat(newMessage);
       this.setState({
         messages: messages,
         currentMessage: ""
+      }, () => {
+        this.scrollToBottom();
       });
     }
 
@@ -83,9 +92,10 @@ class ChatComponent extends Component {
               )
             })
           }
+          <span id="messages-bottom" ref={r => (this.el = r)}></span>
         </div>
         <div>
-          <form onSubmit={this.handleSentMessage}>
+          <form autoComplete="off" onSubmit={this.handleSentMessage}>
             <input
               type="text"
               className="form-control"
@@ -96,7 +106,6 @@ class ChatComponent extends Component {
             />
           </form>
         </div>
-        <div></div>
       </div>
     )
   }
