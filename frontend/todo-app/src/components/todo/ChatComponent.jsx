@@ -38,6 +38,10 @@ class ChatComponent extends Component {
     }
   }
 
+  /**
+   * Finds the element at the very bottom of the chat messages div and scrolls
+   * down to it smoothly.
+   */
   scrollToBottom() {
     this.el.scrollIntoView({ behavior: 'smooth' })
   }
