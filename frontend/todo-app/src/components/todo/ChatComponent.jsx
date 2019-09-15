@@ -60,22 +60,22 @@ class ChatComponent extends Component {
   }
 
   handleSentMessage(e) {
-    e.preventDefault();
+    if (e) e.preventDefault();
 
     if (this.state.currentMessage.trim() !== "") {
-      const newMessage = {
+      let newMessage = {
         username: "currentUser",
         content: this.state.currentMessage,
         timeNumber: 0,
         timeUnit: "seconds"
       };
 
-      const messages = this.state.messages.concat(newMessage);
+      let messages = this.state.messages.concat(newMessage);
       this.setState({
         messages: messages,
         currentMessage: ""
       }, () => {
-        this.scrollToBottom();
+        if (e) this.scrollToBottom();
       });
     }
 
