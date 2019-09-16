@@ -64,8 +64,7 @@ class ThreadComponent extends Component {
 			content: thread.content,
 			tagged_channels: thread.tagged_channels,
 			comments: thread.comments,
-			timeNumber: thread.timeNumber,
-			timeUnit: thread.timeUnit
+			timeDelta: thread.timeDelta
 		})
 		// console.log(this.state)
 	}
