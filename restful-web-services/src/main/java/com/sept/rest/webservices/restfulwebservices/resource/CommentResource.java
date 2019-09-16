@@ -31,8 +31,10 @@ public class CommentResource {
 
 
 	@PostMapping("/api/thread/{thread_id}/comment")
-	public ResponseEntity<String> persist(@RequestBody final Comment comment) {
-
+	public ResponseEntity<String> persist(@PathVariable long thread_id, @RequestBody final Comment comment) {
+		if (comment != null) {
+			comment.setThreadId(thread_id);
+		}
 		// Date date = new Date();
 		// System.out.println("Now: " + date.getTime());
 		Comment createdComment = commentRepository.save(comment);
