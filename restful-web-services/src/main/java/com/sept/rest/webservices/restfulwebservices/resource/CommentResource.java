@@ -2,6 +2,7 @@ package com.sept.rest.webservices.restfulwebservices.resource;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,9 @@ public class CommentResource {
 
 	@PostMapping("/api/thread/{thread_id}/comment")
 	public ResponseEntity<String> persist(@RequestBody final Comment comment) {
+
+		// Date date = new Date();
+		// System.out.println("Now: " + date.getTime());
 		Comment createdComment = commentRepository.save(comment);
 		System.out.println("Created comment: " + createdComment);
 		if (createdComment == null){

@@ -1,6 +1,7 @@
 package com.sept.rest.webservices.restfulwebservices.model;
 
 import java.util.Date;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,8 +18,8 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private long id;
-	// @Column(name = "datetime")
-	// private Date datetime;
+	@Column(name = "datetime")
+	private Date datetime;
 	@Column(name = "user_id")
 	private long userId;
 
@@ -38,28 +39,17 @@ public class Comment {
 	private long threadId;
 
 	@Column(name = "archived")
-	private boolean archived;
+	private Boolean archived;
 	
 	public Comment() {
 
 	}
 
-	// public Comment(long id, long userId, Date datetime, int upspikes, int downspikes, String content, long replyId, long threadId, boolean archived) throws InvalidAttributeValueException {
-	// 	super();
-	// 	this.id = id;
-	// 	this.datetime = datetime;
-	// 	this.setUpspikes(upspikes);
-	// 	this.setDownspikes(downspikes);
-	// 	this.content = content;
-	// 	this.replyId = replyId;
-	// 	this.threadId = threadId;
-	// 	this.archived = archived;
-	// }
-
-	public Comment(long id, long userId, int upspikes, int downspikes, String content, long replyId, long threadId, boolean archived) throws InvalidAttributeValueException {
+	public Comment(long id, long userId, Date datetime, int upspikes, int downspikes, String content, long replyId, long threadId, boolean archived) throws InvalidAttributeValueException {
 		super();
 		this.id = id;
 		this.userId = userId;
+		this.datetime = datetime;
 		this.setUpspikes(upspikes);
 		this.setDownspikes(downspikes);
 		this.content = content;
@@ -73,9 +63,10 @@ public class Comment {
 		return this.id;
 	}
 
-	// public Date getDatetime() {
-	// 	return this.datetime;
-	// }
+	public Date getDatetime() {
+		return this.datetime;
+	}
+
 	public long getUserId() {
 		return this.userId;
 	}
@@ -108,14 +99,19 @@ public class Comment {
 		return this.threadId;
 	}
 
-	public boolean isArchived() {
+	public Boolean isArchived() {
 		return this.archived;
 	}
 
+	public String getTimeDelta() {
+		PrettyTime p = new PrettyTime();
+		return p.formatDuration(this.datetime);
+	}
+
 	// Setters
-	// public void setDatetime(Date datetime) {
-	// 	this.datetime = datetime;
-	// }
+	public void setDatetime(Date datetime) {
+		this.datetime = datetime;
+	}
 
 	public void setUpspikes(int upspikes) throws InvalidAttributeValueException { 
 		if (upspikes >= 0) {
@@ -168,8 +164,8 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		return String.format("{ \"id\":%d, \"userId\":%d, \"upspikes\":%d, \"downspikes\":%d, \"content\":%s, \"replyId\":%d, \"threadId\":%d, \"archive\":%b }",
-			id, userId, upspikes, downspikes, content, replyId, threadId, archived);
+		return String.format("{ \"id\":%d, \"userId\":%d, \"datetime\":%tN, \"upspikes\":%d, \"downspikes\":%d, \"content\":%s, \"replyId\":%d, \"threadId\":%d, \"archive\":%b }",
+			id, userId, datetime, upspikes, downspikes, content, replyId, threadId, archived);
 	}
 
 	
