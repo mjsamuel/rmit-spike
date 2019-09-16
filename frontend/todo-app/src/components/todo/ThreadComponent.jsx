@@ -136,7 +136,7 @@ class ThreadComponent extends Component {
 	                	<h1>{this.state.title}</h1>
 	                </div>
 	                <div className="thread-author">
-	                	<h2>Posted by u/{this.state.author} {this.state.timeNumber} {this.state.timeUnit} ago</h2>
+	                	<h2>Posted by u/{this.state.author} {this.state.timeDelta} ago</h2>
 	                </div>
 	                <div className="thread-contents">
 	                    <p>{this.state.content}</p>
