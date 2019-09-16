@@ -1,5 +1,8 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import com.jcabi.matchers.RegexMatchers;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -23,41 +26,49 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import com.sept.rest.webservices.restfulwebservices.RestfulWebServicesApplication;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
 
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
-// @ActiveProfiles("test")
-// @WebMvcTest
 @AutoConfigureTestDatabase
 @SpringBootTest(classes = RestfulWebServicesApplication.class)
 public class CommentResourceTests {
 	private final static String TEST_USER_ID = "sept";
+
 	@Autowired
 	private MockMvc mockMvc;
 
 	@Test
 	public void testAddComment() throws Exception {
-		// Comment comment = new Comment();
-		// testCommentPost(comment, "value");
-		String comment = "Test comment";
-		testCommentPostBasic(comment, "Test comment");
+
+        String comment = "{ \"userId\": 1, \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard.\", \"threadId\": 1 }";
+        testCommentPost(comment);
 
 	}
 
-    private void testCommentPostBasic(String comment, String expectation) throws Exception {
+    private void testCommentPost(String comment) throws Exception {
+        System.out.println("Comment: " + comment);
+        String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTY4OTUyMjA5LCJpYXQiOjE1NjgzNDc0MDl9.1hWHGUWtnSUF57lc_53vEPJwKloGmViJrGqr5Anxl-S01UCMsoT2lXVxwel5JOS4-lM0tylOmbatH811bVGkbw";
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/thread/1/comment")
                 .with(user(TEST_USER_ID))
                 .with(csrf())
+                .header("authorization", "Bearer " + token)
                 .content(comment)
-//             .content(TestUtils.objectToJson(comment))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andReturn();
 
-        String response = result.getResponse().getContentAsString();
-        assertNotNull(response);
-        assertEquals(expectation, response);
+
+        MockHttpServletResponse response = result.getResponse();
+        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+
+        assertThat(response.getHeader(HttpHeaders.LOCATION), 
+            RegexMatchers.matchesPattern("^http://localhost/api/thread/1/comment/\\d"));
+        assertNotNull(response.getContentAsString());
+
     }
 
 }

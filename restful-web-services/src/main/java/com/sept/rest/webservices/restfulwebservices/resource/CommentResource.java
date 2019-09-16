@@ -21,9 +21,6 @@ import com.sept.rest.webservices.restfulwebservices.model.Comment;
 import com.sept.rest.webservices.restfulwebservices.repository.CommentRepository;
 
 
-/**
-	TODO: Rename to CommentResource
- */
 @CrossOrigin(origins="http://localhost:4200")
 @RestController
 public class CommentResource {
@@ -31,19 +28,19 @@ public class CommentResource {
 	@Autowired
 	CommentRepository commentRepository;
 
-	@PostMapping("/api/thread/{thread_id}/comment")
-	public ResponseEntity<String> createComment(
-			@PathVariable String thread_id, @RequestBody String comment){
-		
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Responded", "MyController");
-		return new ResponseEntity<String>(comment, headers, HttpStatus.OK);
-	}
 
-	@PostMapping("/api/comment")
-	public List<Comment> persist(@RequestBody final Comment comment) {
-		commentRepository.save(comment);
-		return commentRepository.findAll();
+	@PostMapping("/api/thread/{thread_id}/comment")
+	public ResponseEntity<String> persist(@RequestBody final Comment comment) {
+		Comment createdComment = commentRepository.save(comment);
+		System.out.println("Created comment: " + createdComment);
+		if (createdComment == null){
+			return ResponseEntity.noContent().build();
+		}
+
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}").buildAndExpand(createdComment.getId()).toUri();
+		
+		return ResponseEntity.created(uri).build();
 	}
 
 

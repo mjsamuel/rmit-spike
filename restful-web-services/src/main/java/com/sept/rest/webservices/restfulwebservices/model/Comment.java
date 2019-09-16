@@ -16,19 +16,27 @@ public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Long id;
+	private long id;
 	// @Column(name = "datetime")
 	// private Date datetime;
+	@Column(name = "user_id")
+	private long userId;
+
 	@Column(name = "upspikes")
 	private int upspikes;
+
 	@Column(name = "downspikes")
 	private int downspikes;
+
 	@Column(name = "content")
 	private String content;
+
 	@Column(name = "reply_id")
 	private long replyId;
+
 	@Column(name = "thread_id")
 	private long threadId;
+
 	@Column(name = "archived")
 	private boolean archived;
 	
@@ -36,7 +44,7 @@ public class Comment {
 
 	}
 
-	// public Comment(Long id, Date datetime, int upspikes, int downspikes, String content, long replyId, long threadId, boolean archived) throws InvalidAttributeValueException {
+	// public Comment(long id, long userId, Date datetime, int upspikes, int downspikes, String content, long replyId, long threadId, boolean archived) throws InvalidAttributeValueException {
 	// 	super();
 	// 	this.id = id;
 	// 	this.datetime = datetime;
@@ -48,9 +56,10 @@ public class Comment {
 	// 	this.archived = archived;
 	// }
 
-	public Comment(Long id, int upspikes, int downspikes, String content, long replyId, long threadId, boolean archived) throws InvalidAttributeValueException {
+	public Comment(long id, long userId, int upspikes, int downspikes, String content, long replyId, long threadId, boolean archived) throws InvalidAttributeValueException {
 		super();
 		this.id = id;
+		this.userId = userId;
 		this.setUpspikes(upspikes);
 		this.setDownspikes(downspikes);
 		this.content = content;
@@ -60,13 +69,16 @@ public class Comment {
 	}
 
 	// Getters
-	public Long getId() { 
+	public long getId() { 
 		return this.id;
 	}
 
 	// public Date getDatetime() {
 	// 	return this.datetime;
 	// }
+	public long getUserId() {
+		return this.userId;
+	}
 
 	public int getUpspikes() {
 		return this.upspikes;
@@ -152,6 +164,12 @@ public class Comment {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("{ \"id\":%d, \"userId\":%d, \"upspikes\":%d, \"downspikes\":%d, \"content\":%s, \"replyId\":%d, \"threadId\":%d, \"archive\":%b }",
+			id, userId, upspikes, downspikes, content, replyId, threadId, archived);
 	}
 
 	
