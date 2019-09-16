@@ -41,10 +41,25 @@ public class Comment {
 	@Column(name = "archived")
 	private Boolean archived;
 	
+	// Default constructor
 	public Comment() {
-
 	}
 
+	// Constructor for creation of a new thread
+	public Comment(long userId, Date datetime, String content, long replyId, long threadId) throws InvalidAttributeValueException {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.datetime = datetime;
+		this.setUpspikes(0);
+		this.setDownspikes(0);
+		this.content = content;
+		this.replyId = replyId;
+		this.threadId = threadId;
+		this.archived = false;
+	}
+
+	// Constructor for instantiating existing thread from serialization
 	public Comment(long id, long userId, Date datetime, int upspikes, int downspikes, String content, long replyId, long threadId, boolean archived) throws InvalidAttributeValueException {
 		super();
 		this.id = id;
@@ -129,6 +144,10 @@ public class Comment {
 		else {
 			throw new InvalidAttributeValueException("Number of downspikes must be positive");
 		}
+ 	}
+
+ 	public void setThreadId(long threadId) {
+ 		this.threadId = threadId;
  	}
 
 	public void setContent(String content) {
