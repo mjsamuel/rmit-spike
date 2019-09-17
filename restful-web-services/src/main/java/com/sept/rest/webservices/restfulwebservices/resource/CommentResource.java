@@ -50,9 +50,14 @@ public class CommentResource {
 	}
 
 
-	@GetMapping("/api/comment")
-	public List<Comment> getAll() {
+	@GetMapping("/api/thread/{thread_id}/comment")
+	public List<Comment> getByThreadId(@PathVariable long thread_id) {
 		return commentRepository.findAll();
 	}
-		
+
+	@GetMapping("/api/comment/{comment_id}")
+	public Comment getByCommentId(@PathVariable long comment_id) {
+		return commentRepository.findById(comment_id).get();
+	}
+	
 }

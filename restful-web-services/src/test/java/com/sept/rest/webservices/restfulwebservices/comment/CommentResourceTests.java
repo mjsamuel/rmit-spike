@@ -39,6 +39,8 @@ public class CommentResourceTests {
 
 	@Autowired
 	private MockMvc mockMvc;
+    private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTY4OTUyMjA5LCJpYXQiOjE1NjgzNDc0MDl9.1hWHGUWtnSUF57lc_53vEPJwKloGmViJrGqr5Anxl-S01UCMsoT2lXVxwel5JOS4-lM0tylOmbatH811bVGkbw";
+
 
 	@Test
 	public void testAddComment() throws Exception {
@@ -48,9 +50,25 @@ public class CommentResourceTests {
 
 	}
 
+
+    @Test
+    public void testCommentGet() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/comment/1")
+                .with(user(TEST_USER_ID))
+                .with(csrf())
+                .header("authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        MockHttpServletResponse response = result.getResponse();
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertNotNull(response.getContentAsString());
+    }
+
     private void testCommentPost(String comment) throws Exception {
         System.out.println("Comment: " + comment);
-        String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTY4OTUyMjA5LCJpYXQiOjE1NjgzNDc0MDl9.1hWHGUWtnSUF57lc_53vEPJwKloGmViJrGqr5Anxl-S01UCMsoT2lXVxwel5JOS4-lM0tylOmbatH811bVGkbw";
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/thread/1/comment")
                 .with(user(TEST_USER_ID))
                 .with(csrf())
@@ -70,5 +88,6 @@ public class CommentResourceTests {
         assertNotNull(response.getContentAsString());
 
     }
+
 
 }
