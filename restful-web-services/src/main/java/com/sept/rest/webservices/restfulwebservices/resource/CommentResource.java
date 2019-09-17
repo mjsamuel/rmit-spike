@@ -27,9 +27,6 @@ import com.sept.rest.webservices.restfulwebservices.service.CommentService;
 @RestController
 public class CommentResource {
 
-	// @Autowired
-	// private CommentService commentService;
-
 	@Autowired
 	private CommentRepository commentRepository;
 
@@ -39,8 +36,7 @@ public class CommentResource {
 		if (comment != null) {
 			comment.setThreadId(thread_id);
 		}
-		// Date date = new Date();
-		// System.out.println("Now: " + date.getTime());
+
 		Comment createdComment = commentRepository.save(comment);
 		System.out.println("Created comment: " + createdComment);
 		if (createdComment == null){
@@ -62,6 +58,14 @@ public class CommentResource {
 	@GetMapping("/api/comment/{comment_id}")
 	public Comment getByCommentId(@PathVariable long comment_id) {
 		return commentRepository.findById(comment_id).get();
+	}
+
+	@PutMapping("/api/comment/{comment_id}")
+	public ResponseEntity<Comment> updateComment(@PathVariable long comment_id, @RequestBody Comment comment) {
+		// Note that this updates all parameters that are passed as json, so passing only one parameter will set the rest to null
+		Comment updatedComment = commentRepository.save(comment);
+
+		return new ResponseEntity<Comment>(updatedComment, HttpStatus.OK);
 	}
 	
 }

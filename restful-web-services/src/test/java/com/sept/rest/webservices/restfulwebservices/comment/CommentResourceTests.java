@@ -83,6 +83,31 @@ public class CommentResourceTests {
         assertNotNull(response.getContentAsString());
     }
 
+    @Test
+    public void testUpdateComment() throws Exception {
+        String comment = "{ \"id\":1, \"archived\": true }";
+        testCommentPut(comment);
+    }
+
+
+
+    public void testCommentPut(String comment) throws Exception {
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/comment/1")
+                .with(user(TEST_USER_ID))
+                .with(csrf())
+                .header("authorization", "Bearer " + token)
+                .content(comment)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        MockHttpServletResponse response = result.getResponse();
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertNotNull(response.getContentAsString());
+    }
+
     private void testCommentPost(String comment) throws Exception {
         System.out.println("Comment: " + comment);
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/thread/1/comment")
