@@ -52,8 +52,24 @@ public class CommentResourceTests {
 
 
     @Test
-    public void testCommentGet() throws Exception {
+    public void testCommentGetById() throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/comment/1")
+                .with(user(TEST_USER_ID))
+                .with(csrf())
+                .header("authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        MockHttpServletResponse response = result.getResponse();
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertNotNull(response.getContentAsString());
+    }
+
+    @Test
+    public void testCommentGetByThreadId() throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/thread/1/comment")
                 .with(user(TEST_USER_ID))
                 .with(csrf())
                 .header("authorization", "Bearer " + token)

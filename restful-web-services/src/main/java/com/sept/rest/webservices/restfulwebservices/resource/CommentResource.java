@@ -20,14 +20,18 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sept.rest.webservices.restfulwebservices.model.Comment;
 import com.sept.rest.webservices.restfulwebservices.repository.CommentRepository;
+import com.sept.rest.webservices.restfulwebservices.service.CommentService;
 
 
 @CrossOrigin(origins="http://localhost:4200")
 @RestController
 public class CommentResource {
 
+	// @Autowired
+	// private CommentService commentService;
+
 	@Autowired
-	CommentRepository commentRepository;
+	private CommentRepository commentRepository;
 
 
 	@PostMapping("/api/thread/{thread_id}/comment")
@@ -52,7 +56,7 @@ public class CommentResource {
 
 	@GetMapping("/api/thread/{thread_id}/comment")
 	public List<Comment> getByThreadId(@PathVariable long thread_id) {
-		return commentRepository.findAll();
+		return commentRepository.findByThreadId(thread_id);
 	}
 
 	@GetMapping("/api/comment/{comment_id}")
