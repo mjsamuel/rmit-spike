@@ -1,4 +1,4 @@
-package com.sept.rest.webservices.restfulwebservices.thread;
+package com.sept.rest.webservices.restfulwebservices.model;
 
 import java.util.Date;
 
