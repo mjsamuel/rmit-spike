@@ -24,12 +24,6 @@ public class ThreadController {
 		return threadRepository.findAll();
 	}
 	
-//	@GetMapping("/api/thread")
-//	public List<Thread> getAllThreads() {
-//		List<Thread> myList = Arrays.asList(new Thread(new Long(1), "Title", "Content", false, 0, 0, "Luke Morris"), new Thread());
-//		return myList;
-//	}
-	
 	@GetMapping ("/api/thread/{id}")
 	public Thread getThread(@PathVariable(name = "id") Long id) throws ThreadNotFoundException {
 		return threadRepository.findById(id)

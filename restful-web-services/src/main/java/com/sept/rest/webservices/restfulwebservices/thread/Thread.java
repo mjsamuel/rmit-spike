@@ -17,13 +17,17 @@ public class Thread {
 	private String content;
 	private boolean archived;
 	private int upspikes, downspikes;
+	//Change String to User
 	private String op;
+	//Change String to Channel
+	private String primaryChannel;
+	private String[] taggedChannels;
 	
 	public Thread() {
 		super();
 	}
 	
-	public Thread(Long id, String title, String content, boolean archived, int upspikes, int downspikes, String op) {
+	public Thread(Long id, String title, String content, boolean archived, int upspikes, int downspikes, String op, String primaryChannel, String[]taggedChannels) {
 		super();
 		this.title = title;
 		this.datetime =  new Date().toString();
@@ -32,6 +36,8 @@ public class Thread {
 		this.upspikes = 0;
 		this.downspikes = 0;
 		this.op = op;
+		this.setPrimaryChannel(primaryChannel);
+		this.setTaggedChannels(taggedChannels);
 	}
 	
 	public Long getId() {
@@ -102,5 +108,21 @@ public class Thread {
 
 	public void setOp(String op) {
 		this.op = op;
+	}
+
+	public String getPrimaryChannel() {
+		return primaryChannel;
+	}
+
+	public void setPrimaryChannel(String primaryChannel) {
+		this.primaryChannel = primaryChannel;
+	}
+
+	public String[] getTaggedChannels() {
+		return taggedChannels;
+	}
+
+	public void setTaggedChannels(String[] taggedChannels) {
+		this.taggedChannels = taggedChannels;
 	}
 }
