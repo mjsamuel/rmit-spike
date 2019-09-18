@@ -1,4 +1,4 @@
-package src.main.java.com.sept.rest.webservices.resfulsevrices.registration;
+package com.sept.rest.webservices.restfulwebservices.service;
 
 public class UserService {
 
