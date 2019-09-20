@@ -1,3 +1,5 @@
+package com.sept.rest.webservices.restfulwebservices.comment;
+
 import com.sept.rest.webservices.restfulwebservices.model.Comment;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

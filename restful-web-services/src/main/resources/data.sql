@@ -1,2 +1,2 @@
-insert into comments(upspikes, downspikes,content,reply_id,thread_id, archived)
-values(10, 2, 'This is a test comment', 1, 1, false);
+insert into channels(id, name, datetime, visibility, archived)
+values(1, 'Test Channel', 'Fri Sep 20 21:00:00 AEST 2019', 1, 1);

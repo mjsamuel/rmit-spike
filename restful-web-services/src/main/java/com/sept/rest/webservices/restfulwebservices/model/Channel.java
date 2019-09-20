@@ -5,206 +5,186 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "channels")
-public class Channel
-{
-	// Instance Variables
+public class Channel {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	@NotBlank
+	@Column(name = "name")
 	private String name;
-	@NotBlank
-	private Date dateCreated;
-	@NotBlank
+	@Column(name = "datetime")
+	private String datetime;
+	@Column(name = "archived")
 	private Boolean archived;
-	@NotBlank
+	@Column(name = "visibility")
 	private Visibility visibility;
-	
-	public enum Visibility{SHARED,	EXCLUSIVE};
-	
-	// @Julian: The Lists need to have appropriate annotations to make them work with database so
+
+	public enum Visibility {
+		SHARED, EXCLUSIVE
+	};
+
+	// @Julian: The Lists need to have appropriate annotations to make them work
+	// with database so
 	// commented out for now. Perhaps look at @ManyToOne
 
 	// Stores a list of all Users subscribed to the channel.
 	// private List<User> subscribers = new ArrayList<User>();
-	
+
 	// Stores a list of all threads in the channel
 	// private List<Thread> threads = new ArrayList<Thread>();
-	
-	public Channel()
-	{
+
+	public Channel() {
 		super();
 	}
-	
-	// Constructor
-	public Channel(Long id, String name, Date dateCreated, Visibility visibility, Boolean archived)
-	{
+
+	public Channel(Long id, String name, Visibility visibility, Boolean archived) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.dateCreated = dateCreated;
-		this.visibility = visibility;		
+		this.datetime = new Date().toString();
+		this.visibility = visibility;
 		this.archived = archived;
 	}
-	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDatetime() {
+		return datetime;
+	}
+
+	public void setDatetime(String datetime) {
+		this.datetime = datetime;
+	}
+
+	public Boolean getArchived() {
+		return archived;
+	}
+
+	public void setArchived(Boolean archived) {
+		this.archived = archived;
+	}
+
+	public Visibility getVisibility() {
+		return visibility;
+	}
+
+	public void setVisibility(Visibility visibility) {
+		this.visibility = visibility;
+	}
+
 	// Add thread to Channel
 	// public boolean addThread(Thread thread)
 	// {
-	// 	if(!threads.contains(thread))
-	// 	{
-	// 		threads.add(thread);
-	// 		return true;
-	// 	}
-	// 	return false;
+	// if(!threads.contains(thread))
+	// {
+	// threads.add(thread);
+	// return true;
 	// }
-	
+	// return false;
+	// }
+
 	// Remove Thread from Channel
 	// public boolean removeThread(Thread thread)
 	// {
-	// 	if(threads.contains(thread))
-	// 	{
-	// 		threads.remove(thread);
-	// 		return true;
-	// 	}
-	// 	return false;
+	// if(threads.contains(thread))
+	// {
+	// threads.remove(thread);
+	// return true;
 	// }
-	
+	// return false;
+	// }
+
 	// Subscribe User to Channel
 	// public boolean subscribe(User user)
 	// {
-	// 	if(!subscribers.contains(user))
-	// 	{
-	// 		subscribers.add(user);
-	// 		return true;
-	// 	}
-	// 	return false;
+	// if(!subscribers.contains(user))
+	// {
+	// subscribers.add(user);
+	// return true;
+	// }
+	// return false;
 	// }
 
 	// Unsubscribe User from Channel
 	// public boolean unSubscribe(User user)
 	// {
-	// 	// If user is subscribed
-	// 	if(subscribers.contains(user))
-	// 	{
-	// 		subscribers.remove(user);
-	// 		return true;
-	// 	}
-	// 	return false;
+	// // If user is subscribed
+	// if(subscribers.contains(user))
+	// {
+	// subscribers.remove(user);
+	// return true;
 	// }
-	
+	// return false;
+	// }
+
 	// Delete Channel
-	
+
 	// Channel Chat
-		
+
 	// Send Notification to all users that are subscribed.
-	
-	// Get Channel ID
-	public Long getChannelId()
-	{
-		return id;
-	}
-	
-	// Set Channel Name
-	public void setChannelId(Long id)
-	{
-		this.id = id;
-	}
-	
-	// Get Channel Name
-	public String getChannelName()
-	{
-		return name;
-	}
-	
-	// Set Channel Name
-	public void setChannelName(String name)
-	{
-		this.name = name;
-	}
-	
-	// Set Date of Channel
-	public Date getDate()
-	{
-		return dateCreated;
-	}
-	
-	// Set Date of Channel
-	public void setDate(Date date)
-	{
-		this.dateCreated = date;
-	}
-	
-	// Check visibility of Channel
-	public Visibility getVisibility()
-	{
-		return visibility;
-	}
-	
-	// Change visibility of Channel
-	public void setVisibility(Visibility visibility)
-	{
-		this.visibility = visibility;
-	}
-	
-	// Check if status is archived
-	public Boolean isArchived()
-	{
-		return archived;
-	}
-	
-	// Set channel to archived
-	public void setArchived(Boolean archived)
-	{
-		this.archived = archived;
-	}
-	
+
 	// Return all subscribers to channel
 	// public List<User> displaySubscribers()
 	// {
-	// 	if(subscribers.isEmpty())
-	// 		return null;
-		
-	// 	return subscribers;
+	// if(subscribers.isEmpty())
+	// return null;
+
+	// return subscribers;
 	// }
-	
+
 	// Return all threads in Channel
 	// public List<Thread> displayThreads()
 	// {
-	// 	if(threads.isEmpty())
-	// 		return null;
-					
-	// 	return threads;
+	// if(threads.isEmpty())
+	// return null;
+
+	// return threads;
 	// }
-	
+
 	// toString for console testing purposes without database
 	// public String toString()
 	// {
-	// 	StringBuffer buffer = new StringBuffer();
-	// 	buffer.append(String.format("Channel: %s - %s\nCreated: %s\nVisibility: %s | Archived: %b\n\nSubscribers:\n", id, name, dateCreated, visibility, archived));
-		
-	// 	if(subscribers.isEmpty())
-	// 		buffer.append(String.format("NULL\n"));
-		
-	// 	for(User user : subscribers)
-	// 	{
-	// 		buffer.append(String.format("%s", user));
-	// 	}
-		
-	// 	buffer.append(String.format("\nThreads:\n"));
-		
-	// 	if(threads.isEmpty())
-	// 		buffer.append(String.format("NULL\n"));
+	// StringBuffer buffer = new StringBuffer();
+	// buffer.append(String.format("Channel: %s - %s\nCreated: %s\nVisibility: %s |
+	// Archived: %b\n\nSubscribers:\n", id, name, datetime, visibility,
+	// archived));
 
-	// 	for(Thread thread : threads)
-	// 	{
-	// 		buffer.append(String.format("%s", thread));
-	// 	}
-		
-	// 	return buffer.toString();
+	// if(subscribers.isEmpty())
+	// buffer.append(String.format("NULL\n"));
+
+	// for(User user : subscribers)
+	// {
+	// buffer.append(String.format("%s", user));
+	// }
+
+	// buffer.append(String.format("\nThreads:\n"));
+
+	// if(threads.isEmpty())
+	// buffer.append(String.format("NULL\n"));
+
+	// for(Thread thread : threads)
+	// {
+	// buffer.append(String.format("%s", thread));
+	// }
+
+	// return buffer.toString();
 	// }
 }
