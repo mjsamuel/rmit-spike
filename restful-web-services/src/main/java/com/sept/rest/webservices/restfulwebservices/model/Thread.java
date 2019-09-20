@@ -11,29 +11,38 @@ public class Thread {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
+	@Column(name = "title")
 	private String title;
+	@Column(name = "datetime")
 	private String datetime;
+	@Column(name = "content")
 	private String content;
+	@Column(name = "archived")
 	private boolean archived;
-	private int upspikes, downspikes;
-	//Change String to User
+	@Column(name = "upspikes")
+	private int upspikes;
+	@Column(name = "downspikes")
+	private int downspikes;
+	@Column(name = "op")
 	private String op;
-	//Change String to Channel
+	@Column(name = "primaryChannel")
 	private String primaryChannel;
-	private String[] taggedChannels;
+	@Column(name = "taggedChannels")
+	private String taggedChannels;
 	
 	public Thread() {
 		super();
 	}
 	
-	public Thread(Long id, String title, String content, boolean archived, int upspikes, int downspikes, String op, String primaryChannel, String[]taggedChannels) {
+	public Thread(Long id, String title, String content, boolean archived, int upspikes, int downspikes, String op, String primaryChannel, String taggedChannels) {
 		super();
 		this.title = title;
 		this.datetime =  new Date().toString();
 		this.content = content;
 		this.archived = false;
-		this.upspikes = 0;
+		this.upspikes = 0;	
 		this.downspikes = 0;
 		this.op = op;
 		this.setPrimaryChannel(primaryChannel);
@@ -118,11 +127,11 @@ public class Thread {
 		this.primaryChannel = primaryChannel;
 	}
 
-	public String[] getTaggedChannels() {
+	public String getTaggedChannels() {
 		return taggedChannels;
 	}
 
-	public void setTaggedChannels(String[] taggedChannels) {
+	public void setTaggedChannels(String taggedChannels) {
 		this.taggedChannels = taggedChannels;
 	}
 }
