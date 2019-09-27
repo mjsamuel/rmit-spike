@@ -27,18 +27,15 @@ public class Channel {
 		SHARED, EXCLUSIVE
 	};
 
-	// @Julian: The Lists need to have appropriate annotations to make them work
-	// with database so
-	// commented out for now. Perhaps look at @ManyToOne
+	@ElementCollection
+	@CollectionTable(name = "channelSubscribers")
+	private List<User> subscribers;
 
-	// Stores a list of all Users subscribed to the channel.
-	// private List<User> subscribers = new ArrayList<User>();
-
-	// Stores a list of all threads in the channel
-	// private List<Thread> threads = new ArrayList<Thread>();
+	@ElementCollection
+	@CollectionTable(name = "channelThreads")
+	private List<Thread> threads;
 
 	public Channel() {
-		super();
 	}
 
 	public Channel(Long id, String name, Visibility visibility, Boolean archived) {
@@ -48,6 +45,8 @@ public class Channel {
 		this.datetime = new Date().toString();
 		this.visibility = visibility;
 		this.archived = archived;
+		this.subscribers = new ArrayList<User>();
+		this.threads = new ArrayList<Thread>();
 	}
 
 	public Long getId() {
@@ -90,101 +89,56 @@ public class Channel {
 		this.visibility = visibility;
 	}
 
-	// Add thread to Channel
-	// public boolean addThread(Thread thread)
-	// {
-	// if(!threads.contains(thread))
-	// {
-	// threads.add(thread);
-	// return true;
-	// }
-	// return false;
-	// }
+	public List<User> getSubscribers() {
+		if(subscribers.isEmpty())
+			return null;
+		return subscribers;
+	}
 
-	// Remove Thread from Channel
-	// public boolean removeThread(Thread thread)
-	// {
-	// if(threads.contains(thread))
-	// {
-	// threads.remove(thread);
-	// return true;
-	// }
-	// return false;
-	// }
+	public void setSubscribers(List<User> subscribers) {
+		this.subscribers = subscribers;
+	}
 
-	// Subscribe User to Channel
-	// public boolean subscribe(User user)
-	// {
-	// if(!subscribers.contains(user))
-	// {
-	// subscribers.add(user);
-	// return true;
-	// }
-	// return false;
-	// }
+	public List<Thread> getThreads() {
+		if(threads.isEmpty())
+			return null;
+		return threads;
+	}
 
-	// Unsubscribe User from Channel
-	// public boolean unSubscribe(User user)
-	// {
-	// // If user is subscribed
-	// if(subscribers.contains(user))
-	// {
-	// subscribers.remove(user);
-	// return true;
-	// }
-	// return false;
-	// }
+	public void setThreads(List<Thread> threads) {
+		this.threads = threads;
+	}
 
-	// Delete Channel
+	public boolean addThread(Thread thread) {
+		if (!threads.contains(thread)) {
+			threads.add(thread);
+			return true;
+		}
+		return false;
+	}
 
-	// Channel Chat
+	public boolean removeThread(Thread thread) {
+		if (threads.contains(thread)) {
+			threads.remove(thread);
+			return true;
+		}
+		return false;
+	}
 
-	// Send Notification to all users that are subscribed.
+	public boolean subscribeUser(User user) {
+		if (!subscribers.contains(user)) {
+			subscribers.add(user);
+			return true;
+		}
+		return false;
+	}
 
-	// Return all subscribers to channel
-	// public List<User> displaySubscribers()
-	// {
-	// if(subscribers.isEmpty())
-	// return null;
+	public boolean unsubscribeUser(User user) {
+		if (subscribers.contains(user)) {
+			subscribers.remove(user);
+			return true;
+		}
+		return false;
+	}
 
-	// return subscribers;
-	// }
-
-	// Return all threads in Channel
-	// public List<Thread> displayThreads()
-	// {
-	// if(threads.isEmpty())
-	// return null;
-
-	// return threads;
-	// }
-
-	// toString for console testing purposes without database
-	// public String toString()
-	// {
-	// StringBuffer buffer = new StringBuffer();
-	// buffer.append(String.format("Channel: %s - %s\nCreated: %s\nVisibility: %s |
-	// Archived: %b\n\nSubscribers:\n", id, name, datetime, visibility,
-	// archived));
-
-	// if(subscribers.isEmpty())
-	// buffer.append(String.format("NULL\n"));
-
-	// for(User user : subscribers)
-	// {
-	// buffer.append(String.format("%s", user));
-	// }
-
-	// buffer.append(String.format("\nThreads:\n"));
-
-	// if(threads.isEmpty())
-	// buffer.append(String.format("NULL\n"));
-
-	// for(Thread thread : threads)
-	// {
-	// buffer.append(String.format("%s", thread));
-	// }
-
-	// return buffer.toString();
-	// }
 }
