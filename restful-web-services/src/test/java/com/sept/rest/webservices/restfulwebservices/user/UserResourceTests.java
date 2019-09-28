@@ -30,7 +30,7 @@ import org.springframework.http.HttpStatus;
 
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
-//@AutoConfigureTestDatabase
+@AutoConfigureTestDatabase
 @SpringBootTest(classes = RestfulWebServicesApplication.class)
 public class UserResourceTests {
 
