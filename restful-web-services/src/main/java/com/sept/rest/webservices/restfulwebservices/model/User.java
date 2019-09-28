@@ -119,6 +119,10 @@ public class User {
 	}
 
 	// Setters
+	public void setId(long id) {
+		this.id = id;
+	}
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
