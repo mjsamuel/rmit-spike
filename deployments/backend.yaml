@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+# Name of the deployment
+metadata:
+  name: spark-backend
+spec:
+  selector:
+    matchLabels:
+      app: spark
+      tier: backend
+      track: stable
+
+  # How many pods
+  replicas: 1
+
+  # Definition
+  template:
+    metadata:
+      # Can filter by all of these labels
+      labels:
+        app: spark
+        tier: backend
+        track: stable
+    spec:
+      containers:
+        - name: spark-backend
+          image: "gcr.io/tidal-repeater-254307/spark-backend:v1"
+          ports:
+            # Name is an alias for the containerPort
+            - name: http
+              containerPort: 8080
