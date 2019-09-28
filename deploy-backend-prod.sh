@@ -2,7 +2,7 @@
 
 set -e
 
-docker build -t gcr.io/${PROJECT_NAME_PRD}/${BACKEND_DOCKER_IMAGE_NAME}:$TRAVIS_COMMIT $BACKEND_BUILD_DIR
+docker build --build-arg HOST_DB_VAR=${HOST_DB} --build-arg PASSWD_DB_VAR=${PASSWD_DB} -t gcr.io/${PROJECT_NAME_PRD}/${BACKEND_DOCKER_IMAGE_NAME}:$TRAVIS_COMMIT $BACKEND_BUILD_DIR
 
 echo $GCLOUD_SERVICE_KEY_PRD | base64 --decode -i - > ${HOME}/gcloud-service-key.json
 gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json

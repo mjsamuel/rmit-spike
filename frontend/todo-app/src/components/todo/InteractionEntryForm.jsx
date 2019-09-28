@@ -48,7 +48,13 @@ class InteractionEntryForm extends Component {
 
 		const apiCall = this.props.isReport ? ThreadDataService.addReport : ThreadDataService.addComment
 		// console.log(apiCall)
-		apiCall(this.props.thread_id, request);
+		apiCall(this.props.thread_id, request)
+		.then((response) => {
+			console.log(response)
+		})
+		.catch((error) => {
+			console.log(error);
+		})
 		this.props.updateParent()
 		this.setState({value: ''})
 		event.preventDefault();

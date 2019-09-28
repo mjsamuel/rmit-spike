@@ -46,7 +46,7 @@ class LoginComponent extends Component {
     //     this.setState({password:event.target.value})
     // }
 
-    loginClicked() {
+    async loginClicked() {
         //sept,dummy
         // if(this.state.username==='sept' && this.state.password==='dummy'){
         //     AuthenticationService.registerSuccessfulLogin(this.state.username,this.state.password)
@@ -72,9 +72,10 @@ class LoginComponent extends Component {
           this.setState({ hasLoginFailed: true})
         }
         else {
-          AuthenticationService
+          await AuthenticationService
               .executeJwtAuthenticationService(this.state.username, this.state.password)
               .then((response) => {
+                  //This stores the user id, not the username - make sure auth changes to reflect this
                   AuthenticationService.registerSuccessfulLoginForJwt(response.data.id, response.data.token)
                   this.props.history.push(`/welcome/${this.state.username}`)
               }).catch(() => {

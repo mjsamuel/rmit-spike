@@ -23,7 +23,7 @@ import com.sept.rest.webservices.restfulwebservices.repository.CommentRepository
 import com.sept.rest.webservices.restfulwebservices.service.CommentService;
 
 
-@CrossOrigin(origins="http://localhost:4200")
+@CrossOrigin(origins="*")
 @RestController
 public class CommentResource {
 

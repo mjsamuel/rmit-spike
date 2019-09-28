@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './ThreadComponent.css';
 import { FaShareAlt, FaRegComment, FaFlag, FaAngleUp, FaAngleDown } from 'react-icons/fa';
 import ThreadDataService from '../../api/todo/ThreadDataService.js'
+import CommentDataService from '../../api/todo/CommentDataService.js'
 import CommentComponent from './CommentComponent.jsx'
 import InteractionEntryForm from './InteractionEntryForm.jsx'
 
@@ -42,10 +43,34 @@ class ThreadComponent extends Component {
 	 * Loads the contents of the thread from it's props after the constructor has
 	 * finished executing
 	 */
-	componentDidMount() {
+	async componentDidMount() {
 
-		var id = this.props.id == null && this.props.match != null ? this.props.match.params.id : this.props.id;
+		let id = this.props.id == null && this.props.match != null ? this.props.match.params.id : this.props.id;
 		this.refresh(id);
+
+		await CommentDataService.getComments(id)
+		.then((response) => {
+			console.log(response)
+		})
+		.catch(function (error) {
+			console.log("Error getting comments")
+			if (error.response) {
+			  // The request was made and the server responded with a status code
+			  // that falls out of the range of 2xx
+			  console.log(error.response.data);
+			  console.log(error.response.status);
+			  console.log(error.response.headers);
+			} else if (error.request) {
+			  // The request was made but no response was received
+			  // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+			  // http.ClientRequest in node.js
+			  console.log(error.request);
+			} else {
+			  // Something happened in setting up the request that triggered an Error
+			  console.log('Error', error.message);
+			}
+			console.log(error.config);
+		  })
 
 	}
 

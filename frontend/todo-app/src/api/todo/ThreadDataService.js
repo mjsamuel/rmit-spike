@@ -70,16 +70,20 @@ class ThreadDataService {
           .catch(error => {
             console.log(error);
           });
+          return response
     }
 
     addComment(thread_id, request) {
         console.log("addComment API endpoint called")
-        return axios.post(`${DATA_API_URL}/thread/${thread_id}/comment`)
+        let token = sessionStorage.getItem('bearerToken');
+        console.log(request)
+        return axios.post(`${DATA_API_URL}/thread/${thread_id}/comment`, request)
     }
 
     addReport(thread_id, request) {
         console.log("addReport API endpoint called")
-        return axios.post(`${DATA_API_URL}/thread/${thread_id}/report`)
+        console.log(request)
+        return axios.post(`${DATA_API_URL}/thread/${thread_id}/report`, request)
     }
 
 }
