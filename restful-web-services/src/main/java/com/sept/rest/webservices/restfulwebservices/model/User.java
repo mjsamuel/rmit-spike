@@ -1,10 +1,16 @@
 package com.sept.rest.webservices.restfulwebservices.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.management.InvalidAttributeValueException;
 import javax.persistence.*;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "users")
@@ -28,10 +34,10 @@ public class User {
 	@Column(name = "password")
 	private String password;
 
-	@Column(name = "firstName")
+	@Column(name = "first_name")
 	private String firstName;
 
-	@Column(name = "lastName")
+	@Column(name = "last_name")
 	private String lastName;
 
 	@Column(name = "upspikes")
