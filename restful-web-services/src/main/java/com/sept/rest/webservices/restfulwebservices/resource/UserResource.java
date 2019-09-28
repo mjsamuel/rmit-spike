@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sept.rest.webservices.restfulwebservices.repository.UserRepository;
 import com.sept.rest.webservices.restfulwebservices.model.User;
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class UserResource {
 
