@@ -68,7 +68,8 @@ class LoginComponent extends Component {
         //     this.setState({showSuccessMessage:false})
         //     this.setState({hasLoginFailed:true})
         // })
-        if (this.state.username.trim() == "" || this.state.password.trim() == "") {
+
+        if (this.state.username.trim() === "" || this.state.password.trim() === "") {
           this.setState({ hasLoginFailed: true})
         }
         else {

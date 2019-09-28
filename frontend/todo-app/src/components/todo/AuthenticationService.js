@@ -11,10 +11,11 @@ class AuthenticationService {
     }
 
     executeJwtAuthenticationService(username, password) {
-        return axios.post(`${API_URL}/authenticate`, {
-            username,
-            password
+        const response = axios.post(`${API_URL}/authenticate`, {
+            username: username,
+            password: password
         })
+        return response
     }
 
     createBasicAuthToken(username, password) {
