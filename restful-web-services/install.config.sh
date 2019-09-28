@@ -14,7 +14,7 @@ jwt.token.expiration.in.seconds=604800
 
 spring.datasource.url=jdbc:mysql://${HOST_DB}:3306/spark?useLegacyDatetimeCode=false&serverTimezone=UTC
 spring.datasource.username=root
-spring.datasource.password=${PASSWD_DB}}
+spring.datasource.password=${PASSWD_DB}
 
 # Keep the connection alive if idle for a long time (needed in production)
 spring.datasource.testWhileIdle = true
