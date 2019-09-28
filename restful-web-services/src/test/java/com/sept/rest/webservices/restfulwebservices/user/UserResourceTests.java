@@ -30,7 +30,7 @@ public class UserResourceTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcwMTYyNDg5LCJpYXQiOjE1Njk1NTc2ODl9.jvitRlUFWHyEmDuaDg-p0rMWHGaAjcBOkO2hqEjaShDRtKsY4v5I4_QEXIoPUMV5q_fEZJ3aW69JqCqv9rzRkw";
+	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiZXhwIjoxNTcwMjQ2NDI5LCJpYXQiOjE1Njk2NDE2Mjl9.MBeFTkew5P3o2S-0LMNcQ89XXip-ozFpJn4MlKqjZ4e0LzK4vWpn8ROdqHe7LBqVJ77GTKoPp4DBAII2ThBfMQ";
 	private String user = "{ \"id\": 1, \"username\": \"TestUser\", \"password\": \"password\", \"firstname\": \"First\", \"lastname\": \"Last\", \"upspikes\": 10 }";
 
 	@Test
