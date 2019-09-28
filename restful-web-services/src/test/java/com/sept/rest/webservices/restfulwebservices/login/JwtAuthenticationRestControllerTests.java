@@ -19,17 +19,18 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.sept.rest.webservices.restfulwebservices.RestfulWebServicesApplication;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.http.HttpStatus;
 
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
-@AutoConfigureTestDatabase
+//@AutoConfigureTestDatabase
 @SpringBootTest(classes = RestfulWebServicesApplication.class)
 public class JwtAuthenticationRestControllerTests {
 	
 	private final static String REGISTERED_USER = "{ "
-			+ "\"username\": \"sept\","
+			+ "\"username\": \"sept\", "
 			+ "\"password\": \"dummy\""
 			+ "}";
 	private final static String REGISTERED_USER_INVALID_PASSWORD = "{ "
@@ -43,13 +44,29 @@ public class JwtAuthenticationRestControllerTests {
 
 	@Autowired
 	private MockMvc mockMvc;
+	
 	@Test
 	public void testSuccesfulLogin() throws Exception {
 		MockHttpServletResponse response = testLoginPostBasic(REGISTERED_USER);
 		
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
 		assertNotNull(response.getContentAsString());
+	}
+	
+	@Test
+	public void testWrongPassword() throws Exception {
+		MockHttpServletResponse response = testLoginPostBasic(REGISTERED_USER_INVALID_PASSWORD);
 		
+		assertEquals(HttpStatus.UNAUTHORIZED.value(), response.getStatus());
+		assertEquals(response.getContentAsString(), "INVALID_CREDENTIALS");
+	}
+	
+	@Test
+	public void testUnregisteredUser() throws Exception {
+		MockHttpServletResponse response = testLoginPostBasic(UNREGISTERED_USER);
+		
+		assertEquals(HttpStatus.UNAUTHORIZED.value(), response.getStatus());
+		assertEquals(response.getContentAsString(), "INVALID_CREDENTIALS");
 	}
 	
 	private MockHttpServletResponse testLoginPostBasic(String userDetails) throws Exception {

@@ -23,7 +23,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 @AutoConfigureMockMvc
 // @ActiveProfiles("test")
 // @WebMvcTest
-@AutoConfigureTestDatabase
+//@AutoConfigureTestDatabase
 @SpringBootTest(classes = RestfulWebServicesApplication.class)
 public class CommentResourceTests {
 	private final static String TEST_USER_ID = "sept";
