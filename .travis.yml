@@ -6,6 +6,7 @@ cache:
   directories:
     - "$HOME/google-cloud-sdk/"
     - "frontend/todo-app/node_modules"
+    - $HOME/.m2
 
 # Install services
 services:
@@ -15,17 +16,15 @@ services:
 env:
   global:
     - GOOGLE_APPLICATION_CREDENTIALS=~/gcloud-service-key.json
-    - PROJECT_NAME_STG=rmit-social-media-staging
-    - CLUSTER_NAME_STG=mssl-staging-cluster
-    - PROJECT_NAME_PRD=rmit-social-media
+    - PROJECT_NAME_PRD=tidal-repeater-254307
     - CLUSTER_NAME_PRD=mssl-cluster
     - CLOUDSDK_COMPUTE_ZONE=australia-southeast1-a
-    - FRONTEND_DOCKER_IMAGE_NAME=frontend
-    - BACKEND_DOCKER_IMAGE_NAME=backend
-    - FRONTEND_KUBE_DEPLOYMENT_NAME=frontend
-    - FRONTEND_KUBE_DEPLOYMENT_CONTAINER_NAME=frontend
-    - BACKEND_KUBE_DEPLOYMENT_NAME=backend
-    - BACKEND_KUBE_DEPLOYMENT_CONTAINER_NAME=backend
+    - FRONTEND_DOCKER_IMAGE_NAME=spark-frontend
+    - BACKEND_DOCKER_IMAGE_NAME=spark-backend
+    - FRONTEND_KUBE_DEPLOYMENT_NAME=spark-frontend
+    - FRONTEND_KUBE_DEPLOYMENT_CONTAINER_NAME=spark-frontend
+    - BACKEND_KUBE_DEPLOYMENT_NAME=spark-backend
+    - BACKEND_KUBE_DEPLOYMENT_CONTAINER_NAME=spark-backend
     - FRONTEND_BUILD_DIR=./frontend/todo-app
     - BACKEND_BUILD_DIR=./restful-web-services
     - NODE_ENV=CI
@@ -46,11 +45,6 @@ matrix:
         - cd ../..
 
       deploy:
-        - provider: script
-          script: ./deploy-frontend-staging.sh
-          skip-cleanup: true
-          on:
-            branch: develop
 
         - provider: script
           script: ./deploy-frontend-prod.sh
@@ -64,6 +58,7 @@ matrix:
         - oraclejdk8
       install:
         - cd restful-web-services
+        - ./install.config.sh
         - mvn package
         - cd ..
       script:
@@ -72,11 +67,6 @@ matrix:
         - cd ..
 
       deploy:
-        - provider: script
-          script: ./deploy-backend-staging.sh
-          skip-cleanup: true
-          on:
-            branch: develop
 
         - provider: script
           script: ./deploy-backend-prod.sh

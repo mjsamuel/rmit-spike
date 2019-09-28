@@ -12,8 +12,7 @@ describe('CommentComponent', () => {
             "id": 4,
             "author": "The Syrian",
             "spikes": 6,
-            "timeNumber": 2,
-            "timeUnit": "days",
+            "timeDelta": "2 days",
             "content": "I tire of these games Batthiatus, I would see them end."
 		}
 	})
@@ -50,7 +49,7 @@ describe('CommentComponent', () => {
 
 	it('renders timeDelta correctly', () => {
 		let timeDelta = component.find('.timeDelta')
-		expect(timeDelta.text()).toEqual(comment.timeNumber + " "  + comment.timeUnit + " ago");
+		expect(timeDelta.text()).toEqual(comment.timeDelta + " ago");
 	})
 
 	it('renders comment content correctly', () => {

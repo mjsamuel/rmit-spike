@@ -1,7 +1,17 @@
 FROM maven:3.6.1-jdk-8-slim AS build
 WORKDIR /app
+
+ARG HOST_DB_VAR
+ARG PASSWD_DB_VAR
+
+ENV HOST_DB=${HOST_DB_VAR}
+ENV PASSWD_DB=${PASSWD_DB_VAR}
+
 COPY src ./src
 COPY pom.xml .
+COPY install.config.sh .
+RUN ./install.config.sh
+
 RUN mvn -f /app/pom.xml clean package
 
 FROM gcr.io/distroless/java

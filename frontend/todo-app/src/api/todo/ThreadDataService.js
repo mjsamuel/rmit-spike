@@ -21,8 +21,7 @@ class ThreadDataService {
               "author": "John Smith",
               "title": "The Rise and Fall of SEPT at RMIT",
               "primary_channel": "sept",
-              "timeNumber": 1,
-              "timeUnit": "week",
+              "timeDelta": "1 week",
               "tagged_channels": [
                 2,
                 3,
@@ -34,32 +33,28 @@ class ThreadDataService {
                     "id": 1,
                     "author": "David Tenant",
                     "spikes": 42,
-                    "timeNumber": 16,
-                    "timeUnit": "minutes",
+                    "timeDelta": "16 minutes",
                     "content": "This is some great content that you have here!"
                 },
                 {
                     "id": 2,
                     "author": "Gannicus Quintus",
                     "spikes": 15,
-                    "timeNumber": 22,
-                    "timeUnit": "minutes",
+                    "timeDelta": "22 minutes",
                     "content": "Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard."
                 },
                 {
                     "id": 3,
                     "author": "Marcus Aurelius",
                     "spikes": 2,
-                    "timeNumber": 3,
-                    "timeUnit": "hours",
+                    "timeDelta": "3 hours",
                     "content": "RMIT seems like a great university, hopefully they continue to be."
                 },
                 {
                     "id": 4,
                     "author": "The Syrian",
                     "spikes": 6,
-                    "timeNumber": 2,
-                    "timeUnit": "days",
+                    "timeDelta": "2 days",
                     "content": "I tire of these games Batthiatus, I would see them end."
                 }
               ]
@@ -75,16 +70,20 @@ class ThreadDataService {
           .catch(error => {
             console.log(error);
           });
+          return response
     }
 
     addComment(thread_id, request) {
         console.log("addComment API endpoint called")
-        return axios.post(`${DATA_API_URL}/thread/${thread_id}/comment`)
+        let token = sessionStorage.getItem('bearerToken');
+        console.log(request)
+        return axios.post(`${DATA_API_URL}/thread/${thread_id}/comment`, request)
     }
 
     addReport(thread_id, request) {
         console.log("addReport API endpoint called")
-        return axios.post(`${DATA_API_URL}/thread/${thread_id}/report`)
+        console.log(request)
+        return axios.post(`${DATA_API_URL}/thread/${thread_id}/report`, request)
     }
 
 }

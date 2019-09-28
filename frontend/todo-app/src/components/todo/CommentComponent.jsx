@@ -118,7 +118,7 @@ class CommentComponent extends Component {
         		<div className="comment-header">
         	    	<span className="author">u/{this.props.author}</span>
         			<span className="spikes">{this.props.spikes} Spikes</span>
-        			<span className="timeDelta">{this.props.timeNumber} {this.props.timeUnit} ago</span>
+        			<span className="timeDelta">{this.props.timeDelta} ago</span>
 	        	</div>
         		<div className="content">
         			<p>{this.props.content}</p>
