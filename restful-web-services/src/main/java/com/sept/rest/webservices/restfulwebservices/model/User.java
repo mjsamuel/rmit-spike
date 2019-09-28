@@ -57,7 +57,7 @@ public class User {
 	}
 
 	// Constructor for creation of a new user
-	public User(long id, String email, String username, String password, String firstname, String lastname)
+	public User(String email, String username, String password, String firstname, String lastname)
 			throws InvalidAttributeValueException {
 		super();
 		this.id = id;
@@ -92,6 +92,10 @@ public class User {
 	// Getters
 	public long getId() {
 		return id;
+	}
+	
+	public String getEmail() {
+		return email;
 	}
 
 	public String getUsername() {
