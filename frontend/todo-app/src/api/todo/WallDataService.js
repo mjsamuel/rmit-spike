@@ -1,40 +1,42 @@
 import axios from 'axios'
 import { API_URL, JPA_API_URL, DATA_API_URL } from '../../Constants'
+import {USER_NAME_SESSION_ATTRIBUTE_NAME} from '../../components/todo/AuthenticationService.js'
 
 class WallDataService {
-  retrieveWallThreads(userId) {
+  retrieveWallThreads() {
       console.log('retrieveThreads API endpoint called')
+      let userId = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
       // return axios.get(`${DATA_API_URL}/api/user/${userId}/feed`)
       const response = `{
         "threads": [
           {
             "id": "001",
             "title": "Thread Title",
-            "author": "u/author",
+            "author": "author",
             "noComments": 0,
             "upspikes": 0,
-            "channelOrigin": "c/channel-origin"
+            "channelOrigin": "channel-origin"
           },
           {
             "id": "002",
             "title": "Bike facilities at Bundoora",
-            "author": "u/bob",
+            "author": "bob",
             "noComments": 6,
             "upspikes": 5,
-            "channelOrigin": "c/general"
+            "channelOrigin": "general"
           },
           {
             "id": "003",
             "title": "Online Survey - Psychology Honours Thesis",
-            "author": "u/alice",
+            "author": "alice",
             "noComments": 0,
             "upspikes": 2,
-            "channelOrigin": "c/psych"
+            "channelOrigin": "psych"
           },
           {
             "id": "004",
             "title": "IT vs Computer science",
-            "author": "u/carol",
+            "author": "carol",
             "noComments": 16,
             "upspikes": 25,
             "channelOrigin": "c/cs & c/it"
@@ -42,10 +44,10 @@ class WallDataService {
           {
             "id": "005",
             "title": "The Rise and Fall of SEPT at RMIT",
-            "author": "u/john-smith",
+            "author": "john-smith",
             "noComments": 13,
             "upspikes": 30,
-            "channelOrigin": "c/sept"
+            "channelOrigin": "ssept"
           }
         ]
       }`

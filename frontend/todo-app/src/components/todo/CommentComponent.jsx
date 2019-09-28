@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './CommentComponent.css';
 import { FaShareAlt, FaRegComment, FaFlag, FaAngleUp, FaAngleDown } from 'react-icons/fa';
 import CommentDataService from '../../api/todo/CommentDataService.js'
-import AddCommentForm from './AddCommentForm.jsx'
+import InteractionEntryForm from './InteractionEntryForm.jsx'
 
 /**
  * CommentComponent is a component representing each comment in a thread. It is responsible for
@@ -118,7 +118,7 @@ class CommentComponent extends Component {
         		<div className="comment-header">
         	    	<span className="author">u/{this.props.author}</span>
         			<span className="spikes">{this.props.spikes} Spikes</span>
-        			<span className="timeDelta">{this.props.timeNumber} {this.props.timeUnit} ago</span>
+        			<span className="timeDelta">{this.props.timeDelta} ago</span>
 	        	</div>
         		<div className="content">
         			<p>{this.props.content}</p>
@@ -134,10 +134,10 @@ class CommentComponent extends Component {
                 	<button className="report-interaction" onClick={this.activateReport}> <FaFlag/> Report </button>
 	            </div>
 	            <div className={this.state.replyActive ? 'active-reply' : 'hidden-reply'}>
-	                <AddCommentForm thread_id={this.props.id} isReply={true} reply_id={this.id} isReport={false} updateParent={this.props.updateParent}/>
+	                <InteractionEntryForm thread_id={this.props.id} isReply={true} reply_id={this.id} isReport={false} updateParent={this.props.updateParent}/>
                 </div>
 	            <div className={this.state.reportActive ? 'active-report' : 'hidden-reply'}>
-	                <AddCommentForm thread_id={this.props.thread_id} isReply={false} isReport={true} updateParent={this.props.updateParent}/>
+	                <InteractionEntryForm thread_id={this.props.thread_id} isReply={false} isReport={true} updateParent={this.props.updateParent}/>
                 </div>
             </div>
         )

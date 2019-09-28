@@ -18,6 +18,15 @@ class AuthenticationService {
         return response
     }
 
+    executeJwtRegisterService(email, username, password, confirmedPassword) {
+      return axios.post(`${API_URL}/user`, {
+        email,
+        username,
+        password,
+        confirmedPassword
+      })
+    }
+
     createBasicAuthToken(username, password) {
         return 'Basic ' + window.btoa(username + ":" + password)
     }

@@ -13,38 +13,15 @@ class ThreadDataService {
         return axios.get(`${DATA_API_URL}/thread`)
     }
 
-    retrieveChannelThreads(channel_id) {
-        console.log('retrieveChannelThreads API endpoint called')
-        // return axios.get(`${DATA_API_URL}/thread?chan=${channel_id}`)
-        const response = `{
-          "channelName": "c/sept",
-          "threads": [
-            {
-              "id": "001",
-              "title": "Thread Title",
-              "author": "u/author",
-              "noComments": 0,
-              "upspikes": 0
-            },
-            {
-              "id": "002",
-              "title": "The Rise and Fall of SEPT at RMIT",
-              "author": "u/john-smith",
-              "noComments": 13,
-              "upspikes": 30
-            }
-          ]
-        }`
-
-        return JSON.parse(response)
-    }
-
     retrieveThread(thread_id) {
         console.log('retrieveThread API endpoint called')
         // return axios.get(`${DATA_API_URL}/thread/${thread_id}`)
         const response = `{
-              "timeNumber": 1,
-              "timeUnit": "week",
+              "id": 1,
+              "author": "John Smith",
+              "title": "The Rise and Fall of SEPT at RMIT",
+              "primary_channel": "sept",
+              "timeDelta": "1 week",
               "tagged_channels": [
                 2,
                 3,
@@ -56,32 +33,28 @@ class ThreadDataService {
                     "id": 1,
                     "author": "David Tenant",
                     "spikes": 42,
-                    "timeNumber": 16,
-                    "timeUnit": "minutes",
+                    "timeDelta": "16 minutes",
                     "content": "This is some great content that you have here!"
                 },
                 {
                     "id": 2,
                     "author": "Gannicus Quintus",
                     "spikes": 15,
-                    "timeNumber": 22,
-                    "timeUnit": "minutes",
+                    "timeDelta": "22 minutes",
                     "content": "Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard."
                 },
                 {
                     "id": 3,
                     "author": "Marcus Aurelius",
                     "spikes": 2,
-                    "timeNumber": 3,
-                    "timeUnit": "hours",
+                    "timeDelta": "3 hours",
                     "content": "RMIT seems like a great university, hopefully they continue to be."
                 },
                 {
                     "id": 4,
                     "author": "The Syrian",
                     "spikes": 6,
-                    "timeNumber": 2,
-                    "timeUnit": "days",
+                    "timeDelta": "2 days",
                     "content": "I tire of these games Batthiatus, I would see them end."
                 }
               ]

@@ -1,8 +1,2 @@
-insert into todo(id, username,description,target_date,is_done)
-values(10001, 'sept', 'Learn JPA', sysdate(), false);
-
-insert into todo(id, username,description,target_date,is_done)
-values(10002, 'sept', 'Learn Data JPA', sysdate(), false);
-
-insert into todo(id, username,description,target_date,is_done)
-values(10003, 'sept', 'Learn Microservices', sysdate(), false);
+insert into comments(upspikes, user_id, downspikes,content,reply_id,thread_id, archived)
+values(10, 2, 1, 'This is a test comment', 1, 1, false);

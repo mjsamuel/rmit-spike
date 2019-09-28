@@ -9,10 +9,10 @@ describe('ThreadComponent', () => {
 
 	beforeEach(() => {
 		thread = {
-			id: 1,
-			author: "John Smith",
-			title: "The Rise and Fall of SEPT at RMIT",
-			primary_channel: "sept",
+			"id": 1,
+			"author": "John Smith",
+			"title": "The Rise and Fall of SEPT at RMIT",
+			"primary_channel": "sept",
 		}
 	})
 	beforeEach(() => {
@@ -39,11 +39,10 @@ describe('ThreadComponent', () => {
 	})
 
 	it('Author text is rendered from API call', () => {
-		const timeNumber = 1
-        const timeUnit = "week"
+		const timeDelta = "1 week"
 
 		let author = component.find('.thread-author');
-		expect(author.text()).toEqual("Posted by u/"+thread.author + " " + timeNumber + " " + timeUnit + " ago");
+		expect(author.text()).toEqual("Posted by u/"+thread.author + " " + timeDelta + " ago");
 	})
 
 

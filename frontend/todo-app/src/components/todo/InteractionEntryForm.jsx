@@ -3,7 +3,7 @@ import ThreadDataService from '../../api/todo/ThreadDataService.js'
 
 
 /**
- * AddCommentForm is a form that presents a text entry box for the user to submit
+ * InteractionEntryForm is a form that presents a text entry box for the user to submit
  * a comment or report a thread or comment.
  * It makes use of the following props:
  * @param thread_id: id of the parent thread
@@ -11,7 +11,7 @@ import ThreadDataService from '../../api/todo/ThreadDataService.js'
  * @param isReport: boolean indicating if the entry is a report
  * @param updateParent: function handle to the function that refreshes the parent thread
  */
-class AddCommentForm extends Component {
+class InteractionEntryForm extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -41,10 +41,9 @@ class AddCommentForm extends Component {
 		const request = {
 			content: this.state.value,
 			datetime: Date.now(),
-			author_id: 1, //Placeholder: Needs to reflect current user when auth implemented
-			thread_id: this.props.thread_id,
-			reply_id: this.props.isReply ? this.props.reply_id : null,
-
+			userId: 1, //Placeholder: Needs to reflect current user when auth implemented
+			threadId: this.props.thread_id,
+			replyId: this.props.isReply ? this.props.reply_id : null
 		}
 
 		const apiCall = this.props.isReport ? ThreadDataService.addReport : ThreadDataService.addComment
@@ -68,4 +67,4 @@ class AddCommentForm extends Component {
 	}
 
 }
-export default AddCommentForm
+export default InteractionEntryForm
