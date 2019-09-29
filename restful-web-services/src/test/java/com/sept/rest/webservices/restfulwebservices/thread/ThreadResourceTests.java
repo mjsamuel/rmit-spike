@@ -44,11 +44,14 @@ public class ThreadResourceTests {
 	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTY5Mzg5ODc4LCJpYXQiOjE1Njg3ODUwNzh9.aPcEZ-_dk_SmkY0MYUCU1KCa28mfMMgaon0iSPUbvmPdZXL2OtLNYBJN3vrcikAhbKYmjEZLxYtOnpclDoL01A";
 
 	@Test
-	@Before
 	public void testAddThread() throws Exception {
-
-        String thread = "{ \"id\": 1, \"title\": \"Example Title\", \"datetime\": \"Wed Sep 18 22:08:31 AEST 2019\", \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard.\", "
-        		+ "\"archived\": false, \"op\": \"Luke Morris\", \"primaryChannel\": \"SEPT\", \"taggedChannels\": \"Java\"}";
+        String thread = "{"
+        		+ "\"title\": \"Example Title\", "
+        		+ "\"content\": \"Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard.\", "
+        		+ "\"userId\": 1, "
+        		+ "\"primaryChannel\": 1"
+        		+ "}";
+        
         testThreadPost(thread);
 
 	}
@@ -71,8 +74,19 @@ public class ThreadResourceTests {
 	
     @Test
     public void testThreadGetById() throws Exception {
-    	String thread = "{ \"id\": 1, \"title\": \"Example Title\", \"datetime\": \"Wed Sep 18 22:08:31 AEST 2019\", \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard.\", "
-        		+ "\"archived\": false, \"op\": \"Luke Morris\", \"primaryChannel\": \"SEPT\", \"taggedChannels\": \"Java\"}";
+    	String thread = "{ "
+    			+ "\"id\": 1, "
+    			+ "\"title\": \"Example Title\", "
+    			+ "\"datetime\": \"Wed Sep 18 22:08:31 AEST 2019\", "
+    			+ "\"upspikes\": 10, "
+    			+ "\"downspikes\": 3, "
+    			+ "\"content\": \"Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard.\", "
+        		+ "\"archived\": false, "
+        		+ "\"userId\": 1, "
+        		+ "\"primaryChannel\": 1, "
+        		+ "\"taggedChannels\": \"Java\""
+        		+ "}";
+    	
     	mockMvc.perform(MockMvcRequestBuilders.post("/api/thread/")
                 .with(user(TEST_USER_ID))
                 .with(csrf())
@@ -114,18 +128,37 @@ public class ThreadResourceTests {
 //    }
 
     @Test
-    @After
     public void testUpdateThread() throws Exception {
-    	String thread = "{ \"title\": \"Updated Title\", \"datetime\": \"Fri Sep 18 22:08:31 AEST 2019\", \"upspikes\": 40, \"downspikes\": 3, \"content\": \"This is the new updated content\", "
-        		+ "\"archived\": false, \"op\": \"Muke Lorris\", \"primaryChannel\": \"SEPT\", \"taggedChannels\": \"Java\"}";
+    	String thread = "{ "
+    			+ "\"id\": 1, "
+    			+ "\"title\": \"Updated Title\", "
+    			+ "\"datetime\": \"Fri Sep 18 22:08:31 AEST 2019\", "
+    			+ "\"upspikes\": 40, "
+    			+ "\"downspikes\": 3, "
+    			+ "\"content\": \"This is the new updated content\", "
+        		+ "\"archived\": false, "
+        		+ "\"userId\": 1, "
+        		+ "\"primaryChannel\": 1,"
+        		+ " \"taggedChannels\": \"Java\"}";
+    	
         testThreadPut(thread);
     }
 
 
 
     public void testThreadPut(String thread) throws Exception {
-    	String thread2 = "{ \"id\": 1, \"title\": \"Example Title\", \"datetime\": \"Wed Sep 18 22:08:31 AEST 2019\", \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard.\", "
-        		+ "\"archived\": false, \"op\": \"Luke Morris\", \"primaryChannel\": \"SEPT\", \"taggedChannels\": \"Java\"}";
+    	String thread2 = "{ "
+    			+ "\"id\": 1, "
+    			+ "\"title\": \"Example Title\", "
+    			+ "\"datetime\": \"Wed Sep 18 22:08:31 AEST 2019\", "
+    			+ "\"upspikes\": 10, "
+    			+ "\"downspikes\": 3, "
+    			+ "\"content\": \"Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard.\", "
+        		+ "\"archived\": false, "
+        		+ "\"userId\": 1, "
+        		+ "\"primaryChannel\": 1, "
+        		+ "\"taggedChannels\": \"Java\"}";
+    	
     	mockMvc.perform(MockMvcRequestBuilders.post("/api/thread/")
                 .with(user(TEST_USER_ID))
                 .with(csrf())
