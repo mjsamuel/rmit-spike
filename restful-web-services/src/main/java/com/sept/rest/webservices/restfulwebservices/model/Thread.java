@@ -13,30 +13,54 @@ public class Thread {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
+	
 	@Column(name = "title")
 	private String title;
+	
 	@Column(name = "datetime")
 	private String datetime;
+	
 	@Column(name = "content")
 	private String content;
+	
 	@Column(name = "archived")
 	private boolean archived;
+	
 	@Column(name = "upspikes")
 	private int upspikes;
+	
 	@Column(name = "downspikes")
 	private int downspikes;
-	@Column(name = "op")
-	private String op;
-	@Column(name = "primaryChannel")
-	private String primaryChannel;
-	@Column(name = "taggedChannels")
+	
+	// User ID of original poster
+	@Column(name = "user_id")
+	private long userId;
+	
+	// Channel ID of the primary channel
+	@Column(name = "primary_channel")
+	private long primaryChannel;
+	
+	@Column(name = "tagged_channels")
 	private String taggedChannels;
 	
 	public Thread() {
 		super();
 	}
 	
-	public Thread(Long id, String title, String content, boolean archived, int upspikes, int downspikes, String op, String primaryChannel, String taggedChannels) {
+	// Constructor for creation of a new thread 
+	public Thread(String title, String content, long userId, long primaryChannel) {
+		super();
+		this.id = id;
+		this.title = title;
+		archived = false;
+		upspikes = 0;
+		downspikes = 0;
+		this.userId = userId;
+		this.primaryChannel = primaryChannel;
+	}
+	
+	// Constructor for instantiating existing thread from serialization
+	public Thread(Long id, String title, String content, boolean archived, int upspikes, int downspikes, long userId, long primaryChannel, String taggedChannels) {
 		super();
 		this.title = title;
 		this.datetime =  new Date().toString();
@@ -44,9 +68,9 @@ public class Thread {
 		this.archived = false;
 		this.upspikes = 0;	
 		this.downspikes = 0;
-		this.op = op;
-		this.setPrimaryChannel(primaryChannel);
-		this.setTaggedChannels(taggedChannels);
+		this.userId = userId;
+		this.primaryChannel = primaryChannel;
+		this.taggedChannels = taggedChannels;
 	}
 	
 	public Long getId() {
@@ -111,19 +135,19 @@ public class Thread {
 			throw new InvalidAttributeValueException("Number of downspikes must be positive.");
 	}
 
-	public String getOp() {
-		return op;
+	public long getUserId() {
+		return userId;
 	}
 
-	public void setOp(String op) {
-		this.op = op;
+	public void setOp(long userId) {
+		this.userId = userId;
 	}
 
-	public String getPrimaryChannel() {
+	public long getPrimaryChannel() {
 		return primaryChannel;
 	}
 
-	public void setPrimaryChannel(String primaryChannel) {
+	public void setPrimaryChannel(long primaryChannel) {
 		this.primaryChannel = primaryChannel;
 	}
 

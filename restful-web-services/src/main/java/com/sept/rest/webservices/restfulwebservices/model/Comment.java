@@ -45,7 +45,7 @@ public class Comment {
 	public Comment() {
 	}
 
-	// Constructor for creation of a new thread
+	// Constructor for creation of a new comment
 	public Comment(long userId, Date datetime, String content, long replyId, long threadId) throws InvalidAttributeValueException {
 		super();
 		this.id = id;

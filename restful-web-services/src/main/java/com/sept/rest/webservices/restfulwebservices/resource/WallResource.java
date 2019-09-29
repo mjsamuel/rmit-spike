@@ -19,8 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.sept.rest.webservices.restfulwebservices.model.User;
 import com.sept.rest.webservices.restfulwebservices.model.Thread;
 import com.sept.rest.webservices.restfulwebservices.jwt.resource.JwtTokenResponse;
-import com.sept.rest.webservices.restfulwebservices.model.Channel;
-import com.sept.rest.webservices.restfulwebservices.repository.ChannelRepository;
+import com.sept.rest.webservices.restfulwebservices.repository.ThreadRepository;
 import com.sept.rest.webservices.restfulwebservices.repository.UserRepository;
 
 @CrossOrigin(origins="*")
@@ -28,7 +27,7 @@ import com.sept.rest.webservices.restfulwebservices.repository.UserRepository;
 public class WallResource {
 
 	@Autowired
-	ChannelRepository channelRepository;
+	ThreadRepository threadRepository;
 	
 	@Autowired
 	UserRepository userRepository;
@@ -41,6 +40,8 @@ public class WallResource {
 		if (user.isPresent()) {
 			List<Long> subscribedChannels = user.get().getSubscribedTo();
 			for (Long channelId : subscribedChannels) {
+				List<Thread> channelThreads = threadRepository.findAllByPrimaryChannel(channelId);
+				wallThreads.addAll(channelThreads);
 			}
 		}
 		

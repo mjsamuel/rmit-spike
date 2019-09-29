@@ -15,7 +15,7 @@ import javax.management.InvalidAttributeValueException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
-
+@CrossOrigin(origins="*")
 @RestController
 public class ThreadResource {
 	
@@ -35,7 +35,6 @@ public class ThreadResource {
 	
 	@PostMapping("/api/thread")
     public Thread createThread(@RequestBody Thread thread) {
-		//threadRepository.save(new Thread(new Long(1), "Title", "Content", false, 0, 0, "Luke Morris"));
 		thread.setDatetime(new Date().toString());
         return threadRepository.save(thread);
     }
