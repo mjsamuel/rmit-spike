@@ -1,5 +1,5 @@
-insert into comments(upspikes, downspikes,content,reply_id,thread_id, archived)
-values(10, 2, 'This is a test comment', 1, 1, false);
+insert into comments(upspikes, user_id, downspikes,content,reply_id,thread_id, archived)
+values(10, 2, 1, 'This is a test comment', 1, 1, false);
 
 insert into users(id, admin, email, username, password, first_name, last_name, upspikes, archived) values
 (1, true, 's1234567@student.rmit.edu.au', 'sept', '$2a$10$3zHzb.Npv1hfZbLEU5qsdOju/tk2je6W6PnNnY.c1ujWPcZh4PL6e', 'john', 'doe', 20, false),
