@@ -45,7 +45,7 @@ public class User {
 
 	@Column(name = "archived")
 	private boolean archived;
-	
+
 	// Stores the channel IDs of channels the user is subscribed to
 	@ElementCollection
 	@CollectionTable(name = "subscribed_to")
@@ -93,7 +93,7 @@ public class User {
 	public long getId() {
 		return id;
 	}
-	
+
 	public String getEmail() {
 		return email;
 	}
