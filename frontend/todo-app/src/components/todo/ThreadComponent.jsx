@@ -33,6 +33,7 @@ class ThreadComponent extends Component {
 			upspiked: false,
 			downspiked: false
 		}
+		this.id = this.props.match.params.id;
 		this.refresh = this.refresh.bind(this);
 		this.activateReport = this.activateReport.bind(this);
 		this.addUpSpike = this.addUpSpike.bind(this);
@@ -45,8 +46,8 @@ class ThreadComponent extends Component {
 	 */
 	componentDidMount() {
 
-		let id = this.props.id == null && this.props.match != null ? this.props.match.params.id : this.props.id;
-		this.refresh(id);
+		// let id = this.props.id == null && this.props.match != null ? this.props.match.params.id : this.props.id;
+		this.refresh();
 	}
 
 	/**
@@ -54,11 +55,11 @@ class ThreadComponent extends Component {
 	 * authoritative data and updates the state to repopulate the DOM as necessary
 	 * @param id: the id of the thread
 	 */
-	refresh(id) {
+	refresh() {
 		// console.log("Thread refreshed")
-		var thread = ThreadDataService.retrieveThread(id)
+		var thread = ThreadDataService.retrieveThread(this.id)
 
-		CommentDataService.getComments(id)
+		CommentDataService.getComments(this.id)
 		.then((response) => {
 			console.log(response)
 			this.setState({ comments: response.data })
@@ -122,7 +123,7 @@ class ThreadComponent extends Component {
 			spikes: this.state.spikes + 1
 		}
 		this.setState(updatePacket)
-		ThreadDataService.updateThread(this.props.id, updatePacket)
+		ThreadDataService.updateThread(this.id, updatePacket)
 		// console.log(this.state)
 	}
 
@@ -142,7 +143,7 @@ class ThreadComponent extends Component {
 			spikes: this.state.spikes - 1
 		}
 		this.setState(updatePacket)
-		ThreadDataService.updateThread(this.props.id, updatePacket)
+		ThreadDataService.updateThread(this.id, updatePacket)
 		// console.log(this.state)
 	}
 	
@@ -177,10 +178,10 @@ class ThreadComponent extends Component {
                 		<button className="report-interaction" onClick={this.activateReport}> <FaFlag/> Report </button>
 	                </div>
 	                <div className={this.state.replyActive ? 'active-reply' : 'hidden-reply'}>
-	                	<InteractionEntryForm thread_id={this.props.id} isReply={false} isReport={false} updateParent={this.refresh}/>
+	                	<InteractionEntryForm thread_id={this.id} isReply={false} isReport={false} updateParent={this.refresh}/>
 	                </div>
 		            <div className={this.state.reportActive ? 'active-report' : 'hidden-reply'}>
-		                <InteractionEntryForm thread_id={this.props.thread_id} isReply={false} isReport={true} updateParent={this.props.updateParent}/>
+		                <InteractionEntryForm thread_id={this.id} isReply={false} isReport={true} updateParent={this.props.updateParent}/>
 	                </div>
 	                <div className="comments">
 	                	{this.state.comments.map((comment, i) => ( <CommentComponent key={i} updateParent={this.refresh} {...comment} />))}
