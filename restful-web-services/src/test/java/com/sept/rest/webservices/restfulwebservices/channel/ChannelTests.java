@@ -56,9 +56,9 @@ public class ChannelTests {
 		threads.add(t2);
 
 		List<User> subscribers = new ArrayList<>();
-		User u1 = new User((long) 1, "test@email.com", "Username", "Password", "FirstName", "LastName");
-		User u2 = new User((long) 2, "julzah@email.com", "Julzah", "password", "Julian", "Antic");
-		User u3 = new User((long) 3, "email@email.com", "uname", "apassword", "afname", "alname");
+		User u1 = new User("test@email.com", "Username", "Password", "FirstName", "LastName");
+		User u2 = new User("julzah@email.com", "Julzah", "password", "Julian", "Antic");
+		User u3 = new User("email@email.com", "uname", "apassword", "afname", "alname");
 
 		userRepository.save(u1);
 		userRepository.save(u2);
@@ -132,7 +132,7 @@ public class ChannelTests {
 	@Test
  	public void testRemoveUserFromChannel() throws InvalidAttributeValueException {
 		Channel c1 = new Channel((long) 1, "SEPT", Visibility.SHARED, true);
-		User u1 = new User((long) 2, "julzah@email.com", "Julzah", "password", "Julian", "Antic");
+		User u1 = new User("julzah@email.com", "Julzah", "password", "Julian", "Antic");
 
  		assertNotNull(c1);
  		assertNotNull(u1);
@@ -147,7 +147,7 @@ public class ChannelTests {
 	@Test
  	public void testAddUserToChannel() throws InvalidAttributeValueException {
 		Channel c1 = new Channel((long) 1, "SEPT", Visibility.SHARED, true);
-		User u1 = new User((long) 2, "julzah@email.com", "Julzah", "password", "Julian", "Antic");
+		User u1 = new User("julzah@email.com", "Julzah", "password", "Julian", "Antic");
 
  		assertNotNull(c1);
  		assertNotNull(u1);
