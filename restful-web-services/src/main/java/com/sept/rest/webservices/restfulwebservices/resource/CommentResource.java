@@ -2,6 +2,7 @@ package com.sept.rest.webservices.restfulwebservices.resource;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,37 +20,52 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.sept.rest.webservices.restfulwebservices.model.Comment;
 import com.sept.rest.webservices.restfulwebservices.repository.CommentRepository;
+import com.sept.rest.webservices.restfulwebservices.service.CommentService;
 
 
-/**
-	TODO: Rename to CommentResource
- */
-@CrossOrigin(origins="http://localhost:4200")
+@CrossOrigin(origins="*")
 @RestController
 public class CommentResource {
 
 	@Autowired
-	CommentRepository commentRepository;
+	private CommentRepository commentRepository;
+
 
 	@PostMapping("/api/thread/{thread_id}/comment")
-	public ResponseEntity<String> createComment(
-			@PathVariable String thread_id, @RequestBody String comment){
+	public ResponseEntity<String> persist(@PathVariable long thread_id, @RequestBody final Comment comment) {
+		if (comment != null) {
+			comment.setThreadId(thread_id);
+		}
+
+		Comment createdComment = commentRepository.save(comment);
+		System.out.println("Created comment: " + createdComment);
+		if (createdComment == null){
+			return ResponseEntity.noContent().build();
+		}
+
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}").buildAndExpand(createdComment.getId()).toUri();
 		
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Responded", "MyController");
-		return new ResponseEntity<String>(comment, headers, HttpStatus.OK);
-	}
-
-	@PostMapping("/api/comment")
-	public List<Comment> persist(@RequestBody final Comment comment) {
-		commentRepository.save(comment);
-		return commentRepository.findAll();
+		return ResponseEntity.created(uri).build();
 	}
 
 
-	@GetMapping("/api/comment")
-	public List<Comment> getAll() {
-		return commentRepository.findAll();
+	@GetMapping("/api/thread/{thread_id}/comment")
+	public List<Comment> getByThreadId(@PathVariable long thread_id) {
+		return commentRepository.findByThreadId(thread_id);
 	}
-		
+
+	@GetMapping("/api/comment/{comment_id}")
+	public Comment getByCommentId(@PathVariable long comment_id) {
+		return commentRepository.findById(comment_id).get();
+	}
+
+	@PutMapping("/api/comment/{comment_id}")
+	public ResponseEntity<Comment> updateComment(@PathVariable long comment_id, @RequestBody Comment comment) {
+		// Note that this updates all parameters that are passed as json, so passing only one parameter will set the rest to null
+		Comment updatedComment = commentRepository.save(comment);
+
+		return new ResponseEntity<Comment>(updatedComment, HttpStatus.OK);
+	}
+	
 }

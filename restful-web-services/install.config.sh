@@ -1,4 +1,6 @@
-logging.level.org.springframework = debug
+cat > src/main/resources/application.properties <<EOL
+
+logging.level.org.springframework = info
 
 spring.security.user.name=sept
 spring.security.user.password=dummy
@@ -12,9 +14,7 @@ jwt.token.expiration.in.seconds=604800
 
 spring.datasource.url=jdbc:mysql://${HOST_DB}:3306/spark?useLegacyDatetimeCode=false&serverTimezone=UTC
 spring.datasource.username=root
-spring.datasource.password=${PASSWD_DB}}
-# spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-# spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver
+spring.datasource.password=${PASSWD_DB}
 
 # Keep the connection alive if idle for a long time (needed in production)
 spring.datasource.testWhileIdle = true
@@ -31,4 +31,6 @@ spring.jpa.generate-ddl = true
 spring.jpa.hibernate.naming-strategy = org.hibernate.cfg.ImprovedNamingStrategy
 
 # The SQL dialect makes Hibernate generate better SQL for the chosen database
-spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+EOL
+

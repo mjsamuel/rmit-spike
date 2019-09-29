@@ -1,6 +1,7 @@
 package com.sept.rest.webservices.restfulwebservices.model;
 
 import java.util.Date;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,41 +17,54 @@ public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Long id;
-	// @Column(name = "datetime")
-	// private Date datetime;
+	private long id;
+	@Column(name = "datetime")
+	private Date datetime;
+	@Column(name = "user_id")
+	private long userId;
+
 	@Column(name = "upspikes")
 	private int upspikes;
+
 	@Column(name = "downspikes")
 	private int downspikes;
+
 	@Column(name = "content")
 	private String content;
+
 	@Column(name = "reply_id")
 	private long replyId;
+
 	@Column(name = "thread_id")
 	private long threadId;
-	@Column(name = "archived")
-	private boolean archived;
-	
-	public Comment() {
 
+	@Column(name = "archived")
+	private Boolean archived;
+	
+	// Default constructor
+	public Comment() {
 	}
 
-	// public Comment(Long id, Date datetime, int upspikes, int downspikes, String content, long replyId, long threadId, boolean archived) throws InvalidAttributeValueException {
-	// 	super();
-	// 	this.id = id;
-	// 	this.datetime = datetime;
-	// 	this.setUpspikes(upspikes);
-	// 	this.setDownspikes(downspikes);
-	// 	this.content = content;
-	// 	this.replyId = replyId;
-	// 	this.threadId = threadId;
-	// 	this.archived = archived;
-	// }
-
-	public Comment(Long id, int upspikes, int downspikes, String content, long replyId, long threadId, boolean archived) throws InvalidAttributeValueException {
+	// Constructor for creation of a new thread
+	public Comment(long userId, Date datetime, String content, long replyId, long threadId) throws InvalidAttributeValueException {
 		super();
 		this.id = id;
+		this.userId = userId;
+		this.datetime = datetime;
+		this.setUpspikes(0);
+		this.setDownspikes(0);
+		this.content = content;
+		this.replyId = replyId;
+		this.threadId = threadId;
+		this.archived = false;
+	}
+
+	// Constructor for instantiating existing thread from serialization
+	public Comment(long id, long userId, Date datetime, int upspikes, int downspikes, String content, long replyId, long threadId, boolean archived) throws InvalidAttributeValueException {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.datetime = datetime;
 		this.setUpspikes(upspikes);
 		this.setDownspikes(downspikes);
 		this.content = content;
@@ -60,13 +74,17 @@ public class Comment {
 	}
 
 	// Getters
-	public Long getId() { 
+	public long getId() { 
 		return this.id;
 	}
 
-	// public Date getDatetime() {
-	// 	return this.datetime;
-	// }
+	public Date getDatetime() {
+		return this.datetime;
+	}
+
+	public long getUserId() {
+		return this.userId;
+	}
 
 	public int getUpspikes() {
 		return this.upspikes;
@@ -96,14 +114,19 @@ public class Comment {
 		return this.threadId;
 	}
 
-	public boolean isArchived() {
+	public Boolean isArchived() {
 		return this.archived;
 	}
 
+	public String getTimeDelta() {
+		PrettyTime p = new PrettyTime();
+		return p.formatDuration(this.datetime);
+	}
+
 	// Setters
-	// public void setDatetime(Date datetime) {
-	// 	this.datetime = datetime;
-	// }
+	public void setDatetime(Date datetime) {
+		this.datetime = datetime;
+	}
 
 	public void setUpspikes(int upspikes) throws InvalidAttributeValueException { 
 		if (upspikes >= 0) {
@@ -121,6 +144,10 @@ public class Comment {
 		else {
 			throw new InvalidAttributeValueException("Number of downspikes must be positive");
 		}
+ 	}
+
+ 	public void setThreadId(long threadId) {
+ 		this.threadId = threadId;
  	}
 
 	public void setContent(String content) {
@@ -152,6 +179,12 @@ public class Comment {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("{ \"id\":%d, \"userId\":%d, \"datetime\":%tN, \"upspikes\":%d, \"downspikes\":%d, \"content\":%s, \"replyId\":%d, \"threadId\":%d, \"archive\":%b }",
+			id, userId, datetime, upspikes, downspikes, content, replyId, threadId, archived);
 	}
 
 	

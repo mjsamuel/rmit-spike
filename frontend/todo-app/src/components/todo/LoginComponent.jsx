@@ -49,6 +49,7 @@ class LoginComponent extends Component {
           AuthenticationService
               .executeJwtAuthenticationService(this.state.username, this.state.password)
               .then((response) => {
+                  //This stores the user id, not the username - make sure auth changes to reflect this
                   AuthenticationService.registerSuccessfulLoginForJwt(response.data.id, response.data.token)
                   this.props.history.push(`/wall`)
               }).catch(() => {

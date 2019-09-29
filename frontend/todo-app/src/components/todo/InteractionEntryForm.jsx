@@ -41,15 +41,20 @@ class InteractionEntryForm extends Component {
 		const request = {
 			content: this.state.value,
 			datetime: Date.now(),
-			author_id: 1, //Placeholder: Needs to reflect current user when auth implemented
-			thread_id: this.props.thread_id,
-			reply_id: this.props.isReply ? this.props.reply_id : null,
-
+			userId: 1, //Placeholder: Needs to reflect current user when auth implemented
+			threadId: this.props.thread_id,
+			replyId: this.props.isReply ? this.props.reply_id : null
 		}
 
 		const apiCall = this.props.isReport ? ThreadDataService.addReport : ThreadDataService.addComment
 		// console.log(apiCall)
-		apiCall(this.props.thread_id, request);
+		apiCall(this.props.thread_id, request)
+		.then((response) => {
+			console.log(response)
+		})
+		.catch((error) => {
+			console.log(error);
+		})
 		this.props.updateParent()
 		this.setState({value: ''})
 		event.preventDefault();

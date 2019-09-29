@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spark-frontend
+spec:
+  selector:
+    matchLabels:
+      app: spark
+      tier: frontend
+      track: stable
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: spark
+        tier: frontend
+        track: stable
+    spec:
+      containers:
+      - name: spark-frontend
+        image: "gcr.io/tidal-repeater-254307/spark-frontend:v1"
