@@ -3,8 +3,10 @@ import './ThreadComponent.css';
 import { FaShareAlt, FaRegComment, FaFlag, FaAngleUp, FaAngleDown } from 'react-icons/fa';
 import ThreadDataService from '../../api/todo/ThreadDataService.js'
 import CommentDataService from '../../api/todo/CommentDataService.js'
+import ChannelDataService from '../../api/todo/ChannelDataService.js'
 import CommentComponent from './CommentComponent.jsx'
 import InteractionEntryForm from './InteractionEntryForm.jsx'
+import UserDataService from '../../api/todo/UserDataService';
 
 /**
  * ThreadComponent is a component representing a thread. It is responsible for rendering the 
@@ -58,7 +60,47 @@ class ThreadComponent extends Component {
 	 */
 	refresh() {
 		// console.log("Thread refreshed")
-		let thread = ThreadDataService.retrieveThread(this.id)
+		ThreadDataService.retrieveThread(this.id)
+		.then((response) => {
+			console.log("Thread response", response);
+			this.setState({
+				title: response.data.title,
+				primary_channel: response.data.primary_channel,
+				content: response.data.content,
+				tagged_channels: response.data.tagged_channels,
+				timeDelta: response.data.timeDelta
+			})
+
+			// Channel id resolution
+			ChannelDataService.getChannel(response.data.channelId)
+			.then((response) => {
+				this.setState({primary_channel: response.data.name});
+			}).catch(error => console.log(error))
+			// User id resolution
+			UserDataService.getUser(response.data.authorId)
+			.then((response) => {
+				this.setState({author: response.data.username});
+			}).catch(error => console.log(error))
+
+		}).catch(function (error) {
+			console.log("Error getting thread")
+			if (error.response) {
+			  // The request was made and the server responded with a status code
+			  // that falls out of the range of 2xx
+			  console.log(error.response.data);
+			  console.log(error.response.status);
+			  console.log(error.response.headers);
+			} else if (error.request) {
+			  // The request was made but no response was received
+			  // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+			  // http.ClientRequest in node.js
+			  console.log(error.request);
+			} else {
+			  // Something happened in setting up the request that triggered an Error
+			  console.log('Error', error.message);
+			}
+			console.log(error.config);
+		  })
 
 		CommentDataService.getComments(this.id)
 		.then((response) => {
@@ -67,8 +109,7 @@ class ThreadComponent extends Component {
 				comments: response.data,
 				commentsLoading: false
 			})
-		})
-		.catch(function (error) {
+		}).catch(function (error) {
 			console.log("Error getting comments")
 			if (error.response) {
 			  // The request was made and the server responded with a status code
@@ -88,14 +129,7 @@ class ThreadComponent extends Component {
 			console.log(error.config);
 		  })
 
-		this.setState({
-			author: thread.author,
-			title: thread.title,
-			primary_channel: thread.primary_channel,
-			content: thread.content,
-			tagged_channels: thread.tagged_channels,
-			timeDelta: thread.timeDelta
-		})
+
 		// console.log(this.state)
 	}
 
@@ -165,7 +199,7 @@ class ThreadComponent extends Component {
 	                	<h1>{this.state.title}</h1>
 	                </div>
 	                <div className="thread-author">
-	                	<h2>Posted by u/{this.state.author} {this.state.timeDelta} ago</h2>
+	                	<h4>Posted by u/{this.state.author} {this.state.timeDelta} ago</h4>
 	                </div>
 	                <div className="thread-contents">
 	                    <p>{this.state.content}</p>

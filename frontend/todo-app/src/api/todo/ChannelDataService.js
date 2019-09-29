@@ -4,6 +4,11 @@ import {USER_NAME_SESSION_ATTRIBUTE_NAME} from '../../components/todo/Authentica
 
 
 class ChannelDataService {
+
+  getChannel(channel_id) {
+    return axios.instance.get(`${DATA_API_URL}/channel/${channel_id}`);
+  }
+
   retrieveChannelThreads(channel_id) {
       console.log('retrieveChannelThreads API endpoint called')
       let userId = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
@@ -55,6 +60,7 @@ class ChannelDataService {
     })
   }
 
+  // Flag for deletion: replaced by ThreadDataService.newThread
   postThreadToChannel(channelId, title, body) {
     console.log('postThreadToChannel API endpoint called')
     return axios.instance.put(`${API_URL}/channel/${channelId}`, {

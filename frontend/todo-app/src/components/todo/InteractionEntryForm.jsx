@@ -23,7 +23,7 @@ class InteractionEntryForm extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
 	componentDidMount() {
-		console.log(this.props)
+		// console.log(this.props)
 	}
 
 	/**
@@ -40,8 +40,8 @@ class InteractionEntryForm extends Component {
 	 * then refresh the thread and update the state of the text box to empty
 	 */
 	handleSubmit(event) {
-		console.log("isReply", this.props.isReply)
-		console.log("threadId", this.props.thread_id)
+		// console.log("isReply", this.props.isReply)
+		// console.log("threadId", this.props.thread_id)
 		const request = {
 			content: this.state.value,
 			datetime: Date.now(),

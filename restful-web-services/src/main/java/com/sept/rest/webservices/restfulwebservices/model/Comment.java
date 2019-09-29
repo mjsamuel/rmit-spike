@@ -105,10 +105,6 @@ public class Comment {
 		}
 	}
 
-//	public Float getSpikeRatio() {
-//		return (float)this.upspikes/((float)(this.upspikes + this.downspikes));
-//	}
-
 	public Float getSpikeRatio() {
 		try {
 			Float ratio = this.upspikes.floatValue()/((this.upspikes.floatValue() + this.downspikes.floatValue()));
