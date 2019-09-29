@@ -27,8 +27,10 @@ public class WallResource {
 	@Autowired
 	UserRepository userRepository;
 
-	@GetMapping("/api/user/{user_id}/feed")
+	@GetMapping("/api/user/{user_id}/wall")
 	public ResponseEntity<?> getWallByUserId(@PathVariable long user_id) {
+		ResponseEntity<?> retVal = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		
 		List<Thread> wallThreads = new ArrayList<>();
 	
 		Optional<User> user = userRepository.findById(user_id);
@@ -38,13 +40,12 @@ public class WallResource {
 				List<Thread> channelThreads = channel.getThreads();
 				wallThreads.addAll(channelThreads);
 			}
+			
+			HashMap<String, Object> content = new HashMap<>();
+			content.put("threads", wallThreads);
+			retVal = new ResponseEntity<>(content, HttpStatus.OK);
 		}
 		
-		HashMap<String, Object> content = new HashMap<>();
-		content.put("threads", wallThreads);
-		
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Responded", "MyController");
-		return new ResponseEntity<>(content, HttpStatus.OK);
+		return retVal;
 	}	
 }
