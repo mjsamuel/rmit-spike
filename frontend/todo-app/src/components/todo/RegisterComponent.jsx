@@ -19,6 +19,8 @@ class RegisterComponent extends Component {
             username: '',
             password: '',
             confirmedPassword: '',
+            firstName: '',
+            lastName: '',
             hasRegisterFailed: false,
             showSuccessMessage: false
         }
@@ -47,16 +49,23 @@ class RegisterComponent extends Component {
      * If register succeeds, redirect to the user wall. If not display an error message.
      */
     submitClicked() {
-      if (this.state.password !== this.state.confirmedPassword ||
-          this.state.email.trim() === "" ||
-          this.state.username.trim() === "" ||
-          this.state.password.trim() === "" ||
-          this.state.confirmedPassword.trim === "") {
+      if (this.state.password !== this.state.confirmedPassword
+          || this.state.email.trim() === ""
+          || this.state.username.trim() === ""
+          || this.state.password.trim() === ""
+          || this.state.confirmedPassword.trim === ""
+          || this.state.firstName.trim === ""
+          || this.state.lastName.trim === "") {
         this.setState({ hasRegisterFailed: true })
       }
       else {
         AuthenticationService
-            .executeJwtRegisterService(this.state.email, this.state.username, this.state.password, this.state.confirmedPassword)
+            .executeJwtRegisterService(
+              this.state.email,
+              this.state.username,
+              this.state.password,
+              this.state.firstName,
+              this.state.lastName)
             .then((response) => {
                 AuthenticationService.registerSuccessfulLoginForJwt(response.data.id, response.data.token)
                 this.props.history.push('/wall')
@@ -85,6 +94,12 @@ class RegisterComponent extends Component {
               <div className="form">
                 {this.state.hasRegisterFailed && <div className="alert alert-warning" id="error">Invalid Credentials or something is wrong</div>}
                 {this.state.showSuccessMessage && <div id="success">Register Sucessful</div>}
+                <div className="form-group">
+                  <input type="text" className="form-control" placeholder="First Name" name="firstName" value={this.state.firstName} onChange={this.handleChange} />
+                </div>
+                <div className="form-group">
+                  <input type="text" className="form-control" placeholder="Last Name" name="lastName" value={this.state.lastName} onChange={this.handleChange} />
+                </div>
                 <div className="form-group">
                   <input type="text" className="form-control" placeholder="Email" name="email" value={this.state.email} onChange={this.handleChange} />
                 </div>

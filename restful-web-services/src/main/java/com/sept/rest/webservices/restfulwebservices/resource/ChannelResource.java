@@ -1,9 +1,6 @@
 package com.sept.rest.webservices.restfulwebservices.resource;
 
-import java.net.URI;
 import java.util.List;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,62 +13,47 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import com.sept.rest.webservices.restfulwebservices.repository.ChannelRepository;
 import com.sept.rest.webservices.restfulwebservices.model.Channel;
-
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class ChannelResource {
 
 	@Autowired
-	private ChannelRepository channelRepo;
+	ChannelRepository channelRepository;
 
 	@GetMapping("/api/channel")
-	public List<Channel> getAllChannels() {
-		return channelRepo.findAll();
+	public List<Channel> getAll() {
+		return channelRepository.findAll();
 	}
 
-	//Get specific channel
-	// @GetMapping("/api/channel/{id}")
-	// public List<Channel> getChannel(@PathVariable(name = "id") long id) {
-	// 	return channelRepo.findByID(id);
-	// }
-
-	// // Get specific user in channel
-	// @GetMapping("/api/channel?user={user_id}")
-	// public List<Channel> getUserInChannel(@PathVariable long id) {
-	// 	return channelRepo.findByID(id);
-	// }
-
-	// Delete Channel
-	// @DeleteMapping("/api/channel/{id}")
-	// public ResponseEntity<Void> deleteChannel(@PathVariable long id) {
-	// 	channelRepo.deleteByID(id);
-
-	// 	return ResponseEntity.ok().build();
-	// }
-
-	// Update specific Channel
-	@PutMapping("/api/channel/{id}")
-	public ResponseEntity<Channel> updateChannelById(@PathVariable long id, @RequestBody Channel channel) {
-		channel.setChannelId(id);
-		
-		Channel updatedChannel = channelRepo.save(channel);
-		
-		return new ResponseEntity<Channel>(channel, HttpStatus.OK);
+	@GetMapping("/api/channel/{channel_id}")
+	public Channel getByChannelId(@PathVariable long channel_id) {
+		return channelRepository.findById(channel_id).get();
 	}
 
-	// Update Channel
-	// @PostMapping("/api/channel")
-	// public ResponseEntity<Void> createChannel(@Valid @RequestBody Channel channel) {
-	// 	Channel createdChannel = channelRepo.save(channel);
+	@DeleteMapping("/api/channel/{channel_id}")
+	public ResponseEntity<Void> deleteChannel(@PathVariable long channel_id) {
+		channelRepository.deleteById(channel_id);
 
-	// 	URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/channel")
-	// 			.buildAndExpand(createdChannel.getChannelId()).toUri();
+		return ResponseEntity.ok().build();
+	}
 
-	// 	return ResponseEntity.created(uri).build();
-	// }
+	@PostMapping("/api/channel")
+	public List<Channel> persist(@RequestBody final Channel channel) {
+		channelRepository.save(channel);
+
+		return channelRepository.findAll();
+	}
+
+	@PutMapping("/api/channel/{channel_id}")
+	public ResponseEntity<Channel> updateChannel(@PathVariable long channel_id, @RequestBody Channel channel) {
+
+		Channel updatedChannel = channelRepository.save(channel);
+
+		return new ResponseEntity<Channel>(updatedChannel, HttpStatus.OK);
+	}
 
 }

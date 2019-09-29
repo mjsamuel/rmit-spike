@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from '../../axios.js'
 import { API_URL, JPA_API_URL, DATA_API_URL } from '../../Constants'
 
 class ChatDataService {

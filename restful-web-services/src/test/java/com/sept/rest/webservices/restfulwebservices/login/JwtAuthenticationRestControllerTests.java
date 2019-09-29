@@ -30,8 +30,8 @@ import org.springframework.http.HttpStatus;
 public class JwtAuthenticationRestControllerTests {
 	
 	private final static String REGISTERED_USER = "{ "
-			+ "\"username\": \"sept\", "
-			+ "\"password\": \"dummy\""
+			+ "\"username\": \"user\", "
+			+ "\"password\": \"password\""
 			+ "}";
 	private final static String REGISTERED_USER_INVALID_PASSWORD = "{ "
 			+ "\"username\": \"sept\","
