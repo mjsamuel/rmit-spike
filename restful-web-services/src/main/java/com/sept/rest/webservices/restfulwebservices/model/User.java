@@ -49,7 +49,7 @@ public class User {
 	// Stores the channel IDs of channels the user is subscribed to
 	@ElementCollection
 	@CollectionTable(name = "subscribed_to")
-	private List<Long> subscribedTo;
+	private List<Channel> subscribedTo;
 
 	// Default constructor
 	public User() {
@@ -68,13 +68,13 @@ public class User {
 		this.firstName = firstname;
 		this.lastName = lastname;
 		upspikes = 0;
-		subscribedTo = new ArrayList<Long>();
+		subscribedTo = new ArrayList<Channel>();
 		archived = false;
 	}
 
 	// Constructor for instantiating existing user from serialization
 	public User(long id, boolean admin, String email, String username, String password, String firstname,
-			String lastname, long upspikes, List<Long> subscribedTo, boolean archived)
+			String lastname, long upspikes, List<Channel> subscribedTo, boolean archived)
 			throws InvalidAttributeValueException {
 		super();
 		this.id = id;
@@ -118,17 +118,26 @@ public class User {
 		return upspikes;
 	}
 	
-	public List<Long> getSubscribedTo() {
+	public List<Channel> getSubscribedTo() {
 		return subscribedTo;
 	}
 	
 	public boolean isSubscribedTo(Long channelId) {
 		boolean retVal = false;
 		
-		for (Long subscribedId : subscribedTo) {
-			if (subscribedId == channelId) retVal = true;
+		for (Channel channel : subscribedTo) {
+			if (channel.getId() == channelId) retVal = true;
 		}
 		
+		return retVal;
+	}
+	
+	public boolean subscribeToChannel(Channel channel) {
+		boolean retVal = false;
+		if (!subscribedTo.contains(channel)) {
+			subscribedTo.add(channel);
+			retVal = true;
+		}
 		return retVal;
 	}
 

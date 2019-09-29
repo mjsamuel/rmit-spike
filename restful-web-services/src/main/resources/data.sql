@@ -13,3 +13,6 @@ INSERT INTO threads(title, datetime, content, archived, upspikes, downspikes, us
 
 INSERT INTO channel_threads(channel_id, threads_id) VALUES
 (1, 1);
+
+INSERT INTO subscribed_to(user_id, subscribed_to_id) VALUES
+(1, 1);
