@@ -52,10 +52,8 @@ class AuthenticationService {
     }
 
     setupAxiosGlobals(token) {
-        console.log("Entered globals")
         if (this.isUserLoggedIn()) {
             axios.setInstanceAuth(token);
-            console.log("Axios state at globals: ", axios.instance)
         }
 
     }

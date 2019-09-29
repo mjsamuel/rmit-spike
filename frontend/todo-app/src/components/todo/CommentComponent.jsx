@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './CommentComponent.css';
 import { FaShareAlt, FaRegComment, FaFlag, FaAngleUp, FaAngleDown } from 'react-icons/fa';
 import CommentDataService from '../../api/todo/CommentDataService.js'
+import UserDataService from '../../api/todo/UserDataService.js'
 import InteractionEntryForm from './InteractionEntryForm.jsx'
 
 /**
@@ -22,6 +23,7 @@ class CommentComponent extends Component {
 		super(props)
 		// console.log(props)
 		this.state = {
+			author: '',
 			spikes: this.props.spikes,
 			replyActive: false,
 			reportActive: false,
@@ -38,8 +40,16 @@ class CommentComponent extends Component {
 	}
 
 	componentDidMount() {
-	}
+		//This will tax the API, should try to replace this with custom return server side
+		if (this.props.userId) {
+			UserDataService.getUser(this.props.userId)
+			.then((response) => {
+				this.setState({author: response.data.username});
+			})
+		}
+		// console.log(this.props)
 
+	}
 
 	/**
 	 * Increment the number of spikes on the comment and change the icon colour to
@@ -53,9 +63,9 @@ class CommentComponent extends Component {
 			downspiked: false
 		})
 		const updatePacket = {
-			spikes: this.state.spikes + 1
+			upspikes: this.props.upspikes + 1
 		}
-		this.setState(updatePacket)
+		this.setState({spikes: this.state.spikes + 1})
 		CommentDataService.updateComment(this.props.id, updatePacket)
 		// console.log(this.state)
 	}
@@ -69,13 +79,16 @@ class CommentComponent extends Component {
 		// console.log("Upspiked")
 		this.setState({
 			downspiked: !this.state.downspiked,
-			upspiked: false
+			upspiked: false,
+			spikes: this.state.spikes-1
 		})
 
 		const updatePacket = {
-			spikes: this.state.spikes - 1
+			downspikes: this.props.downspikes + 1
 		}
-		this.setState(updatePacket)
+		// this.setState({spikes: this.state.spikes - 1})
+		// .then(() => console.log(this.state.spikes))
+		// .catch((error) => console.log(error))
 		CommentDataService.updateComment(this.props.id, updatePacket)
 		// console.log(this.state)
 	}
@@ -116,9 +129,9 @@ class CommentComponent extends Component {
         return (
         	<div className="comment">
         		<div className="comment-header">
-        	    	<span className="author">u/{this.props.author}</span>
-        			<span className="spikes">{this.props.spikes} Spikes</span>
-        			<span className="timeDelta">{this.props.timeDelta} ago</span>
+        	    	<span className="author">u/{this.state.author}</span>
+        			<span className="spikes">{this.state.spikes} Spikes</span>
+        			<span className="timeDelta">{this.props.timeDelta}</span>
 	        	</div>
         		<div className="content">
         			<p>{this.props.content}</p>
@@ -134,10 +147,10 @@ class CommentComponent extends Component {
                 	<button className="report-interaction" onClick={this.activateReport}> <FaFlag/> Report </button>
 	            </div>
 	            <div className={this.state.replyActive ? 'active-reply' : 'hidden-reply'}>
-	                <InteractionEntryForm thread_id={this.props.id} isReply={true} reply_id={this.id} isReport={false} updateParent={this.props.updateParent}/>
+	                <InteractionEntryForm thread_id={this.props.threadId} isReply={true} reply_id={this.props.id} isReport={false} updateParent={this.props.updateParent}/>
                 </div>
 	            <div className={this.state.reportActive ? 'active-report' : 'hidden-reply'}>
-	                <InteractionEntryForm thread_id={this.props.thread_id} isReply={false} isReport={true} updateParent={this.props.updateParent}/>
+	                <InteractionEntryForm thread_id={this.props.threadId} isReply={false} isReport={true} updateParent={this.props.updateParent}/>
                 </div>
             </div>
         )

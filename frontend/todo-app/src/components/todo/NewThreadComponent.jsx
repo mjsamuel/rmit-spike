@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {USER_NAME_SESSION_ATTRIBUTE_NAME} from './AuthenticationService.js'
 import './CreateChannelComponent.css'
 import ChannelDataService from '../../api/todo/ChannelDataService.js'
+import ThreadDataService from '../../api/todo/ThreadDataService.js'
 
 class NewThreadComponent extends Component {
 
@@ -69,18 +70,26 @@ class NewThreadComponent extends Component {
         });
       }
       else {
-        ChannelDataService.postThreadToChannel(this.state.channelId, this.state.channelId.title, this.state.body)
-          .then(() => {
-            this.setState({showSuccessMessage: true})
-            let path = '/c/' + this.state.channelId;
-            this.props.history.push(path);
-          })
-          .catch(() => {
-            this.setState({
-              hasSubmissionFailed: true,
-              errorText: "Error: Failed communicating with backend"
-            });
-          })
+        const request = {
+          channelId: this.state.channelId,
+          title: this.state.channelId.title,
+          content: this.state.body,
+          // authorId: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
+          // Placeholder until user id is returned with bearer token
+          authorId: 1
+        }
+        ThreadDataService.newThread(request)
+        .then(() => {
+          this.setState({showSuccessMessage: true})
+          let path = '/c/' + this.state.channelId;
+          this.props.history.push(path);
+        })
+        .catch(() => {
+          this.setState({
+            hasSubmissionFailed: true,
+            errorText: "Error: Failed communicating with backend"
+          });
+        })
       }
     }
 

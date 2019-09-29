@@ -28,6 +28,7 @@ class ThreadComponent extends Component {
 			tagged_channels: [],
 			content: '',
 			comments: [],
+			commentsLoading: true,
 			replyActive: true,
 			reportActive: false,
 			upspiked: false,
@@ -57,12 +58,15 @@ class ThreadComponent extends Component {
 	 */
 	refresh() {
 		// console.log("Thread refreshed")
-		var thread = ThreadDataService.retrieveThread(this.id)
+		let thread = ThreadDataService.retrieveThread(this.id)
 
 		CommentDataService.getComments(this.id)
 		.then((response) => {
 			console.log(response)
-			this.setState({ comments: response.data })
+			this.setState({ 
+				comments: response.data,
+				commentsLoading: false
+			})
 		})
 		.catch(function (error) {
 			console.log("Error getting comments")
@@ -90,7 +94,6 @@ class ThreadComponent extends Component {
 			primary_channel: thread.primary_channel,
 			content: thread.content,
 			tagged_channels: thread.tagged_channels,
-			comments: thread.comments,
 			timeDelta: thread.timeDelta
 		})
 		// console.log(this.state)
@@ -183,6 +186,7 @@ class ThreadComponent extends Component {
 		            <div className={this.state.reportActive ? 'active-report' : 'hidden-reply'}>
 		                <InteractionEntryForm thread_id={this.id} isReply={false} isReport={true} updateParent={this.props.updateParent}/>
 	                </div>
+					
 	                <div className="comments">
 	                	{this.state.comments.map((comment, i) => ( <CommentComponent key={i} updateParent={this.refresh} {...comment} />))}
 	                </div>

@@ -15,16 +15,16 @@ class CommentTests {
 	void validValueAssignment() throws InvalidAttributeValueException {
 
 		comment.setUpspikes(10);
-		assertEquals(10, comment.getUpspikes());
+		assertEquals((Object) 10, comment.getUpspikes());
 
 		comment.setUpspikes(0);
-		assertEquals(0, comment.getUpspikes());
+		assertEquals((Object) 0, comment.getUpspikes());
 
 		comment.setDownspikes(10);
-		assertEquals(10, comment.getDownspikes());
+		assertEquals((Object) 10, comment.getDownspikes());
 
 		comment.setDownspikes(0);
-		assertEquals(0, comment.getDownspikes());
+		assertEquals((Object) 0, comment.getDownspikes());
 	}
 
 	@Test
@@ -51,17 +51,17 @@ class CommentTests {
 		// Positive expectation
 		comment.setUpspikes(10);
 		comment.setDownspikes(5);
-		assertEquals(5, comment.getSpikes());
+		assertEquals((Object) 5, comment.getSpikes());
 
 		// Neutral expectation
 		comment.setUpspikes(5);
 		comment.setDownspikes(5);
-		assertEquals(0, comment.getSpikes());
+		assertEquals((Object) 0, comment.getSpikes());
 
 		// Negative expectation
 		comment.setUpspikes(5);
 		comment.setDownspikes(10);
-		assertEquals(-5, comment.getSpikes());
+		assertEquals( new Integer(-5), comment.getSpikes());
 	}
 
 
@@ -70,7 +70,7 @@ class CommentTests {
 		// Makes sure it's not integer division
 		comment.setUpspikes(10);
 		comment.setDownspikes(5);
-		assertEquals(0.66667, comment.getSpikeRatio(), 0.0001);
+		assertEquals( 0.66667, comment.getSpikeRatio(), 0.0001);
 
 
 		comment.setUpspikes(5);
