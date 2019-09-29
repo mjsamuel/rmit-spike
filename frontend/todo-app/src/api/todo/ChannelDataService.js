@@ -7,7 +7,7 @@ class ChannelDataService {
   retrieveChannelThreads(channel_id) {
       console.log('retrieveChannelThreads API endpoint called')
       let userId = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
-      // return axios.get(`${DATA_API_URL}/thread?chan=${channel_id}`)
+      // return axios.instance.get(`${DATA_API_URL}/thread?chan=${channel_id}`)
       const response = {
         channelName: "sept",
         threads: [
@@ -34,7 +34,7 @@ class ChannelDataService {
 
   createChannel(username, channelName, visibility) {
     console.log('createChannel API endpoint called')
-    // axios.post(`${API_URL}/channel`, {
+    // axios.instance.post(`${API_URL}/channel`, {
     //     username: username,
     //     channelName: channelName,
     //     visibility: visibility
@@ -50,14 +50,14 @@ class ChannelDataService {
 
   subscribeToChannel(channelId) {
     console.log('subscribeToChannel API endpoint called')
-    return axios.put(`${API_URL}/channel/${channelId}`, {
+    return axios.instance.put(`${API_URL}/channel/${channelId}`, {
         username: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
     })
   }
 
   postThreadToChannel(channelId, title, body) {
     console.log('postThreadToChannel API endpoint called')
-    return axios.put(`${API_URL}/channel/${channelId}`, {
+    return axios.instance.put(`${API_URL}/channel/${channelId}`, {
         username: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME),
         title: title,
         body: body
