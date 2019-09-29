@@ -1,3 +1,5 @@
+
+
 package com.sept.rest.webservices.restfulwebservices.model;
 
 import javax.management.InvalidAttributeValueException;
@@ -8,13 +10,15 @@ public class User {
 	private String password;
 	private String studentNumber;
 	private String firstName;
+
+	@Column(name = "last_name")
 	private String lastName;
 	private boolean archived;
 	private boolean admin;
 	private int upspikes;
 	private int downspikes;
 
-		
+
 	public User(String email, String password, String studentNumber, String firstName, String lastName, boolean archived, boolean admin, int upspikes, int downspikes) {
 		this.email = email;
 		this.password = password;
@@ -26,7 +30,7 @@ public class User {
 		this.upspikes = 0;
 		this.downspikes = 0;
 
-		
+
 	}
 
 	public String getEmail() { return this.email;}
@@ -34,7 +38,7 @@ public class User {
 	public void setEmail(String email) {this.email = email;}
 
 	public String getPassword() {
-		return this.password;
+		return password;
 	}
 
 	public void setPassword(String password) {this.password = password;}
@@ -90,5 +94,3 @@ public class User {
 		else
 			throw new InvalidAttributeValueException("Number of downspikes must be positive.");
 	}
-
-

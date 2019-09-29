@@ -37,7 +37,7 @@ class WallComponent extends Component {
    */
   render() {
     return (
-      <>
+      <div div className="wall">
         <div className="thread-list">
           <h1>Wall</h1>
           {this.state.threads.map((thread, index) => {
@@ -54,7 +54,7 @@ class WallComponent extends Component {
         </div>
         <div className="side-panel">
         </div>
-      </>
+      </div>
     )
   }
 }

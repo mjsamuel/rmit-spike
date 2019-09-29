@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-dom/test-utils';
 import { shallow, mount } from 'enzyme'
 import ChannelComponent from '../todo/ChannelComponent'
 
-describe('LoginComponent', () => {
+describe('ChannelComponent', () => {
 	var component, channel;
 
 	beforeEach(() => {

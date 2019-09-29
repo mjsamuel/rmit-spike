@@ -1,20 +1,25 @@
+.channel {
+  padding-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
 .thread-list {
   float: left;
-  margin-left: 20px;
-  width: 65%;
-  padding-top: 20px;
+  width: 70%;
   text-align: left;
 }
 
 .side-panel {
   float: right;
-  width: 30%;
-  padding-top: 20px;
+  width: 27%;
+  height:100%
 }
 
 .side-panel button {
   margin-top: 10px;
-  width: 160px;
+  width: 49%;
+  border-radius: 28px;
 }
 
 .thread-list-item {

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import ChannelDataService from '../../api/todo/ChannelDataService.js'
 import './ChannelComponent.css';
 import ThreadListItem from './ThreadListItem'
+import ChatComponent from './ChatComponent.jsx'
 
 
 class ChannelComponent extends Component {
@@ -71,7 +72,7 @@ class ChannelComponent extends Component {
    */
   render() {
     return (
-      <>
+      <div className="channel">
         <div className="thread-list">
           <h1 id="channel-name-banner">{"c/" + this.state.channelName}</h1>
           {this.state.threads.map((thread, index) => {
@@ -87,12 +88,14 @@ class ChannelComponent extends Component {
           </ul>
         </div>
         <div className="side-panel">
-          <button id="subsribe-btn" className={this.state.subscribed ? "btn btn-secondary ml-2" : "btn btn-success ml-2"} onClick={this.subscribeClicked}>
+          <button id="subsribe-btn" className={this.state.subscribed ? "btn btn-secondary" : "btn btn-success"} onClick={this.subscribeClicked}>
             {this.state.subscribed ? "Unsubscribe" : "Subscribe"}
           </button>
-          <button className="btn btn-success ml-2" onClick={this.newThreadClicked}>New Thread</button><br/>
+          <span>  </span>
+          <button className="btn btn-success" onClick={this.newThreadClicked}>New Thread</button><br/>
+          <ChatComponent channelId={this.state.channelId}/>
         </div>
-      </>
+      </div>
     )
   }
 }
