@@ -1,5 +1,5 @@
 // import axios from 'axios'
-import axios from '../../axios.js'
+import axios, { AXIOS_HEADERS } from '../../axios.js'
 import { API_URL } from '../../Constants'
 
 export const USER_NAME_SESSION_ATTRIBUTE_NAME = 'authenticatedUser'
@@ -41,13 +41,8 @@ class AuthenticationService {
     }
 
     registerSuccessfulLoginForJwt(username, token) {
-
-        // console.log(username)
-        // console.log(USER_NAME_SESSION_ATTRIBUTE_NAME)
         sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, username)
         let JWT_TOKEN = this.createJWTToken(token)
-        // console.log(JWT_TOKEN)
-        // this.setupAxiosInterceptors(JWT_TOKEN)
         this.setupAxiosGlobals(JWT_TOKEN)
     }
 
@@ -58,6 +53,7 @@ class AuthenticationService {
 
     logout() {
         sessionStorage.removeItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+        sessionStorage.removeItem(AXIOS_HEADERS);
     }
 
     isUserLoggedIn() {
@@ -72,26 +68,13 @@ class AuthenticationService {
         return user
     }
 
-    setupAxiosInterceptors(token) {
-        console.log("Interceptors set up")
-        axios.instance.interceptors.request.use(
-            (config) => {
-                console.log("Request intercepted")
-                if (this.isUserLoggedIn()) {
-                    config.headers.Authorization = token
-                }
-                console.log(config)
-                return config
-            }
-        )
-    }
-
     setupAxiosGlobals(token) {
         console.log("Entered globals")
-        // sessionStorage.setItem("bearerToken", token);
-        // axios.defaults.headers.common['Authorization'] = token;
-        axios.setInstanceAuth(token);
-        console.log("Axios state at globals: ", axios.instance)
+        if (this.isUserLoggedIn()) {
+            axios.setInstanceAuth(token);
+            console.log("Axios state at globals: ", axios.instance)
+        }
+
     }
 }
 

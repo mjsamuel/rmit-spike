@@ -43,14 +43,25 @@ class ThreadComponent extends Component {
 	 * Loads the contents of the thread from it's props after the constructor has
 	 * finished executing
 	 */
-	async componentDidMount() {
+	componentDidMount() {
 
 		let id = this.props.id == null && this.props.match != null ? this.props.match.params.id : this.props.id;
 		this.refresh(id);
+	}
 
-		await CommentDataService.getComments(id)
+	/**
+	 * Refreshes the content of the thread. Makes a GET call to the API to retrieve
+	 * authoritative data and updates the state to repopulate the DOM as necessary
+	 * @param id: the id of the thread
+	 */
+	refresh(id) {
+		// console.log("Thread refreshed")
+		var thread = ThreadDataService.retrieveThread(id)
+
+		CommentDataService.getComments(id)
 		.then((response) => {
 			console.log(response)
+			this.setState({ comments: response.data })
 		})
 		.catch(function (error) {
 			console.log("Error getting comments")
@@ -72,16 +83,6 @@ class ThreadComponent extends Component {
 			console.log(error.config);
 		  })
 
-	}
-
-	/**
-	 * Refreshes the content of the thread. Makes a GET call to the API to retrieve
-	 * authoritative data and updates the state to repopulate the DOM as necessary
-	 * @param id: the id of the thread
-	 */
-	refresh(id) {
-		// console.log("Thread refreshed")
-		var thread = ThreadDataService.retrieveThread(id)
 		this.setState({
 			author: thread.author,
 			title: thread.title,
