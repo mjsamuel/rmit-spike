@@ -45,9 +45,9 @@ public class ChannelTests {
 
 		List<Thread> threads = new ArrayList<>();
 		Thread t1 = new Thread((long) 1, "How to subscribe to channel?",
-				"I found a channel I like and want to subscribe to it.", false, 245, 5, "ads");
+				"I found a channel I like and want to subscribe to it.", false, 245, 5, "ads", null, null);
 		Thread t2 = new Thread((long) 2, "How to delete previous thread",
-				"I found a solution to my previous thread and want to delete it.", true, 123, 23, "ads");
+				"I found a solution to my previous thread and want to delete it.", true, 123, 23, "ads", null, null);
 
 		threadRepository.save(t1);
 		threadRepository.save(t2);
@@ -56,9 +56,9 @@ public class ChannelTests {
 		threads.add(t2);
 
 		List<User> subscribers = new ArrayList<>();
-		User u1 = new User((long) 1, "test@email.com", "Username", "Password", "FirstName", "LastName");
-		User u2 = new User((long) 2, "julzah@email.com", "Julzah", "password", "Julian", "Antic");
-		User u3 = new User((long) 3, "email@email.com", "uname", "apassword", "afname", "alname");
+		User u1 = new User("test@email.com", "Username", "Password", "FirstName", "LastName");
+		User u2 = new User("julzah@email.com", "Julzah", "password", "Julian", "Antic");
+		User u3 = new User("email@email.com", "uname", "apassword", "afname", "alname");
 
 		userRepository.save(u1);
 		userRepository.save(u2);
@@ -78,7 +78,7 @@ public class ChannelTests {
  	public void testAddThreadToChannel() {
 		Channel c1 = new Channel((long) 1, "SEPT", Visibility.SHARED, true);
 		Thread t1 = new Thread((long) 1, "How to subscribe to channel?",
-				"I found a channel I like and want to subscribe to it.", false, 245, 5, "ads");
+				"I found a channel I like and want to subscribe to it.", false, 245, 5, "ads", null, null);
 
  		assertNotNull(c1);
  		assertNotNull(t1);
@@ -114,7 +114,7 @@ public class ChannelTests {
  	public void testRemoveThreadFromChannel() {
 		Channel c1 = new Channel((long) 1, "SEPT", Visibility.SHARED, true);
 		Thread t1 = new Thread((long) 1, "How to subscribe to channel?",
-				"I found a channel I like and want to subscribe to it.", false, 245, 5, "ads");
+				"I found a channel I like and want to subscribe to it.", false, 245, 5, "ads", null, null);
 
  		assertNotNull(c1);
  		assertNotNull(t1);
@@ -132,7 +132,7 @@ public class ChannelTests {
 	@Test
  	public void testRemoveUserFromChannel() throws InvalidAttributeValueException {
 		Channel c1 = new Channel((long) 1, "SEPT", Visibility.SHARED, true);
-		User u1 = new User((long) 2, "julzah@email.com", "Julzah", "password", "Julian", "Antic");
+		User u1 = new User("julzah@email.com", "Julzah", "password", "Julian", "Antic");
 
  		assertNotNull(c1);
  		assertNotNull(u1);
@@ -147,7 +147,7 @@ public class ChannelTests {
 	@Test
  	public void testAddUserToChannel() throws InvalidAttributeValueException {
 		Channel c1 = new Channel((long) 1, "SEPT", Visibility.SHARED, true);
-		User u1 = new User((long) 2, "julzah@email.com", "Julzah", "password", "Julian", "Antic");
+		User u1 = new User("julzah@email.com", "Julzah", "password", "Julian", "Antic");
 
  		assertNotNull(c1);
  		assertNotNull(u1);
