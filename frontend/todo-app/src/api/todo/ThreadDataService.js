@@ -5,17 +5,17 @@ class ThreadDataService {
 
     addThread() {
         console.log('addThread API endpoint called')
-        return axios.post(`${DATA_API_URL}/thread`)
+        return axios.instance.post(`${DATA_API_URL}/thread`)
     }
 
     retrieveThreads() {
         console.log('retrieveThreads API endpoint called')
-        return axios.get(`${DATA_API_URL}/thread`)
+        return axios.instance.get(`${DATA_API_URL}/thread`)
     }
 
     retrieveThread(thread_id) {
         console.log('retrieveThread API endpoint called')
-        // return axios.get(`${DATA_API_URL}/thread/${thread_id}`)
+        // return axios.instance.get(`${DATA_API_URL}/thread/${thread_id}`)
         const response = `{
               "id": 1,
               "author": "John Smith",
@@ -63,7 +63,7 @@ class ThreadDataService {
     }
 
     updateThread(thread_id, request) {
-        const response = axios.put(`${DATA_API_URL}/thread/${thread_id}`, request)
+        const response = axios.instance.put(`${DATA_API_URL}/thread/${thread_id}`, request)
         .then(response => {
             console.log(response);
           })
@@ -75,15 +75,14 @@ class ThreadDataService {
 
     addComment(thread_id, request) {
         console.log("addComment API endpoint called")
-        let token = sessionStorage.getItem('bearerToken');
         console.log(request)
-        return axios.post(`${DATA_API_URL}/thread/${thread_id}/comment`, request)
+        return axios.instance.post(`${DATA_API_URL}/thread/${thread_id}/comment`, request)
     }
 
     addReport(thread_id, request) {
         console.log("addReport API endpoint called")
         console.log(request)
-        return axios.post(`${DATA_API_URL}/thread/${thread_id}/report`, request)
+        return axios.instance.post(`${DATA_API_URL}/thread/${thread_id}/report`, request)
     }
 
 }
