@@ -19,12 +19,13 @@ class AuthenticationService {
         return response
     }
 
-    executeJwtRegisterService(email, username, password, confirmedPassword) {
-      return axios.instance.post(`${API_URL}/user`, {
-        email,
-        username,
-        password,
-        confirmedPassword
+    executeJwtRegisterService(email, username, password, firstName, lastName) {
+      return axios.instance.post(`${API_URL}/api/user`, {
+        email: email,
+        username: username,
+        password: password,
+        firstName: firstName,
+        lastName: lastName
       })
     }
 
