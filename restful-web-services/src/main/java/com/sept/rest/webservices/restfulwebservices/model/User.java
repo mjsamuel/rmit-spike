@@ -113,6 +113,10 @@ public class User {
 	public long getUpspikes() {
 		return upspikes;
 	}
+	
+	public List<Long> getSubscribedTo() {
+		return subscribedTo;
+	}
 
 	// Setters
 	public void setPassword(String password) {
