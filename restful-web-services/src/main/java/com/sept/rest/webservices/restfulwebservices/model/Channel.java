@@ -24,29 +24,37 @@ public class Channel {
 	private Visibility visibility;
 
 	public enum Visibility {
-		SHARED, EXCLUSIVE
+		PUBLIC, PRIVATE
 	};
-
-	@ElementCollection
-	@CollectionTable(name = "channelSubscribers")
-	private List<User> subscribers;
 
 	@ElementCollection
 	@CollectionTable(name = "channelThreads")
 	private List<Thread> threads;
 
+	// Default constructor
 	public Channel() {
 	}
 
-	public Channel(Long id, String name, Visibility visibility, Boolean archived) {
+	// Constructor for creation of a new comment
+	public Channel(String name, Visibility visibility) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.datetime = new Date().toString();
+		datetime = new Date().toString();
 		this.visibility = visibility;
-		this.archived = archived;
-		this.subscribers = new ArrayList<User>();
+		archived = false;
 		this.threads = new ArrayList<Thread>();
+	}
+	
+	// Constructor for instantiating existing thread from serialization
+	public Channel(Long id, String name, String datetime, boolean archived, Visibility visibility, ArrayList<Thread> threads) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.datetime = datetime;
+		this.archived = archived;
+		this.visibility = visibility;
+		this.threads = threads;
 	}
 
 	public Long getId() {
@@ -89,16 +97,6 @@ public class Channel {
 		this.visibility = visibility;
 	}
 
-	public List<User> getSubscribers() {
-		if(subscribers.isEmpty())
-			return null;
-		return subscribers;
-	}
-
-	public void setSubscribers(List<User> subscribers) {
-		this.subscribers = subscribers;
-	}
-
 	public List<Thread> getThreads() {
 		if(threads.isEmpty())
 			return null;
@@ -124,21 +122,4 @@ public class Channel {
 		}
 		return false;
 	}
-
-	public boolean subscribeUser(User user) {
-		if (!subscribers.contains(user)) {
-			subscribers.add(user);
-			return true;
-		}
-		return false;
-	}
-
-	public boolean unsubscribeUser(User user) {
-		if (subscribers.contains(user)) {
-			subscribers.remove(user);
-			return true;
-		}
-		return false;
-	}
-
 }
