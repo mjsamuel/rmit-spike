@@ -41,13 +41,13 @@ public class ChannelTests {
 	@Test
 	public void addChannelSubscribersAndThreadsToDatabase() throws InvalidAttributeValueException {
 
-		Channel c1 = new Channel("SEPT", Visibility.PUBLIC);
+		Channel c1 = new Channel("SEPT", "public");
 
 		List<Thread> threads = new ArrayList<>();
 		Thread t1 = new Thread((long) 1, "How to subscribe to channel?", 
-				"I found a channel I like and want to subscribe to it.", false, 245, 5, 1, 1, null);
+				"I found a channel I like and want to subscribe to it.", "Sun Sep 29 21:08:19 AEST 2019", false, 245, 5, 1, 1, null);
 		Thread t2 = new Thread((long) 2, "How to delete previous thread",
-				"I found a solution to my previous thread and want to delete it.", true, 123, 23, 1, 1, null);
+				"I found a solution to my previous thread and want to delete it.", "Sun Sep 29 21:08:19 AEST 2019", true, 123, 23, 1, 1, null);
 
 		threadRepository.save(t1);
 		threadRepository.save(t2);
@@ -76,9 +76,9 @@ public class ChannelTests {
 
 	@Test
  	public void testAddThreadToChannel() {
-		Channel c1 = new Channel("SEPT", Visibility.PUBLIC);
+		Channel c1 = new Channel("SEPT", "public");
 		Thread t1 = new Thread((long) 1, "How to subscribe to channel?",
-				"I found a channel I like and want to subscribe to it.", false, 245, 5, 1, 1, null);
+				"I found a channel I like and want to subscribe to it.", "Sun Sep 29 21:08:19 AEST 2019", false, 245, 5, 1, 1, null);
 
  		assertNotNull(c1);
  		assertNotNull(t1);
@@ -92,7 +92,7 @@ public class ChannelTests {
 
 	@Test
  	public void testChangeVisibility() {
-		Channel c1 = new Channel("SEPT", Visibility.PUBLIC);
+		Channel c1 = new Channel("SEPT", "public");
 
  		Visibility visibility = c1.getVisibility();
 
@@ -105,16 +105,16 @@ public class ChannelTests {
 
 	@Test
  	public void testCreateChannel() {
-		Channel c1 = new Channel("SEPT", Visibility.PUBLIC);
+		Channel c1 = new Channel("SEPT", "public");
 		
  		assertNotNull(c1);
  	}
 
 	@Test
  	public void testRemoveThreadFromChannel() {
-		Channel c1 = new Channel("SEPT", Visibility.PUBLIC);
+		Channel c1 = new Channel("SEPT", "public");
 		Thread t1 = new Thread((long) 1, "How to subscribe to channel?",
-				"I found a channel I like and want to subscribe to it.", false, 245, 5, 1, 1, null);
+				"I found a channel I like and want to subscribe to it.", "Sun Sep 29 21:08:19 AEST 2019", false, 245, 5, 1, 1, null);
 
  		assertNotNull(c1);
  		assertNotNull(t1);

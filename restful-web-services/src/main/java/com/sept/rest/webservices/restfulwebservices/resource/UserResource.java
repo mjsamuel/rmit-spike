@@ -39,20 +39,22 @@ public class UserResource {
 	private JwtTokenUtil jwtTokenUtil;
 
 	@GetMapping("/api/user")
-	public List<User> getAll() {
-		return userRepository.findAll();
+	public ResponseEntity<List<User>> getAll() {
+		List<User> users = userRepository.findAll();
+		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
 
 	@GetMapping("/api/user/{user_id}")
-	public User getByUserId(@PathVariable long user_id) {
-		return userRepository.findById(user_id).get();
+	public ResponseEntity<User> getByUserId(@PathVariable long user_id) {
+		User user = userRepository.findById(user_id).get();
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/api/user/{user_id}")
-	public ResponseEntity<Void> deleteUser(@PathVariable long user_id) {
+	public ResponseEntity<?> deleteUser(@PathVariable long user_id) {
 		userRepository.deleteById(user_id);
-
-		return ResponseEntity.ok().build();
+		
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PostMapping("/api/user")

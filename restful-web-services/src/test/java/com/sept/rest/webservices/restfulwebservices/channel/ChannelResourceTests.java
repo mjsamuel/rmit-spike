@@ -36,7 +36,13 @@ public class ChannelResourceTests {
 	
 	@Autowired ChannelRepository channelRepository;
 	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcwMTg1MDU4LCJpYXQiOjE1Njk1ODAyNTh9.xoEihglhwg_M_LJRAd9N3LyeN9Ds72rQSzOyohfL2NkhanGDYHSRkH5ua2Li9_TpSwJQmEZ6v3iLw8b8CG3alg";
-	private String channel = "{ \"id\": 1, \"name\": \"Test Channel\", \"datetime\": \"Fri Sep 20 22:00:00 AEST 2019\", \"visibility\": 0, \"archived\": 0 }";
+	private String channel = "{ "
+			+ "\"id\": 1, "
+			+ "\"name\": \"Test Channel\", "
+			+ "\"datetime\": \"Fri Sep 20 22:00:00 AEST 2019\", "
+			+ "\"visibility\": 0, "
+			+ "\"archived\": 0 "
+			+ "}";
 	
 	// Currently Not working with CollectionTable @Test
 	public void testAddChannel() throws Exception {
@@ -45,9 +51,11 @@ public class ChannelResourceTests {
 
 	@Test
 	public void testGetChannels() throws Exception {
-		MvcResult result = mockMvc.perform(
-				MockMvcRequestBuilders.get("/api/channel/").with(csrf()).header("authorization", "Bearer " + token)
-						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/channel/")
+				.with(csrf())
+				.header("authorization", "Bearer " + token)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andReturn();
 
 		MockHttpServletResponse response = result.getResponse();
@@ -57,10 +65,13 @@ public class ChannelResourceTests {
 
 	@Test
 	public void testChannelGetById() throws Exception {
-		MvcResult result = mockMvc.perform(
-				MockMvcRequestBuilders.get("/api/channel/1").with(csrf()).header("authorization", "Bearer " + token)
-						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk()).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders
+				.get("/api/channel/1").with(csrf())
+				.header("authorization", "Bearer " + token)
+				.content("1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON))
+				.andReturn();
 
 		MockHttpServletResponse response = result.getResponse();
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -70,8 +81,11 @@ public class ChannelResourceTests {
 	@Test
 	public void testChannelGetByUserId() throws Exception {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/channel?user=<user_id>")
-				.with(user(TEST_USER_ID)).with(csrf()).header("authorization", "Bearer " + token)
-				.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk())
+				.with(user(TEST_USER_ID))
+				.with(csrf())
+				.header("authorization", "Bearer " + token)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON))
 				.andReturn();
 
 		MockHttpServletResponse response = result.getResponse();
@@ -85,11 +99,13 @@ public class ChannelResourceTests {
 	}
 
 	public void testChannelPut(String channel) throws Exception {
-		MvcResult result = mockMvc
-				.perform(MockMvcRequestBuilders.put("/api/channel/1").with(csrf())
-						.header("authorization", "Bearer " + token).content(channel)
-						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk()).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/channel/1")
+				.with(csrf())
+				.header("authorization", "Bearer " + token)
+				.content(channel)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON))
+				.andReturn();
 
 		MockHttpServletResponse response = result.getResponse();
 		assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -97,11 +113,13 @@ public class ChannelResourceTests {
 	}
 
 	private void testChannelPost(String channel) throws Exception {
-		MvcResult result = mockMvc
-				.perform(MockMvcRequestBuilders.post("/api/channel/").with(csrf())
-						.header("authorization", "Bearer " + token).content(channel)
-						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk()).andReturn();
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/channel/")
+				.with(csrf())
+				.header("authorization", "Bearer " + token)
+				.content(channel)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON))
+				.andReturn();
 
 		MockHttpServletResponse response = result.getResponse();
 		assertEquals(HttpStatus.OK.value(), response.getStatus());

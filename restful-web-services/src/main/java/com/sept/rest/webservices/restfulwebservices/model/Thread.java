@@ -50,25 +50,28 @@ public class Thread {
 	// Constructor for creation of a new thread 
 	public Thread(String title, String content, long userId, long primaryChannel) {
 		super();
-		this.id = id;
+		this.userId = userId;
 		this.title = title;
+		this.content = content;
+		this.primaryChannel = primaryChannel;
+		datetime = null;
 		archived = false;
 		upspikes = 0;
 		downspikes = 0;
-		this.userId = userId;
-		this.primaryChannel = primaryChannel;
+		taggedChannels = null;
 	}
 	
 	// Constructor for instantiating existing thread from serialization
-	public Thread(Long id, String title, String content, boolean archived, int upspikes, int downspikes, long userId, long primaryChannel, String taggedChannels) {
+	public Thread(Long id, String title, String datetime, String content, boolean archived, int upspikes, int downspikes, long userId, long primaryChannel, String taggedChannels) {
 		super();
+		this.id = id;
+		this.userId = userId;
 		this.title = title;
-		this.datetime =  new Date().toString();
 		this.content = content;
-		this.archived = false;
+		this.datetime =  datetime;
+		this.archived = archived;
 		this.upspikes = 0;	
 		this.downspikes = 0;
-		this.userId = userId;
 		this.primaryChannel = primaryChannel;
 		this.taggedChannels = taggedChannels;
 	}

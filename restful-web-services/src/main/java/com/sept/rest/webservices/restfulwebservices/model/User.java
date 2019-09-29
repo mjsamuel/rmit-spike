@@ -121,6 +121,16 @@ public class User {
 	public List<Long> getSubscribedTo() {
 		return subscribedTo;
 	}
+	
+	public boolean isSubscribedTo(Long channelId) {
+		boolean retVal = false;
+		
+		for (Long subscribedId : subscribedTo) {
+			if (subscribedId == channelId) retVal = true;
+		}
+		
+		return retVal;
+	}
 
 	// Setters
 	public void setId(long id) {

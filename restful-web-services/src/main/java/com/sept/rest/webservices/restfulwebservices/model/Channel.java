@@ -1,7 +1,6 @@
 package com.sept.rest.webservices.restfulwebservices.model;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -36,14 +35,19 @@ public class Channel {
 	}
 
 	// Constructor for creation of a new comment
-	public Channel(String name, Visibility visibility) {
+	public Channel(String name, String visibility) {
 		super();
-		this.id = id;
 		this.name = name;
-		datetime = new Date().toString();
-		this.visibility = visibility;
+		
+		if (visibility.equals("public")) {
+			this.visibility = Visibility.PUBLIC;
+		} else {
+			this.visibility = Visibility.PRIVATE;
+		}
+		
+		datetime = null;
 		archived = false;
-		this.threads = new ArrayList<Thread>();
+		threads = new ArrayList<Thread>();
 	}
 	
 	// Constructor for instantiating existing thread from serialization
