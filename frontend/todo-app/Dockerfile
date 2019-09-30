@@ -2,7 +2,7 @@
 FROM node:12.8.0-alpine
 
 ARG API_HOST_VAR
-ENV API_HOST=${HOST_DB_VAR}
+ENV API_HOST=${API_HOST_VAR}
 
 # set the working directory (inside the container)
 WORKDIR /app
