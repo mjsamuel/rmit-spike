@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ThreadDataService from '../../api/todo/ThreadDataService.js'
-
+import {USER_NAME_SESSION_ATTRIBUTE_NAME} from '../../components/todo/AuthenticationService.js'
 
 /**
  * InteractionEntryForm is a form that presents a text entry box for the user to submit
@@ -45,7 +45,7 @@ class InteractionEntryForm extends Component {
 		const request = {
 			content: this.state.value,
 			datetime: Date.now(),
-			authorId: 1, //Placeholder: Needs to reflect current user when auth implemented
+			authorId: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME),
 			threadId: this.props.thread_id,
 			replyId: this.props.isReply ? this.props.reply_id : null
 		}

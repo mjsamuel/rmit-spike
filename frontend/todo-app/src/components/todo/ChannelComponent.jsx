@@ -38,7 +38,8 @@ class ChannelComponent extends Component {
    */
   componentDidMount() {
     const { match: { params } } = this.props;
-    ChannelDataService.getChannel(params.channelId, 1)
+    let userId = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+    ChannelDataService.getChannel(params.channelId, userId)
       .then((response) => {
         this.setState({
           channelId: params.channelId,
