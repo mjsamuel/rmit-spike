@@ -2,7 +2,7 @@
 
 set -e
 
-docker build -t gcr.io/${PROJECT_NAME_PRD}/${FRONTEND_DOCKER_IMAGE_NAME}:$TRAVIS_COMMIT $FRONTEND_BUILD_DIR
+docker build --build-arg API_HOST_VAR=${API_HOST} -t gcr.io/${PROJECT_NAME_PRD}/${FRONTEND_DOCKER_IMAGE_NAME}:$TRAVIS_COMMIT $FRONTEND_BUILD_DIR
 
 echo $GCLOUD_SERVICE_KEY_PRD | base64 --decode -i - > ${HOME}/gcloud-service-key.json
 gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
