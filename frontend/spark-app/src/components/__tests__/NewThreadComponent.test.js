@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactTestUtils from 'react-dom/test-utils';
 import { shallow, mount } from 'enzyme'
-import NewThreadComponent from '../todo/NewThreadComponent'
+import NewThreadComponent from '../NewThreadComponent'
 
 describe('NewThreadComponent', () => {
 	var component, state;

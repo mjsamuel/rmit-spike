@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactTestUtils from 'react-dom/test-utils';
 import { shallow, mount } from 'enzyme'
-import RegisterComponent from '../todo/RegisterComponent'
+import RegisterComponent from '../RegisterComponent'
 
 describe('RegisterComponent', () => {
 	var component, credentials;

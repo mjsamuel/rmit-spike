@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactTestUtils from 'react-dom/test-utils';
 import { shallow, mount } from 'enzyme'
-import ChatComponent from '../todo/ChatComponent'
+import ChatComponent from '../ChatComponent'
 
 describe('ChatComponent', () => {
 	var component, chat;

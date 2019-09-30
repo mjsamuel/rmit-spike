@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactTestUtils from 'react-dom/test-utils'; 
 import { shallow, mount } from 'enzyme'
-import CommentComponent from '../todo/CommentComponent'
+import CommentComponent from '../CommentComponent'
 
 
 describe('CommentComponent', () => {

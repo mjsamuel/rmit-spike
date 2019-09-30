@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactTestUtils from 'react-dom/test-utils';
 import { shallow, mount } from 'enzyme'
-import SearchResultsComponent from '../todo/SearchResultsComponent.jsx'
+import SearchResultsComponent from '../SearchResultsComponent.jsx'
 
 describe('SearchResultsComponent', () => {
 	var component, searchResults;

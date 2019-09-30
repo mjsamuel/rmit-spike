@@ -5,7 +5,7 @@ sudo: false
 cache:
   directories:
     - "$HOME/google-cloud-sdk/"
-    - "frontend/todo-app/node_modules"
+    - "frontend/spark-app/node_modules"
     - $HOME/.m2
 
 # Install services

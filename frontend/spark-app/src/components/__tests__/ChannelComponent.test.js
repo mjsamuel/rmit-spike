@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactTestUtils from 'react-dom/test-utils';
 import { shallow, mount } from 'enzyme'
-import ChannelComponent from '../todo/ChannelComponent'
+import ChannelComponent from '../ChannelComponent'
 
 describe('ChannelComponent', () => {
 	var component, channel;
