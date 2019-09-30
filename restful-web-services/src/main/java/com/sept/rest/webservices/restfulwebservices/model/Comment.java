@@ -42,7 +42,7 @@ public class Comment {
 
 	@Column(name = "archived", columnDefinition="boolean default false")
 	private Boolean archived = false;
-	
+
 	// Default constructor
 	public Comment() {
 	}
@@ -149,7 +149,7 @@ public class Comment {
 
 	public void setUpspikes(Integer upspikes) throws InvalidAttributeValueException {
 		if (upspikes >= 0) {
-			this.upspikes = upspikes;		
+			this.upspikes = upspikes;
 		}
 		else {
 			throw new InvalidAttributeValueException("Number of upspikes must be positive");
@@ -158,7 +158,7 @@ public class Comment {
 
 	public void setDownspikes(Integer downspikes) throws InvalidAttributeValueException {
 		if (downspikes >= 0) {
-			this.downspikes = downspikes;		
+			this.downspikes = downspikes;
 		}
 		else {
 			throw new InvalidAttributeValueException("Number of downspikes must be positive");
@@ -175,7 +175,7 @@ public class Comment {
 
 	public void setArchived(Boolean archived) {
 		this.archived = archived;
-	}	
+	}
 
 
 	@Override
@@ -206,5 +206,5 @@ public class Comment {
 			id, authorId, datetime, upspikes, downspikes, content, replyId, threadId, archived);
 	}
 
-	
+
 }
