@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sept.rest.webservices.restfulwebservices.repository.ChannelRepository;
@@ -50,7 +51,7 @@ public class ChannelResource {
 	 * all threads from the specified channel.
 	 */
 	@GetMapping("/api/channel/{channel_id}")
-	public ResponseEntity<?> getByChannelId(@PathVariable long channel_id, @RequestBody Long user_id) {
+	public ResponseEntity<?> getByChannelId(@PathVariable long channel_id, @RequestParam Long user_id) {
 		ResponseEntity<?> retVal = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
 		Optional<Channel> channel = channelRepository.findById(channel_id);

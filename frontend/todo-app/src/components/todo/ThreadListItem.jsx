@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import './ChannelComponent.css';
 import { FaRegComment, FaAngleUp } from 'react-icons/fa';
+import UserDataService from '../../api/todo/UserDataService.js'
+import ChannelDataService from '../../api/todo/ChannelDataService.js'
 
 class ThreadListItem extends Component {
 
@@ -17,7 +19,9 @@ class ThreadListItem extends Component {
 
     this.state = {
       thread: {},
-      displayOrigin: false
+      displayOrigin: false,
+      channelName: '',
+      username: ''
     }
   }
 
@@ -30,6 +34,24 @@ class ThreadListItem extends Component {
       displayOrigin: this.props.displayOrigin
     })
 
+    ChannelDataService.getChannel(this.props.thread.channelId, 1)
+    .then((response) => {
+      this.setState({
+        channelName: response.data.channelName,
+      })
+    })
+    .catch(() => {
+    })
+
+    UserDataService.getUser(1)
+    .then((response) => {
+      this.setState({
+        username: response.data.username,
+      })
+    })
+    .catch(() => {
+    })
+
   }
 
   /**
@@ -38,9 +60,9 @@ class ThreadListItem extends Component {
   render() {
     return (
       <div className="thread-list-item" key={this.state.thread.id} id={"thread-" + this.state.thread.id}>
-        {this.state.displayOrigin && <a href={"/c/" + this.state.thread.channelId} className="channel-origin">posted in {"c/" + this.state.thread.channelId}<br/></a>}
+        {this.state.displayOrigin && <a href={"/c/" + this.state.thread.channelId} className="channel-origin">posted in {"c/" + this.state.channelName}<br/></a>}
         <a href={"/thread/" + this.state.thread.id} className="thread-list-title" id={"thread-list-title-" + this.state.thread.id}>{this.state.thread.title}</a><br/>
-        <a href={"/u/" + this.state.thread.authorId} className="thread-list-author" id={"thread-list-author-" + this.state.thread.id}>{"u/" + this.state.thread.authorId}</a><br/>
+        <a href={"/u/" + this.state.thread.authorId} className="thread-list-author" id={"thread-list-author-" + this.state.thread.id}>{"u/" + this.state.username}</a><br/>
         <div className="details-bar">
           <span><FaRegComment/> {this.state.thread.noComments} comments | <FaAngleUp/> {this.state.thread.upspikes} Upspikes</span>
         </div>

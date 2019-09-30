@@ -5,8 +5,8 @@ import {USER_NAME_SESSION_ATTRIBUTE_NAME} from '../../components/todo/Authentica
 
 class ChannelDataService {
 
-  getChannel(channel_id) {
-    return axios.instance.get(`${DATA_API_URL}/channel/${channel_id}`);
+  getChannel(channel_id, user_id) {
+    return axios.instance.get(`${DATA_API_URL}/channel/${channel_id}?user_id=${user_id}`);
   }
 
   retrieveChannelThreads(channel_id) {
@@ -19,14 +19,14 @@ class ChannelDataService {
           {
             id: "001",
             title: "Thread Title",
-            authorId: "author",
+            authorId: 1,
             noComments: 0,
             upspikes: 0
           },
           {
             id: "002",
             title: "The Rise and Fall of SEPT at RMIT",
-            authorId: "2",
+            authorId: 1,
             noComments: 13,
             upspikes: 30
           }

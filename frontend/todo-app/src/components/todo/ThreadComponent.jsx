@@ -9,7 +9,7 @@ import InteractionEntryForm from './InteractionEntryForm.jsx'
 import UserDataService from '../../api/todo/UserDataService';
 
 /**
- * ThreadComponent is a component representing a thread. It is responsible for rendering the 
+ * ThreadComponent is a component representing a thread. It is responsible for rendering the
  * content of the thread, the comments present on the thread, as well as author, spikes,
  * time created, and possible user interactions
  * It makes use of the following props, which are also displayed on a card on the user feed
@@ -72,9 +72,9 @@ class ThreadComponent extends Component {
 			})
 
 			// Channel id resolution
-			ChannelDataService.getChannel(response.data.channelId)
+			ChannelDataService.getChannel(response.data.channelId, 1)
 			.then((response) => {
-				this.setState({primary_channel: response.data.name});
+				this.setState({primary_channel: response.data.channelName});
 			}).catch(error => console.log(error))
 			// User id resolution
 			UserDataService.getUser(response.data.authorId)
@@ -105,7 +105,7 @@ class ThreadComponent extends Component {
 		CommentDataService.getComments(this.id)
 		.then((response) => {
 			console.log(response)
-			this.setState({ 
+			this.setState({
 				comments: response.data,
 				commentsLoading: false
 			})
@@ -183,7 +183,7 @@ class ThreadComponent extends Component {
 		ThreadDataService.updateThread(this.id, updatePacket)
 		// console.log(this.state)
 	}
-	
+
 
 	/**
 	 * Renders the thread HTML
@@ -199,7 +199,7 @@ class ThreadComponent extends Component {
 	                	<h1>{this.state.title}</h1>
 	                </div>
 	                <div className="thread-author">
-	                	<h4>Posted by u/{this.state.author} {this.state.timeDelta} ago</h4>
+	                	<h4>Posted by u/{this.state.author} {this.state.timeDelta}</h4>
 	                </div>
 	                <div className="thread-contents">
 	                    <p>{this.state.content}</p>
@@ -207,11 +207,11 @@ class ThreadComponent extends Component {
 	                <div className="interactions">
                 		<button className={this.state.upspiked ? 'upspiked' : 'no-spike'} onClick={this.addUpSpike}> <FaAngleUp/> </button>
                 		<button className={this.state.downspiked ? 'downspiked' : 'no-spike'} onClick={this.addDownSpike}> <FaAngleDown/> </button>
-                		<div className="divider"/>	                	
+                		<div className="divider"/>
 	                	<span className="comment-interaction"> <FaRegComment/> {this.state.comments.length} Comments </span>
-                		<div className="divider"/>                
+                		<div className="divider"/>
                 		<button className="share-interaction" onClick={this.share}> <FaShareAlt/> Share </button>
-                		<div className="divider"/>                		
+                		<div className="divider"/>
                 		<button className="report-interaction" onClick={this.activateReport}> <FaFlag/> Report </button>
 	                </div>
 	                <div className={this.state.replyActive ? 'active-reply' : 'hidden-reply'}>
@@ -220,7 +220,7 @@ class ThreadComponent extends Component {
 		            <div className={this.state.reportActive ? 'active-report' : 'hidden-reply'}>
 		                <InteractionEntryForm thread_id={this.id} isReply={false} isReport={true} updateParent={this.props.updateParent}/>
 	                </div>
-					
+
 	                <div className="comments">
 	                	{this.state.comments.map((comment, i) => ( <CommentComponent key={i} updateParent={this.refresh} {...comment} />))}
 	                </div>

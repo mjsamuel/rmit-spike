@@ -38,13 +38,16 @@ class ChannelComponent extends Component {
    */
   componentDidMount() {
     const { match: { params } } = this.props;
-    var data = ChannelDataService.retrieveChannelThreads(params.channelId)
-    this.setState({
-      channelId: params.channelId,
-      channelName: data.channelName,
-      threads: data.threads,
-      subscribed: data.subscribed
-    })
+    ChannelDataService.getChannel(params.channelId, 1)
+      .then((response) => {
+        this.setState({
+          channelId: params.channelId,
+          channelName: response.data.channelName,
+          threads: response.data.threads,
+          subscribed: response.data.subscribed
+        })
+      })
+
   }
 
   /**

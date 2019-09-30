@@ -48,6 +48,7 @@ public class User {
 
 	// Stores the channel IDs of channels the user is subscribed to
 	@ElementCollection
+	@JsonIgnore
 	@CollectionTable(name = "subscribed_to")
 	private List<Channel> subscribedTo;
 
