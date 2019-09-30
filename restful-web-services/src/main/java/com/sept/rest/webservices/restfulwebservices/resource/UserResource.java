@@ -102,7 +102,7 @@ public class UserResource {
 		return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
 	}
 	
-	@PutMapping("/api/user/{user_id}/{channel_id}")
+	@PostMapping("/api/user/{user_id}/{channel_id}")
 	public ResponseEntity<User> subscribeUser(@PathVariable long user_id, @PathVariable long channel_id) {
 		Optional<User> user = userRepository.findById(user_id);
 		Optional<Channel> channel = channelRepository.findById(channel_id);

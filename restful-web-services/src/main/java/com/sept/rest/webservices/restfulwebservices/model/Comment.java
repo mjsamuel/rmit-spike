@@ -16,40 +16,42 @@ import javax.management.InvalidAttributeValueException;
 public class Comment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private long id;
+	@Column(name = "id", nullable = false)
+	private Long id;
+
 	@Column(name = "datetime")
 	private Date datetime;
-	@Column(name = "user_id")
-	private long userId;
 
-	@Column(name = "upspikes")
-	private int upspikes;
+	@Column(name = "author_id", nullable = false)
+	private Long authorId;
 
-	@Column(name = "downspikes")
-	private int downspikes;
+	@Column(name = "upspikes", columnDefinition="integer default 0")
+	private Integer upspikes = 0;
+
+	@Column(name = "downspikes", columnDefinition="integer default 0")
+	private Integer downspikes = 0;
 
 	@Column(name = "content")
 	private String content;
 
-	@Column(name = "reply_id")
-	private long replyId;
+	@Column(name = "reply_id", columnDefinition="integer default 0")
+	private Long replyId = new Long(0);
 
-	@Column(name = "thread_id")
-	private long threadId;
+	@Column(name = "thread_id", nullable = false)
+	private Long threadId;
 
-	@Column(name = "archived")
-	private Boolean archived;
-	
+	@Column(name = "archived", columnDefinition="boolean default false")
+	private Boolean archived = false;
+
 	// Default constructor
 	public Comment() {
 	}
 
-	// Constructor for creation of a new comment
-	public Comment(long userId, Date datetime, String content, long replyId, long threadId) throws InvalidAttributeValueException {
+	// Constructor for creation of a new thread
+	public Comment(Long authorId, Date datetime, String content, Long replyId, Long threadId) throws InvalidAttributeValueException {
 		super();
 		this.id = id;
-		this.userId = userId;
+		this.authorId = authorId;
 		this.datetime = datetime;
 		this.setUpspikes(0);
 		this.setDownspikes(0);
@@ -60,10 +62,10 @@ public class Comment {
 	}
 
 	// Constructor for instantiating existing thread from serialization
-	public Comment(long id, long userId, Date datetime, int upspikes, int downspikes, String content, long replyId, long threadId, boolean archived) throws InvalidAttributeValueException {
+	public Comment(Long id, Long authorId, Date datetime, Integer upspikes, Integer downspikes, String content, Long replyId, Long threadId, Boolean archived) throws InvalidAttributeValueException {
 		super();
 		this.id = id;
-		this.userId = userId;
+		this.authorId = authorId;
 		this.datetime = datetime;
 		this.setUpspikes(upspikes);
 		this.setDownspikes(downspikes);
@@ -74,7 +76,7 @@ public class Comment {
 	}
 
 	// Getters
-	public long getId() { 
+	public Long getId() {
 		return this.id;
 	}
 
@@ -82,71 +84,88 @@ public class Comment {
 		return this.datetime;
 	}
 
-	public long getUserId() {
-		return this.userId;
+	public Long getAuthorId() {
+		return this.authorId;
 	}
 
-	public int getUpspikes() {
+	public Integer getUpspikes() {
 		return this.upspikes;
 	}
 
-	public int getDownspikes() {
+	public Integer getDownspikes() {
 		return this.downspikes;
 	}
 
-	public int getSpikes() {
-		return this.upspikes - this.downspikes;
+	public Integer getSpikes() {
+		try {
+			return this.upspikes - this.downspikes;
+		}
+		catch (NullPointerException ex) {
+			return new Integer(0);
+		}
 	}
 
-	public float getSpikeRatio() {
-		return (float)this.upspikes/((float)(this.upspikes + this.downspikes));
+	public Float getSpikeRatio() {
+		try {
+			Float ratio = this.upspikes.floatValue()/((this.upspikes.floatValue() + this.downspikes.floatValue()));
+			if (Float.isNaN(ratio)) {
+				return new Float(1.00);
+			}
+			return ratio;
+		}
+		catch (NullPointerException ex) {
+			return new Float(1.00);
+		}
+
 	}
 
 	public String getContent() {
 		return this.content;
 	}
 
-	public long getReplyId() {
+	public Long getReplyId() {
 		return this.replyId;
 	}
 
-	public long getThreadId() {
+	public Long getThreadId() {
 		return this.threadId;
 	}
 
-	public Boolean isArchived() {
+	public Boolean getArchived() {
 		return this.archived;
 	}
 
 	public String getTimeDelta() {
-		PrettyTime p = new PrettyTime();
-		return p.formatDuration(this.datetime);
+		PrettyTime p = new PrettyTime(new Date());
+		return p.format(this.datetime);
 	}
 
 	// Setters
+	public void setId(Long id) { this.id = id;}
+
 	public void setDatetime(Date datetime) {
 		this.datetime = datetime;
 	}
 
-	public void setUpspikes(int upspikes) throws InvalidAttributeValueException { 
+	public void setUpspikes(Integer upspikes) throws InvalidAttributeValueException {
 		if (upspikes >= 0) {
-			this.upspikes = upspikes;		
+			this.upspikes = upspikes;
 		}
 		else {
 			throw new InvalidAttributeValueException("Number of upspikes must be positive");
 		}
  	}
 
-	public void setDownspikes(int downspikes) throws InvalidAttributeValueException { 
+	public void setDownspikes(Integer downspikes) throws InvalidAttributeValueException {
 		if (downspikes >= 0) {
-			this.downspikes = downspikes;		
+			this.downspikes = downspikes;
 		}
 		else {
 			throw new InvalidAttributeValueException("Number of downspikes must be positive");
 		}
  	}
 
- 	public void setThreadId(long threadId) {
+ 	public void setThreadId(Long threadId) {
  		this.threadId = threadId;
  	}
 
@@ -154,9 +173,9 @@ public class Comment {
 		this.content = content;
 	}
 
-	public void isArchived(boolean archived) {
+	public void setArchived(Boolean archived) {
 		this.archived = archived;
-	}	
+	}
 
 
 	@Override
@@ -183,9 +202,9 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		return String.format("{ \"id\":%d, \"userId\":%d, \"datetime\":%tN, \"upspikes\":%d, \"downspikes\":%d, \"content\":%s, \"replyId\":%d, \"threadId\":%d, \"archive\":%b }",
-			id, userId, datetime, upspikes, downspikes, content, replyId, threadId, archived);
+		return String.format("{ \"id\":%d, \"authorId\":%d, \"datetime\":%tN, \"upspikes\":%d, \"downspikes\":%d, \"content\":%s, \"replyId\":%d, \"threadId\":%d, \"archive\":%b }",
+			id, authorId, datetime, upspikes, downspikes, content, replyId, threadId, archived);
 	}
 
-	
+
 }

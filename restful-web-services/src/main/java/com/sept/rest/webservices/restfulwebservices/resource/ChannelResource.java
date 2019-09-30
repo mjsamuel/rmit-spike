@@ -24,17 +24,16 @@ import com.sept.rest.webservices.restfulwebservices.model.Channel;
 import com.sept.rest.webservices.restfulwebservices.model.Thread;
 import com.sept.rest.webservices.restfulwebservices.model.User;
 
-
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins="*")
 @RestController
 public class ChannelResource {
 
 	@Autowired
 	ChannelRepository channelRepository;
-	
+
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	ThreadRepository threadRepository;
 
@@ -45,22 +44,22 @@ public class ChannelResource {
 	public List<Channel> getAll() {
 		return channelRepository.findAll();
 	}
-	
+
 	/**
-	 * Returns the channel name, whether the user is subscribed to the channels as well as 
+	 * Returns the channel name, whether the user is subscribed to the channels as well as
 	 * all threads from the specified channel.
 	 */
 	@GetMapping("/api/channel/{channel_id}")
 	public ResponseEntity<?> getByChannelId(@PathVariable long channel_id, @RequestBody Long user_id) {
 		ResponseEntity<?> retVal = new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		
+
 		Optional<Channel> channel = channelRepository.findById(channel_id);
 		Optional<User> user = userRepository.findById(user_id);
 
 		if (channel.isPresent() && user.isPresent()) {
 			List<Thread> channelThreads = channel.get().getThreads();
 			boolean subscribed = user.get().isSubscribedTo(channel_id);
-			
+
 			HashMap<String, Object> responseBody = new HashMap<>();
 			responseBody.put("channelName", channel.get().getName());
 			responseBody.put("threads", channelThreads);
@@ -69,7 +68,7 @@ public class ChannelResource {
 			retVal = new ResponseEntity<>(responseBody, HttpStatus.OK);
 		}
 
-		return retVal;	
+		return retVal;
 	}
 
 	/**
@@ -81,7 +80,7 @@ public class ChannelResource {
 
 		return ResponseEntity.ok().build();
 	}
-	
+
 	/**
 	 * Creates a new channel
 	 */
@@ -92,7 +91,7 @@ public class ChannelResource {
 
 		return channelRepository.findAll();
 	}
-	
+
 	/**
 	 * Updates a channel
 	 */
@@ -103,26 +102,5 @@ public class ChannelResource {
 
 		return new ResponseEntity<Channel>(updatedChannel, HttpStatus.OK);
 	}
-	
-	/**
-	 * Creates a new thread within the channel updating both the 'channels' and 'threads' table
-	 */
-	@PutMapping("/api/channel/{channel_id}/new-thread")
-	public ResponseEntity<Channel> postThreadToChannel(@PathVariable long channel_id, @RequestBody Thread thread) {
-		Optional<Channel> updatedChannel = channelRepository.findById(channel_id);
-		if (updatedChannel.isPresent()
-				&& channel_id == thread.getPrimaryChannel()
-				&& thread.getTitle() != null
-				&& !thread.getTitle().equals("")
-				&& thread.getContent() != null
-				&& !thread.getContent().equals("")) {
-			updatedChannel.get().addThread(thread);
-			thread.setDatetime(new Date().toString());
-			threadRepository.save(thread);
-			channelRepository.save(updatedChannel.get());
-		}
 
-		return new ResponseEntity<Channel>(HttpStatus.OK);
-	}
-	
 }

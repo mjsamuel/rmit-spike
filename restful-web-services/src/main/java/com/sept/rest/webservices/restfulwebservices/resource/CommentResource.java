@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Date;
 
+import com.sept.rest.webservices.restfulwebservices.utils.EntityUpdater;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.sept.rest.webservices.restfulwebservices.model.Comment;
 import com.sept.rest.webservices.restfulwebservices.repository.CommentRepository;
 import com.sept.rest.webservices.restfulwebservices.service.CommentService;
+
 
 
 @CrossOrigin(origins="*")
@@ -63,7 +65,10 @@ public class CommentResource {
 	@PutMapping("/api/comment/{comment_id}")
 	public ResponseEntity<Comment> updateComment(@PathVariable long comment_id, @RequestBody Comment comment) {
 		// Note that this updates all parameters that are passed as json, so passing only one parameter will set the rest to null
-		Comment updatedComment = commentRepository.save(comment);
+//		comment.setId(comment_id);
+		Comment existing = commentRepository.findById(comment_id).get();
+		EntityUpdater.copyNonNullProperties(comment, existing);
+		Comment updatedComment = commentRepository.save(existing);
 
 		return new ResponseEntity<Comment>(updatedComment, HttpStatus.OK);
 	}

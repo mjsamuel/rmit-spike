@@ -8,6 +8,4 @@ import com.sept.rest.webservices.restfulwebservices.model.User;
 
 public interface ThreadRepository extends JpaRepository<Thread, Long> {
 	
-	List<Thread> findAllByPrimaryChannel(Long channelId);
-
 }

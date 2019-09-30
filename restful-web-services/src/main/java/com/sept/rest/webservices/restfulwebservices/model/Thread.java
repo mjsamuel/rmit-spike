@@ -1,5 +1,7 @@
 package com.sept.rest.webservices.restfulwebservices.model;
 
+import org.ocpsoft.prettytime.PrettyTime;
+
 import java.util.Date;
 
 import javax.management.InvalidAttributeValueException;
@@ -8,74 +10,70 @@ import javax.persistence.*;
 @Entity
 @Table(name = "threads")
 public class Thread {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
-	@Column(name = "title")
+
+	@Column(name = "title", nullable = false)
 	private String title;
-	
+
 	@Column(name = "datetime")
-	private String datetime;
-	
-	@Column(name = "content")
+	private Date datetime;
+
+	@Column(name = "content", nullable = false)
 	private String content;
-	
-	@Column(name = "archived")
-	private boolean archived;
-	
-	@Column(name = "upspikes")
-	private int upspikes;
-	
-	@Column(name = "downspikes")
-	private int downspikes;
-	
-	// User ID of original poster
-	@Column(name = "user_id")
-	private long userId;
-	
-	// Channel ID of the primary channel
-	@Column(name = "primary_channel")
-	private long primaryChannel;
-	
-	@Column(name = "tagged_channels")
+
+	@Column(name = "archived", columnDefinition="boolean default false")
+	private Boolean archived = false;
+
+	@Column(name = "upspikes", columnDefinition="integer default 0")
+	private Integer upspikes = 0;
+
+	@Column(name = "downspikes", columnDefinition="integer default 0")
+	private Integer downspikes = 0;
+
+	@Column(name = "author_id", nullable = false)
+	private Long authorId;
+
+	@Column(name = "channel_id", nullable = false)
+	private Long channelId;
+
+	@Column(name = "taggedChannels")
 	private String taggedChannels;
-	
+
 	public Thread() {
 		super();
 	}
-	
-	// Constructor for creation of a new thread 
-	public Thread(String title, String content, long userId, long primaryChannel) {
+
+	public Thread(Long id, String title, Date datetime, String content, Boolean archived, Integer upspikes, Integer downspikes, Long authorId, Long channelId, String taggedChannels) {
 		super();
-		this.userId = userId;
 		this.title = title;
+		this.datetime = datetime;
 		this.content = content;
-		this.primaryChannel = primaryChannel;
 		datetime = null;
 		archived = false;
 		upspikes = 0;
 		downspikes = 0;
 		taggedChannels = null;
 	}
-	
+
 	// Constructor for instantiating existing thread from serialization
-	public Thread(Long id, String title, String datetime, String content, boolean archived, int upspikes, int downspikes, long userId, long primaryChannel, String taggedChannels) {
+	public Thread(Long id, String title, Date datetime, String content, boolean archived, int upspikes, int downspikes, long userId, long primaryChannel, long channelId, long authorId, String taggedChannels) {
 		super();
 		this.id = id;
-		this.userId = userId;
 		this.title = title;
 		this.content = content;
 		this.datetime =  datetime;
 		this.archived = archived;
-		this.upspikes = 0;	
+		this.upspikes = 0;
 		this.downspikes = 0;
-		this.primaryChannel = primaryChannel;
-		this.taggedChannels = taggedChannels;
+		this.authorId = authorId;
+		this.channelId = channelId;
+		this.setTaggedChannels(taggedChannels);
 	}
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -92,11 +90,11 @@ public class Thread {
 		this.title = title;
 	}
 
-	public String getDatetime() {
+	public Date getDatetime() {
 		return datetime;
 	}
 
-	public void setDatetime(String datetime) {
+	public void setDatetime(Date datetime) {
 		this.datetime = datetime;
 	}
 
@@ -138,20 +136,48 @@ public class Thread {
 			throw new InvalidAttributeValueException("Number of downspikes must be positive.");
 	}
 
-	public long getUserId() {
-		return userId;
+	public Integer getSpikes() {
+		try {
+			return this.upspikes - this.downspikes;
+		}
+		catch (NullPointerException ex) {
+			return new Integer(0);
+		}
 	}
 
-	public void setOp(long userId) {
-		this.userId = userId;
+	public Float getSpikeRatio() {
+		try {
+			Float ratio = this.upspikes.floatValue()/((this.upspikes.floatValue() + this.downspikes.floatValue()));
+			if (Float.isNaN(ratio)) {
+				return new Float(1.00);
+			}
+			return ratio;
+		}
+		catch (NullPointerException ex) {
+			return new Float(1.00);
+		}
+
 	}
 
-	public long getPrimaryChannel() {
-		return primaryChannel;
+	public String getTimeDelta() {
+		PrettyTime p = new PrettyTime(new Date());
+		return p.format(this.datetime);
 	}
 
-	public void setPrimaryChannel(long primaryChannel) {
-		this.primaryChannel = primaryChannel;
+	public Long getAuthorId() {
+		return this.authorId;
+	}
+
+	public void setOp(Long authorId) {
+		this.authorId = authorId;
+	}
+
+	public Long getChannelId() {
+		return this.channelId;
+	}
+
+	public void setChannelId(Long channelId) {
+		this.channelId = channelId;
 	}
 
 	public String getTaggedChannels() {

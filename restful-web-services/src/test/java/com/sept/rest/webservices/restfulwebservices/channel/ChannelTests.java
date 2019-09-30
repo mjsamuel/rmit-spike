@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.management.InvalidAttributeValueException;
@@ -43,8 +44,9 @@ public class ChannelTests {
 
 		Channel c1 = new Channel("SEPT", "public");
 
+		// These threads need to be mocked. Should not be dependant on thread's actually being created - Sam 29/09/19
 		List<Thread> threads = new ArrayList<>();
-		Thread t1 = new Thread((long) 1, "How to subscribe to channel?", 
+		Thread t1 = new Thread((long) 1, "How to subscribe to channel?",
 				"I found a channel I like and want to subscribe to it.", "Sun Sep 29 21:08:19 AEST 2019", false, 245, 5, 1, 1, null);
 		Thread t2 = new Thread((long) 2, "How to delete previous thread",
 				"I found a solution to my previous thread and want to delete it.", "Sun Sep 29 21:08:19 AEST 2019", true, 123, 23, 1, 1, null);
@@ -106,7 +108,7 @@ public class ChannelTests {
 	@Test
  	public void testCreateChannel() {
 		Channel c1 = new Channel("SEPT", "public");
-		
+
  		assertNotNull(c1);
  	}
 

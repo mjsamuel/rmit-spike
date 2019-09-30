@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {USER_NAME_SESSION_ATTRIBUTE_NAME} from './AuthenticationService.js'
 import './CreateChannelComponent.css'
 import ChannelDataService from '../../api/todo/ChannelDataService.js'
+import ThreadDataService from '../../api/todo/ThreadDataService.js'
 
 class NewThreadComponent extends Component {
 
@@ -54,6 +55,10 @@ class NewThreadComponent extends Component {
           recievedProps: true
         });
       }
+      // this.setState({
+      //   channelId: 1,
+      //   recievedProps: true
+      // })
 
     }
 
@@ -69,18 +74,45 @@ class NewThreadComponent extends Component {
         });
       }
       else {
-        ChannelDataService.postThreadToChannel(this.state.channelId, this.state.channelId.title, this.state.body)
-          .then(() => {
-            this.setState({showSuccessMessage: true})
-            let path = '/c/' + this.state.channelId;
-            this.props.history.push(path);
+        const request = {
+          channelId: this.state.channelId,
+          title: this.state.title,
+          content: this.state.body,
+          datetime: Date.now(),
+          // authorId: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
+          // Placeholder until user id is returned with bearer token
+          authorId: 1
+        }
+
+        ThreadDataService.newThread(request)
+        .then(() => {
+          this.setState({showSuccessMessage: true})
+          let path = '/c/' + this.state.channelId;
+          this.props.history.push(path);
+        })
+        .catch((error) => {
+          console.log(error)
+          this.setState({
+            hasSubmissionFailed: true,
+            errorText: "Error: Failed communicating with backend"
           })
-          .catch(() => {
-            this.setState({
-              hasSubmissionFailed: true,
-              errorText: "Error: Failed communicating with backend"
-            });
-          })
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request);
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message);
+          }
+          console.log(error.config);
+        })
       }
     }
 

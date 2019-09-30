@@ -22,7 +22,9 @@ class InteractionEntryForm extends Component {
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
-
+	componentDidMount() {
+		// console.log(this.props)
+	}
 
 	/**
 	 * Update the DOM as the user enters text
@@ -38,10 +40,12 @@ class InteractionEntryForm extends Component {
 	 * then refresh the thread and update the state of the text box to empty
 	 */
 	handleSubmit(event) {
+		// console.log("isReply", this.props.isReply)
+		// console.log("threadId", this.props.thread_id)
 		const request = {
 			content: this.state.value,
 			datetime: Date.now(),
-			userId: 1, //Placeholder: Needs to reflect current user when auth implemented
+			authorId: 1, //Placeholder: Needs to reflect current user when auth implemented
 			threadId: this.props.thread_id,
 			replyId: this.props.isReply ? this.props.reply_id : null
 		}
@@ -51,12 +55,12 @@ class InteractionEntryForm extends Component {
 		apiCall(this.props.thread_id, request)
 		.then((response) => {
 			console.log(response)
+			this.props.updateParent()
+			this.setState({value: ''})
 		})
 		.catch((error) => {
 			console.log(error);
 		})
-		this.props.updateParent()
-		this.setState({value: ''})
 		event.preventDefault();
 	}
 

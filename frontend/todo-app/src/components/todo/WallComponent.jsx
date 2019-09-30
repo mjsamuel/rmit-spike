@@ -26,10 +26,16 @@ class WallComponent extends Component {
    * and updates the state variables
    */
   componentDidMount() {
-    let data = WallDataService.retrieveWallThreads()
-    this.setState({
-      threads: data.threads
-    })
+    WallDataService.retrieveWallThreads()
+      .then((response) => {
+        console.log(response);
+        this.setState({
+          threads: response.data.threads
+        });
+      })
+      .catch(() => {
+
+      });
   }
 
   /**
@@ -37,7 +43,7 @@ class WallComponent extends Component {
    */
   render() {
     return (
-      <div div className="wall">
+      <div className="wall">
         <div className="thread-list">
           <h1>Wall</h1>
           {this.state.threads.map((thread, index) => {

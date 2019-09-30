@@ -3,8 +3,10 @@ import './ThreadComponent.css';
 import { FaShareAlt, FaRegComment, FaFlag, FaAngleUp, FaAngleDown } from 'react-icons/fa';
 import ThreadDataService from '../../api/todo/ThreadDataService.js'
 import CommentDataService from '../../api/todo/CommentDataService.js'
+import ChannelDataService from '../../api/todo/ChannelDataService.js'
 import CommentComponent from './CommentComponent.jsx'
 import InteractionEntryForm from './InteractionEntryForm.jsx'
+import UserDataService from '../../api/todo/UserDataService';
 
 /**
  * ThreadComponent is a component representing a thread. It is responsible for rendering the 
@@ -28,11 +30,13 @@ class ThreadComponent extends Component {
 			tagged_channels: [],
 			content: '',
 			comments: [],
+			commentsLoading: true,
 			replyActive: true,
 			reportActive: false,
 			upspiked: false,
 			downspiked: false
 		}
+		this.id = this.props.match.params.id;
 		this.refresh = this.refresh.bind(this);
 		this.activateReport = this.activateReport.bind(this);
 		this.addUpSpike = this.addUpSpike.bind(this);
@@ -45,8 +49,8 @@ class ThreadComponent extends Component {
 	 */
 	componentDidMount() {
 
-		let id = this.props.id == null && this.props.match != null ? this.props.match.params.id : this.props.id;
-		this.refresh(id);
+		// let id = this.props.id == null && this.props.match != null ? this.props.match.params.id : this.props.id;
+		this.refresh();
 	}
 
 	/**
@@ -54,16 +58,58 @@ class ThreadComponent extends Component {
 	 * authoritative data and updates the state to repopulate the DOM as necessary
 	 * @param id: the id of the thread
 	 */
-	refresh(id) {
+	refresh() {
 		// console.log("Thread refreshed")
-		var thread = ThreadDataService.retrieveThread(id)
+		ThreadDataService.retrieveThread(this.id)
+		.then((response) => {
+			console.log("Thread response", response);
+			this.setState({
+				title: response.data.title,
+				primary_channel: response.data.primary_channel,
+				content: response.data.content,
+				tagged_channels: response.data.tagged_channels,
+				timeDelta: response.data.timeDelta
+			})
 
-		CommentDataService.getComments(id)
+			// Channel id resolution
+			ChannelDataService.getChannel(response.data.channelId)
+			.then((response) => {
+				this.setState({primary_channel: response.data.name});
+			}).catch(error => console.log(error))
+			// User id resolution
+			UserDataService.getUser(response.data.authorId)
+			.then((response) => {
+				this.setState({author: response.data.username});
+			}).catch(error => console.log(error))
+
+		}).catch(function (error) {
+			console.log("Error getting thread")
+			if (error.response) {
+			  // The request was made and the server responded with a status code
+			  // that falls out of the range of 2xx
+			  console.log(error.response.data);
+			  console.log(error.response.status);
+			  console.log(error.response.headers);
+			} else if (error.request) {
+			  // The request was made but no response was received
+			  // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+			  // http.ClientRequest in node.js
+			  console.log(error.request);
+			} else {
+			  // Something happened in setting up the request that triggered an Error
+			  console.log('Error', error.message);
+			}
+			console.log(error.config);
+		  })
+
+		CommentDataService.getComments(this.id)
 		.then((response) => {
 			console.log(response)
-			this.setState({ comments: response.data })
-		})
-		.catch(function (error) {
+			this.setState({ 
+				comments: response.data,
+				commentsLoading: false
+			})
+		}).catch(function (error) {
 			console.log("Error getting comments")
 			if (error.response) {
 			  // The request was made and the server responded with a status code
@@ -83,15 +129,7 @@ class ThreadComponent extends Component {
 			console.log(error.config);
 		  })
 
-		this.setState({
-			author: thread.author,
-			title: thread.title,
-			primary_channel: thread.primary_channel,
-			content: thread.content,
-			tagged_channels: thread.tagged_channels,
-			comments: thread.comments,
-			timeDelta: thread.timeDelta
-		})
+
 		// console.log(this.state)
 	}
 
@@ -122,7 +160,7 @@ class ThreadComponent extends Component {
 			spikes: this.state.spikes + 1
 		}
 		this.setState(updatePacket)
-		ThreadDataService.updateThread(this.props.id, updatePacket)
+		ThreadDataService.updateThread(this.id, updatePacket)
 		// console.log(this.state)
 	}
 
@@ -142,7 +180,7 @@ class ThreadComponent extends Component {
 			spikes: this.state.spikes - 1
 		}
 		this.setState(updatePacket)
-		ThreadDataService.updateThread(this.props.id, updatePacket)
+		ThreadDataService.updateThread(this.id, updatePacket)
 		// console.log(this.state)
 	}
 	
@@ -161,7 +199,7 @@ class ThreadComponent extends Component {
 	                	<h1>{this.state.title}</h1>
 	                </div>
 	                <div className="thread-author">
-	                	<h2>Posted by u/{this.state.author} {this.state.timeDelta} ago</h2>
+	                	<h4>Posted by u/{this.state.author} {this.state.timeDelta} ago</h4>
 	                </div>
 	                <div className="thread-contents">
 	                    <p>{this.state.content}</p>
@@ -177,11 +215,12 @@ class ThreadComponent extends Component {
                 		<button className="report-interaction" onClick={this.activateReport}> <FaFlag/> Report </button>
 	                </div>
 	                <div className={this.state.replyActive ? 'active-reply' : 'hidden-reply'}>
-	                	<InteractionEntryForm thread_id={this.props.id} isReply={false} isReport={false} updateParent={this.refresh}/>
+	                	<InteractionEntryForm thread_id={this.id} isReply={false} isReport={false} updateParent={this.refresh}/>
 	                </div>
 		            <div className={this.state.reportActive ? 'active-report' : 'hidden-reply'}>
-		                <InteractionEntryForm thread_id={this.props.thread_id} isReply={false} isReport={true} updateParent={this.props.updateParent}/>
+		                <InteractionEntryForm thread_id={this.id} isReply={false} isReport={true} updateParent={this.props.updateParent}/>
 	                </div>
+					
 	                <div className="comments">
 	                	{this.state.comments.map((comment, i) => ( <CommentComponent key={i} updateParent={this.refresh} {...comment} />))}
 	                </div>
