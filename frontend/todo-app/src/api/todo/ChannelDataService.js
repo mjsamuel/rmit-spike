@@ -53,24 +53,10 @@ class ChannelDataService {
     return JSON.parse(response)
   }
 
-  subscribeToChannel(channelId) {
+  subscribeToChannel(channelId, userId) {
     console.log('subscribeToChannel API endpoint called')
-    return axios.instance.put(`${API_URL}/channel/${channelId}`, {
-        username: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
-    })
-  }
-
-  // Flag for deletion: replaced by ThreadDataService.newThread
-  postThreadToChannel(channelId, title, body) {
-    console.log('postThreadToChannel API endpoint called')
-    return axios.instance.put(`${API_URL}/channel/${channelId}`, {
-        username: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME),
-        title: title,
-        body: body
-    })
+    return axios.instance.post(`${DATA_API_URL}/user/${userId}/subscribe?channel_id=${channelId}`)
   }
 }
-
-
 
 export default new ChannelDataService()

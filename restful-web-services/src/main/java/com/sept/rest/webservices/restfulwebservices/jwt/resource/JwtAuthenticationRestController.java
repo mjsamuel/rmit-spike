@@ -1,5 +1,6 @@
 package com.sept.rest.webservices.restfulwebservices.jwt.resource;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sept.rest.webservices.restfulwebservices.jwt.JwtTokenUtil;
 import com.sept.rest.webservices.restfulwebservices.jwt.JwtUserDetails;
+import com.sept.rest.webservices.restfulwebservices.model.User;
+import com.sept.rest.webservices.restfulwebservices.repository.UserRepository;
 
 @RestController
 @CrossOrigin(origins="*")
@@ -33,6 +36,9 @@ public class JwtAuthenticationRestController {
 
   @Autowired
   private AuthenticationManager authenticationManager;
+  
+  @Autowired
+  private UserRepository userRepository;
 
   @Autowired
   private JwtTokenUtil jwtTokenUtil;
@@ -49,8 +55,10 @@ public class JwtAuthenticationRestController {
     final UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 
     final String token = jwtTokenUtil.generateToken(userDetails);
-
-    return ResponseEntity.ok(new JwtTokenResponse(token));
+    
+    User user = userRepository.findByUsername(authenticationRequest.getUsername());
+    
+    return ResponseEntity.ok(new JwtTokenResponse(token, user.getId()));
   }
 
   @RequestMapping(value = "${jwt.refresh.token.uri}", method = RequestMethod.GET)
@@ -62,7 +70,10 @@ public class JwtAuthenticationRestController {
 
     if (jwtTokenUtil.canTokenBeRefreshed(token)) {
       String refreshedToken = jwtTokenUtil.refreshToken(token);
-      return ResponseEntity.ok(new JwtTokenResponse(refreshedToken));
+      
+      long userId = userRepository.findByUsername(username).getId();
+
+      return ResponseEntity.ok(new JwtTokenResponse(refreshedToken, userId));
     } else {
       return ResponseEntity.badRequest().body(null);
     }

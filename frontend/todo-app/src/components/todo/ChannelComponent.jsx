@@ -3,7 +3,7 @@ import ChannelDataService from '../../api/todo/ChannelDataService.js'
 import './ChannelComponent.css';
 import ThreadListItem from './ThreadListItem'
 import ChatComponent from './ChatComponent.jsx'
-
+import {USER_NAME_SESSION_ATTRIBUTE_NAME} from '../../components/todo/AuthenticationService.js'
 
 class ChannelComponent extends Component {
 
@@ -56,8 +56,14 @@ class ChannelComponent extends Component {
    * state
    */
   subscribeClicked() {
-    this.setState({subscribed: !this.state.subscribed})
-    ChannelDataService.subscribeToChannel(this.state.channelId)
+    let userId = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+    ChannelDataService.subscribeToChannel(this.state.channelId, userId)
+    .then(() => {
+      this.setState({subscribed: !this.state.subscribed})
+    })
+    .catch(() => {
+
+    })
   }
 
   /**

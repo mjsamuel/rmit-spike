@@ -84,9 +84,10 @@ public class UserResource {
 			user.setPassword(encryptedPassword);
 			userRepository.save(user);
 			
+		    long userId = userRepository.findByUsername(user.getUsername()).getId();
 			final UserDetails userDetails = jwtInMemoryUserDetailsService.loadUserByUsername(user.getUsername());
 			final String token = jwtTokenUtil.generateToken(userDetails);
-			retVal = ResponseEntity.ok(new JwtTokenResponse(token));
+			retVal = ResponseEntity.ok(new JwtTokenResponse(token, userId));
 		}
 
 		return retVal;
