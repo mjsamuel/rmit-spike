@@ -39,16 +39,10 @@ public class Channel {
 	}
 
 	// Constructor for creation of a new comment
-	public Channel(String name, String visibility, Date datetime) {
+	public Channel(String name, Visibility visibility, Date datetime) {
 		super();
 		this.name = name;
-		
-		if (visibility.equals("public")) {
-			this.visibility = Visibility.PUBLIC;
-		} else {
-			this.visibility = Visibility.PRIVATE;
-		}
-		
+		this.visibility = visibility;
 		this.datetime = datetime;
 		archived = false;
 		threads = new ArrayList<Thread>();

@@ -62,12 +62,14 @@ public class ChannelResource {
 		if (channel.isPresent() && user.isPresent()) {
 			List<Thread> channelThreads = channel.get().getThreads();
 			
-			// Ordering threads from most recent to lest recent
-			Collections.sort(channelThreads, new Comparator<Thread>() {
-				public int compare(Thread o1, Thread o2) {
-					return o2.getDatetime().compareTo(o1.getDatetime());
-				}
-			});
+			if (channelThreads != null && channelThreads.size() > 1) {
+				// Ordering threads from most recent to lest recent
+				Collections.sort(channelThreads, new Comparator<Thread>() {
+					public int compare(Thread o1, Thread o2) {
+						return o2.getDatetime().compareTo(o1.getDatetime());
+					}
+				});
+			}
 			
 			boolean subscribed = user.get().isSubscribedTo(channel_id);
 
@@ -96,10 +98,10 @@ public class ChannelResource {
 	 * Creates a new channel
 	 */
 	@PostMapping("/api/channel")
-	public List<Channel> persist(@RequestBody final Channel channel) {
-		channelRepository.save(channel);
+	public ResponseEntity<?> persist(@RequestBody final Channel channel) {
+		Long channelId = channelRepository.save(channel).getId();
 
-		return channelRepository.findAll();
+		return new ResponseEntity<>(channelId, HttpStatus.OK);
 	}
 
 	/**

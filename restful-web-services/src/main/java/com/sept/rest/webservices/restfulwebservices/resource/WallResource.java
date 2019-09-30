@@ -51,11 +51,13 @@ public class WallResource {
 			}
 			
 			// Ordering threads from most recent to lest recent
-			Collections.sort(wallThreads, new Comparator<Thread>() {
-				public int compare(Thread o1, Thread o2) {
-					return o2.getDatetime().compareTo(o1.getDatetime());
-				}
-			});
+			if (wallThreads != null && wallThreads.size() > 1) {
+				Collections.sort(wallThreads, new Comparator<Thread>() {
+					public int compare(Thread o1, Thread o2) {
+						return o2.getDatetime().compareTo(o1.getDatetime());
+					}
+				});
+			}
 			
 			HashMap<String, Object> content = new HashMap<>();
 			content.put("threads", wallThreads);

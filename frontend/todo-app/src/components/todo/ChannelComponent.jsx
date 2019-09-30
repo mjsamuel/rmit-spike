@@ -41,12 +41,15 @@ class ChannelComponent extends Component {
     let userId = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
     ChannelDataService.getChannel(params.channelId, userId)
       .then((response) => {
+        let threads = []
+        if (response.data.threads) threads = response.data.threads;
         this.setState({
           channelId: params.channelId,
           channelName: response.data.channelName,
-          threads: response.data.threads,
+          threads: threads,
           subscribed: response.data.subscribed
         })
+
       })
 
   }

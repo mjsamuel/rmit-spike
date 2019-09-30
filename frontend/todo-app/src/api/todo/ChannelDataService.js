@@ -37,20 +37,9 @@ class ChannelDataService {
       return response
   }
 
-  createChannel(username, channelName, visibility) {
+  createChannel(request) {
     console.log('createChannel API endpoint called')
-    // axios.instance.post(`${API_URL}/channel`, {
-    //     username: username,
-    //     channelName: channelName,
-    //     visibility: visibility
-    // })
-    // .then(() => {
-    //   return `/channel/${response.data.channelId}`
-    // })
-    const response = `{
-      "channelId": "${channelName}"
-    }`
-    return JSON.parse(response)
+    return axios.instance.post(`${DATA_API_URL}/channel`, request)
   }
 
   subscribeToChannel(channelId, userId) {
