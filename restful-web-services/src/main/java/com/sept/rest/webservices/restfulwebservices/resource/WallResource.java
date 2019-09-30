@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sept.rest.webservices.restfulwebservices.model.User;
 import com.sept.rest.webservices.restfulwebservices.model.Channel;
 import com.sept.rest.webservices.restfulwebservices.model.Thread;
+import com.sept.rest.webservices.restfulwebservices.repository.ChannelRepository;
 import com.sept.rest.webservices.restfulwebservices.repository.ThreadRepository;
 import com.sept.rest.webservices.restfulwebservices.repository.UserRepository;
 
@@ -28,6 +29,9 @@ public class WallResource {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	ChannelRepository channelRepository;
 
 	@GetMapping("/api/user/{user_id}/wall")
 	public ResponseEntity<?> getWallByUserId(@PathVariable long user_id) {
@@ -37,10 +41,13 @@ public class WallResource {
 	
 		Optional<User> user = userRepository.findById(user_id);
 		if (user.isPresent()) {
-			List<Channel> subscribedChannels = user.get().getSubscribedTo();
-			for (Channel channel : subscribedChannels) {
-				List<Thread> channelThreads = channel.getThreads();
-				wallThreads.addAll(channelThreads);
+			List<Long> subscribedChannels = user.get().getSubscribedTo();
+			for (Long channelId : subscribedChannels) {
+				Optional<Channel> channel = channelRepository.findById(channelId);
+				if (channel.isPresent()) {
+					List<Thread> channelThreads = channel.get().getThreads();
+					wallThreads.addAll(channelThreads);
+				}
 			}
 			
 			// Ordering threads from most recent to lest recent
@@ -49,7 +56,6 @@ public class WallResource {
 					return o2.getDatetime().compareTo(o1.getDatetime());
 				}
 			});
-			
 			
 			HashMap<String, Object> content = new HashMap<>();
 			content.put("threads", wallThreads);

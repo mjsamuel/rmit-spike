@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sept.rest.webservices.restfulwebservices.repository.ChannelRepository;
@@ -32,9 +33,6 @@ public class UserResource {
 
 	@Autowired
 	private UserRepository userRepository;
-	
-	@Autowired
-	private ChannelRepository channelRepository;
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
@@ -102,12 +100,18 @@ public class UserResource {
 		return new ResponseEntity<User>(updatedUser, HttpStatus.OK);
 	}
 	
-	@PostMapping("/api/user/{user_id}/{channel_id}")
-	public ResponseEntity<User> subscribeUser(@PathVariable long user_id, @PathVariable long channel_id) {
+	@PostMapping("/api/user/{user_id}/subscribe")
+	public ResponseEntity<User> subscribeUser(@PathVariable long user_id, @RequestParam long channel_id) {
 		Optional<User> user = userRepository.findById(user_id);
-		Optional<Channel> channel = channelRepository.findById(channel_id);
-		if (user.isPresent() && channel.isPresent()) {
-			user.get().subscribeToChannel(channel.get());
+		if (user.isPresent()) {
+			if (!user.get().isSubscribedTo(channel_id)) {
+				user.get().subscribeToChannel(channel_id);
+				System.out.println("Subsribe");
+			} else {
+				user.get().unsubscribeToChannel(channel_id);
+				System.out.println("Unsubscribe");
+
+			}
 			userRepository.save(user.get());
 		}
 
