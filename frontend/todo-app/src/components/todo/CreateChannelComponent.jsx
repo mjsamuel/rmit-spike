@@ -17,7 +17,7 @@ class CreateChannelComponent extends React.Component {
       this.state = {
           username: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME),
           channelName: "",
-          visibility: "public",
+          visibility: 'PUBLIC',
       }
 
       this.handleChange = this.handleChange.bind(this)
@@ -31,9 +31,21 @@ class CreateChannelComponent extends React.Component {
      * form data along with the current user's username
      */
     confirmClicked() {
-      var data = ChannelDataService.createChannel(this.state.username,
-        this.state.channelName, this.state.visibility)
-      this.props.history.push(`/c/${data.channelId}`)
+      let request = {
+        name: this.state.channelName,
+        visibility: this.state.visibility,
+        datetime: Date.now(),
+        archived: false
+      }
+
+      ChannelDataService.createChannel(request)
+        .then((response) => {
+          let channelId = response.data;
+          this.props.history.push(`/c/${channelId}`)
+        })
+        .catch(() => {
+
+        })
     }
 
     /**
@@ -71,13 +83,13 @@ class CreateChannelComponent extends React.Component {
                 <input type="hidden" name="username" value={this.username} />
                 <div className="form-group">
                   <label htmlFor="channelName">Channel name:</label>
-                  <input type="text" className="form-control" id="channelName"  name="channelName"  onChange={this.handleChange} placeholder="Enter channel name" required />
+                  <input type="text" className="form-control" id="channelName" name="channelName" onChange={this.handleChange} placeholder="Enter channel name" required />
                 </div>
                 <div className="form-group">
                   <label htmlFor="visibility">Channel visibility:</label>
                   <select className="form-control" id="visibility" name="visibility" onChange={this.handleChange}>
-                    <option value="public">Public</option>
-                    <option value="private">Private</option>
+                    <option value='PUBLIC'>Public</option>
+                    <option value='PRIVATE'>Private</option>
                   </select>
                 </div>
                 <div className="button-group">

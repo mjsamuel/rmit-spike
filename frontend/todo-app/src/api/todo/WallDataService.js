@@ -3,11 +3,11 @@ import { API_URL, JPA_API_URL, DATA_API_URL } from '../../Constants'
 import {USER_NAME_SESSION_ATTRIBUTE_NAME} from '../../components/todo/AuthenticationService.js'
 
 class WallDataService {
-  retrieveWallThreads() {
+  retrieveWallThreads(userId) {
       console.log("Getting Wall Threads...")
       console.log("Authorization header:", axios.instance)
       // let userId = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
-      return axios.instance.get(`${DATA_API_URL}/user/1/wall`);
+      return axios.instance.get(`${DATA_API_URL}/user/${userId}/wall`);
       // const response = `{
       //   "threads": [
       //     {

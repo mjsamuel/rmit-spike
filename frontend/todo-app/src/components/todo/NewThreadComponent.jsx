@@ -79,9 +79,7 @@ class NewThreadComponent extends Component {
           title: this.state.title,
           content: this.state.body,
           datetime: Date.now(),
-          // authorId: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
-          // Placeholder until user id is returned with bearer token
-          authorId: 1
+          authorId: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
         }
 
         ThreadDataService.newThread(request)

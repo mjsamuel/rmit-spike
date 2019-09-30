@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import WallDataService from '../../api/todo/WallDataService.js'
 import './WallComponent.css';
 import ThreadListItem from './ThreadListItem'
-
+import {USER_NAME_SESSION_ATTRIBUTE_NAME} from '../../components/todo/AuthenticationService.js'
 
 class WallComponent extends Component {
 
@@ -26,7 +26,8 @@ class WallComponent extends Component {
    * and updates the state variables
    */
   componentDidMount() {
-    WallDataService.retrieveWallThreads()
+    let userId = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
+    WallDataService.retrieveWallThreads(userId)
       .then((response) => {
         console.log(response);
         this.setState({

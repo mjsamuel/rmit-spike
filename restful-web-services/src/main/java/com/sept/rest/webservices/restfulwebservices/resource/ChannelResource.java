@@ -1,5 +1,7 @@
 package com.sept.rest.webservices.restfulwebservices.resource;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +61,16 @@ public class ChannelResource {
 
 		if (channel.isPresent() && user.isPresent()) {
 			List<Thread> channelThreads = channel.get().getThreads();
+			
+			if (channelThreads != null && channelThreads.size() > 1) {
+				// Ordering threads from most recent to lest recent
+				Collections.sort(channelThreads, new Comparator<Thread>() {
+					public int compare(Thread o1, Thread o2) {
+						return o2.getDatetime().compareTo(o1.getDatetime());
+					}
+				});
+			}
+			
 			boolean subscribed = user.get().isSubscribedTo(channel_id);
 
 			HashMap<String, Object> responseBody = new HashMap<>();
@@ -86,11 +98,10 @@ public class ChannelResource {
 	 * Creates a new channel
 	 */
 	@PostMapping("/api/channel")
-	public List<Channel> persist(@RequestBody final Channel channel) {
-		channel.setDatetime(new Date().toString());
-		channelRepository.save(channel);
+	public ResponseEntity<?> persist(@RequestBody final Channel channel) {
+		Long channelId = channelRepository.save(channel).getId();
 
-		return channelRepository.findAll();
+		return new ResponseEntity<>(channelId, HttpStatus.OK);
 	}
 
 	/**
