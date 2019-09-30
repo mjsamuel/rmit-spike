@@ -1,6 +1,8 @@
 package com.sept.rest.webservices.restfulwebservices.resource;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -40,6 +42,14 @@ public class WallResource {
 				List<Thread> channelThreads = channel.getThreads();
 				wallThreads.addAll(channelThreads);
 			}
+			
+			// Ordering threads from most recent to lest recent
+			Collections.sort(wallThreads, new Comparator<Thread>() {
+				public int compare(Thread o1, Thread o2) {
+					return o2.getDatetime().compareTo(o1.getDatetime());
+				}
+			});
+			
 			
 			HashMap<String, Object> content = new HashMap<>();
 			content.put("threads", wallThreads);

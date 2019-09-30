@@ -6,10 +6,10 @@ INSERT INTO users(admin, email, username, password, first_name, last_name, upspi
 (false, 's7654321@student.rmit.edu.au', 'user', '$2a$10$r/45rWG0VCwvjrOeVkhqWucO7zmnj7TUzZWMQFH6.h12AqSLteyN2', 'jane', 'doe', 0, false);
 
 INSERT INTO channels(name, datetime, visibility, archived) VALUES
-('SEPT', '2019-11-20 21:00:00', 1, false);
+('SEPT', '2019-08-20 21:00:00', 1, false);
 
 INSERT INTO threads(title, datetime, content, archived, upspikes, downspikes, author_id, channel_id) VALUES
-('The rise and fall of SEPT at RMIT', '2019-11-29 21:08:19', 'Content of the thread', false, 10, 20, 1, 1);
+('The rise and fall of SEPT at RMIT', '2019-08-29 21:08:19', 'Content of the thread', false, 10, 20, 1, 1);
 
 INSERT INTO channel_threads(channel_id, threads_id) VALUES
 (1, 1);

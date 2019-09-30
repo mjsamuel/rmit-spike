@@ -1,9 +1,12 @@
 package com.sept.rest.webservices.restfulwebservices.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "channels")
@@ -16,7 +19,7 @@ public class Channel {
 	@Column(name = "name")
 	private String name;
 	@Column(name = "datetime")
-	private String datetime;
+	private Date datetime;
 	@Column(name = "archived")
 	private Boolean archived;
 	@Column(name = "visibility")
@@ -27,6 +30,7 @@ public class Channel {
 	};
 
 	@ElementCollection
+	@JsonIgnore
 	@CollectionTable(name = "channelThreads")
 	private List<Thread> threads;
 
@@ -35,7 +39,7 @@ public class Channel {
 	}
 
 	// Constructor for creation of a new comment
-	public Channel(String name, String visibility) {
+	public Channel(String name, String visibility, Date datetime) {
 		super();
 		this.name = name;
 		
@@ -45,13 +49,13 @@ public class Channel {
 			this.visibility = Visibility.PRIVATE;
 		}
 		
-		datetime = null;
+		this.datetime = datetime;
 		archived = false;
 		threads = new ArrayList<Thread>();
 	}
 	
 	// Constructor for instantiating existing thread from serialization
-	public Channel(Long id, String name, String datetime, boolean archived, Visibility visibility, ArrayList<Thread> threads) {
+	public Channel(Long id, String name, Date datetime, boolean archived, Visibility visibility, ArrayList<Thread> threads) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -77,11 +81,11 @@ public class Channel {
 		this.name = name;
 	}
 
-	public String getDatetime() {
+	public Date getDatetime() {
 		return datetime;
 	}
 
-	public void setDatetime(String datetime) {
+	public void setDatetime(Date datetime) {
 		this.datetime = datetime;
 	}
 
