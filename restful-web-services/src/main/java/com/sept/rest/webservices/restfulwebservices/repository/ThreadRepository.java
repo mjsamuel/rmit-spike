@@ -7,5 +7,9 @@ import com.sept.rest.webservices.restfulwebservices.model.Thread;
 import com.sept.rest.webservices.restfulwebservices.model.User;
 
 public interface ThreadRepository extends JpaRepository<Thread, Long> {
-	
+    List<Thread> findByAuthorId(long author_id);
+    List<Thread> findByChannelId(long channel_id);
+
+
+
 }

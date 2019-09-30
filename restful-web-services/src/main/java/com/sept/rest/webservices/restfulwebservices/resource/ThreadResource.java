@@ -34,9 +34,19 @@ public class ThreadResource {
 	}
 
 	@GetMapping ("/api/thread/{id}")
-	public ResponseEntity<Thread>  getThread(@PathVariable Long id) throws ThreadNotFoundException {
+	public ResponseEntity<Thread> getThread(@PathVariable Long id) throws ThreadNotFoundException {
 		Thread threads = threadRepository.findById(id).orElseThrow(() -> new ThreadNotFoundException(id));
 		return new ResponseEntity<>(threads, HttpStatus.OK);
+	}
+
+	@GetMapping ("/api/user/{user_id}/thread")
+	public List<Thread> getThreadsByUserId(@PathVariable Long user_id) {
+		return threadRepository.findByAuthorId(user_id);
+	}
+
+	@GetMapping ("/api/channel/{channel_id}/thread")
+	public List<Thread> getThreadsByChannelId(@PathVariable Long channel_id) {
+		return threadRepository.findByChannelId(channel_id);
 	}
 
 	@PostMapping("/api/thread")
