@@ -25,7 +25,7 @@ env:
     - FRONTEND_KUBE_DEPLOYMENT_CONTAINER_NAME=spark-frontend
     - BACKEND_KUBE_DEPLOYMENT_NAME=spark-backend
     - BACKEND_KUBE_DEPLOYMENT_CONTAINER_NAME=spark-backend
-    - FRONTEND_BUILD_DIR=./frontend/todo-app
+    - FRONTEND_BUILD_DIR=./frontend/spark-app
     - BACKEND_BUILD_DIR=./restful-web-services
     - NODE_ENV=CI
 
@@ -35,11 +35,11 @@ matrix:
       node_js:
         - "stable"
       install:
-        - cd frontend/todo-app
+        - cd frontend/spark-app
         - npm install
         - cd ../..
       script:
-        - cd frontend/todo-app
+        - cd frontend/spark-app
         - npm test
         - CI=false npm run build
         - cd ../..
