@@ -13,19 +13,20 @@ describe('ChannelComponent', () => {
 				{
 					id: "001",
 					title: "Thread Title",
-					author: "author",
+					authorId: "author",
 					noComments: 0,
 					upspikes: 0
 				},
 				{
 					id: "002",
 					title: "The Rise and Fall of SEPT at RMIT",
-					author: "john-smith",
+					authorId: "2",
 					noComments: 13,
 					upspikes: 30
 				}
-			]
-    }
+			],
+			subscribed: false
+		}
 	})
 
 	beforeEach(() => {
@@ -50,7 +51,7 @@ describe('ChannelComponent', () => {
 		let threadTitle = component.find("#thread-list-title-" + channel.threads[0].id);
 		let threadAuthor = component.find("#thread-list-author-" + channel.threads[0].id);
 		expect(threadTitle.text()).toEqual(channel.threads[0].title);
-		expect(threadAuthor.text()).toEqual("u/" + channel.threads[0].author);
+		expect(threadAuthor.text()).toEqual("u/" + channel.threads[0].authorId);
 	})
 
 	it('displays unsubsribe when subscribe button is clicked', async() => {

@@ -19,14 +19,14 @@ class ChannelDataService {
           {
             id: "001",
             title: "Thread Title",
-            author: "author",
+            authorId: "author",
             noComments: 0,
             upspikes: 0
           },
           {
             id: "002",
             title: "The Rise and Fall of SEPT at RMIT",
-            author: "john-smith",
+            authorId: "2",
             noComments: 13,
             upspikes: 30
           }
