@@ -42,7 +42,7 @@ public class ChannelTests {
 	@Test
 	public void addChannelSubscribersAndThreadsToDatabase() throws InvalidAttributeValueException {
 
-		Channel c1 = new Channel("SEPT", "public", new Date());
+		Channel c1 = new Channel("SEPT", Visibility.PUBLIC, new Date());
 
 		// These threads need to be mocked. Should not be dependant on thread's actually being created - Sam 29/09/19
 		List<Thread> threads = new ArrayList<>();
@@ -78,7 +78,7 @@ public class ChannelTests {
 
 	@Test
  	public void testAddThreadToChannel() {
-		Channel c1 = new Channel("SEPT", "public", new Date());
+		Channel c1 = new Channel("SEPT", Visibility.PUBLIC, new Date());
 		Thread t1 = new Thread("How to subscribe to channel?",
 				"I found a channel I like and want to subscribe to it.", new Date(), 1L, 1L, null);
 
@@ -94,7 +94,7 @@ public class ChannelTests {
 
 	@Test
  	public void testChangeVisibility() {
-		Channel c1 = new Channel("SEPT", "public", new Date());
+		Channel c1 = new Channel("SEPT", Visibility.PUBLIC, new Date());
 
  		Visibility visibility = c1.getVisibility();
 
@@ -107,14 +107,14 @@ public class ChannelTests {
 
 	@Test
  	public void testCreateChannel() {
-		Channel c1 = new Channel("SEPT", "public", new Date());
+		Channel c1 = new Channel("SEPT", Visibility.PUBLIC, new Date());
 
  		assertNotNull(c1);
  	}
 
 	@Test
  	public void testRemoveThreadFromChannel() {
-		Channel c1 = new Channel("SEPT", "public", new Date());
+		Channel c1 = new Channel("SEPT", Visibility.PUBLIC, new Date());
 		Thread t1 = new Thread("How to subscribe to channel?",
 				"I found a channel I like and want to subscribe to it.", new Date(), 1L, 1L, null);
 
