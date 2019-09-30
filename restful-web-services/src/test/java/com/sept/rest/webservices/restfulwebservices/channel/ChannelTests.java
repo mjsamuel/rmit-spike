@@ -46,10 +46,10 @@ public class ChannelTests {
 
 		// These threads need to be mocked. Should not be dependant on thread's actually being created - Sam 29/09/19
 		List<Thread> threads = new ArrayList<>();
-		Thread t1 = new Thread((long) 1, "How to subscribe to channel?",
-				"I found a channel I like and want to subscribe to it.", "Sun Sep 29 21:08:19 AEST 2019", false, 245, 5, 1, 1, null);
-		Thread t2 = new Thread((long) 2, "How to delete previous thread",
-				"I found a solution to my previous thread and want to delete it.", "Sun Sep 29 21:08:19 AEST 2019", true, 123, 23, 1, 1, null);
+		Thread t1 = new Thread("How to subscribe to channel?",
+				"I found a channel I like and want to subscribe to it.", new Date(), 1L, 1L, null);
+		Thread t2 = new Thread("How to delete previous thread",
+				"I found a solution to my previous thread and want to delete it.", new Date(), 1L, 1L, null);
 
 		threadRepository.save(t1);
 		threadRepository.save(t2);
@@ -79,8 +79,8 @@ public class ChannelTests {
 	@Test
  	public void testAddThreadToChannel() {
 		Channel c1 = new Channel("SEPT", "public");
-		Thread t1 = new Thread((long) 1, "How to subscribe to channel?",
-				"I found a channel I like and want to subscribe to it.", "Sun Sep 29 21:08:19 AEST 2019", false, 245, 5, 1, 1, null);
+		Thread t1 = new Thread("How to subscribe to channel?",
+				"I found a channel I like and want to subscribe to it.", new Date(), 1L, 1L, null);
 
  		assertNotNull(c1);
  		assertNotNull(t1);
@@ -115,8 +115,8 @@ public class ChannelTests {
 	@Test
  	public void testRemoveThreadFromChannel() {
 		Channel c1 = new Channel("SEPT", "public");
-		Thread t1 = new Thread((long) 1, "How to subscribe to channel?",
-				"I found a channel I like and want to subscribe to it.", "Sun Sep 29 21:08:19 AEST 2019", false, 245, 5, 1, 1, null);
+		Thread t1 = new Thread("How to subscribe to channel?",
+				"I found a channel I like and want to subscribe to it.", new Date(), 1L, 1L, null);
 
  		assertNotNull(c1);
  		assertNotNull(t1);
