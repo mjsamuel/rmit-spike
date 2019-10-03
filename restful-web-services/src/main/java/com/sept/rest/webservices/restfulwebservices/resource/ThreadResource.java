@@ -65,7 +65,7 @@ public class ThreadResource {
 			updatedChannel.get().addThread(thread);
 			threadRepository.save(thread);
 			channelRepository.save(updatedChannel.get());
-			retVal = new ResponseEntity<>(thread, HttpStatus.OK);
+			retVal = new ResponseEntity<>(thread, HttpStatus.CREATED);
 		}
 		
         return retVal;
@@ -96,19 +96,5 @@ public class ThreadResource {
 		Thread updated = threadRepository.save(existing);
 
 		return new ResponseEntity<Thread>(updated, HttpStatus.OK);
-
-//		Thread thread = threadRepository.findById(id)
-//                .orElseThrow(() -> new ThreadNotFoundException(id));
-//
-//		thread.setTitle(threadDetails.getTitle());
-//        thread.setContent(threadDetails.getContent());
-//        thread.setDatetime(threadDetails.getDatetime());
-//        thread.setArchived(threadDetails.isArchived());
-//        thread.setUpspikes(threadDetails.getUpspikes());
-//        thread.setDownspikes(threadDetails.getDownspikes());
-//
-//        Thread updatedBook = threadRepository.save(thread);
-//
-//        return updatedBook;
     }
 }
