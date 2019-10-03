@@ -59,7 +59,7 @@ matrix:
       install:
         - cd restful-web-services
         - ./install.config.sh
-        - mvn package
+        - mvn clean package -Dmaven.javadoc.skip=true -V -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
         - cd ..
       script:
         - cd restful-web-services
