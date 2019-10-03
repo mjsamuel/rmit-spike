@@ -169,7 +169,7 @@ public class Thread {
 		return this.authorId;
 	}
 
-	public void setOp(Long authorId) {
+	public void setAuthorId(Long authorId) {
 		this.authorId = authorId;
 	}
 
