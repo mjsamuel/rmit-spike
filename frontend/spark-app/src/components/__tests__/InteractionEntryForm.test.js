@@ -36,7 +36,7 @@ describe('InteractionEntryForm', () => {
 		expect(component.state().placeholder).toEqual(report_phrase)
 	})
 
-	it('InteractionEntryForm report placeholder', () => {
+	it('InteractionEntryForm reply placeholder', () => {
 		const reply_form = {
 			thread_id: 1,
 			isReply: true,

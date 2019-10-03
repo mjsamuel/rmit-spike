@@ -90,17 +90,17 @@ describe('ThreadComponent', () => {
 		expect(component.props().match.params.id).toEqual(1)
 	})
 
-	it('display primary channel when props are passed', () => {
+	it('display channel name', () => {
 		let channel = component.find('.channel');
 		expect(channel.text()).toEqual("c/" + "sept");
 	})
 
-	it('display thread title when props are passed', () => {
+	it('display thread title', () => {
 		let title = component.find('.thread-title');
 		expect(title.text()).toEqual("The Rise and Fall of SEPT at RMIT");
 	})
 
-	it('Author text is rendered from API call', () => {
+	it('Author text is rendered', () => {
 		let author = component.find('.thread-author');
 		expect(author.text()).toEqual("Posted by u/smithj 2 minutes ago");
 	})

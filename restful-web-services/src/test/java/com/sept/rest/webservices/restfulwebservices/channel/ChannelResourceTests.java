@@ -80,7 +80,7 @@ public class ChannelResourceTests {
 
 	@Test
 	public void testChannelGetByUserId() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/channel?user=<user_id>")
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/channel?user=1")
 				.with(user(TEST_USER_ID))
 				.with(csrf())
 				.header("authorization", "Bearer " + token)
