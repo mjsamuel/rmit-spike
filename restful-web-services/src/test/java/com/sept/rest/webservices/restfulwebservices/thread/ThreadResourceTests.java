@@ -11,6 +11,7 @@ import com.sept.rest.webservices.restfulwebservices.repository.ThreadRepository;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,130 +45,118 @@ public class ThreadResourceTests {
 	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTY5Mzg5ODc4LCJpYXQiOjE1Njg3ODUwNzh9.aPcEZ-_dk_SmkY0MYUCU1KCa28mfMMgaon0iSPUbvmPdZXL2OtLNYBJN3vrcikAhbKYmjEZLxYtOnpclDoL01A";
 
 	@Test
-	@Before
 	public void testAddThread() throws Exception {
-
-//        String thread = "{ \"id\": 1, \"title\": \"Example Title\", \"datetime\": \"Wed Sep 18 22:08:31 AEST 2019\", \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard.\", "
-//        		+ "\"archived\": false, \"op\": \"Luke Morris\", \"primaryChannel\": \"SEPT\", \"taggedChannels\": \"Java\"}";
-//        String thread = "{ \"id\": 1, \"title\": \"Example Title\", \"datetime\": \"1569764365459\", \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard.\", "
-//        		+ "\"archived\": false, \"authorId\": \"1\", \"channelId\": \"1\", \"taggedChannels\": \"Java\"}";
-//        testThreadPost(thread);
+        String thread = "{ \"title\": \"Example Title\", \"datetime\": \"1569764365459\", \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Test content\", " + "\"archived\": false, \"authorId\": \"1\", \"channelId\": \"1\"}";
+        MockHttpServletResponse response = testPost("/api/thread", thread);
+        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+        assertNotNull(response.getContentAsString());
 
 	}
 
+    @Test
+    public void testAddThreadFailEmptyContent() throws Exception {
+        String thread = "{}";
+        MockHttpServletResponse response = testPost("/api/thread", thread);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
+        assertNotNull(response.getContentAsString());
+    }
+
+    @Test
+    public void testAddThreadFailConflictingId() throws Exception {
+        String thread = "{ \"id\": 1, \"title\": \"Example Title\", \"datetime\": \"1569764365459\", \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Test content\", " + "\"archived\": false, \"authorId\": \"1\", \"channelId\": \"1\"}";
+
+        MockHttpServletResponse response = testPost("/api/thread", thread);
+        assertEquals(HttpStatus.CONFLICT.value(), response.getStatus());
+        assertNotNull(response.getContentAsString());
+    }
+
 	@Test
     public void testThreadsGet() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/thread")
-                .with(user(TEST_USER_ID))
-                .with(csrf())
-                .header("authorization", "Bearer " + token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn();
+	    MockHttpServletResponse response = testGet("/api/thread");
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertNotNull(response.getContentAsString());
+    }
 
-        MockHttpServletResponse response = result.getResponse();
+
+    @Test
+    public void testThreadGetById() throws Exception {
+        MockHttpServletResponse response = testGet("/api/thread/1");
         assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertNotNull(response.getContentAsString());
     }
 
     @Test
-    public void testThreadGetById() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/thread/1")
-                .with(user(TEST_USER_ID))
-                .with(csrf())
-                .header("authorization", "Bearer " + token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
+    public void testThreadGetByIdFailMissing() throws Exception {
+        MockHttpServletResponse response = testGet("/api/thread/0");
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
+        assertNotNull(response.getContentAsString());
+    }
 
-        MockHttpServletResponse response = result.getResponse();
+    @Test
+    public void testThreadGetByIdFailInvalid() throws Exception {
+        MockHttpServletResponse response = testGet("/api/thread/invalid");
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
+        assertNotNull(response.getContentAsString());
+    }
+
+    @Test
+    public void testThreadGetByChannelId() throws Exception {
+
+        MockHttpServletResponse response = testGet("/api/channel/1/thread");
         assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertNotNull(response.getContentAsString());
     }
 
-	private MvcResult testThreadGetByIdRequest() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/thread")
+    @Test
+    public void testUpdateThread() throws Exception {
+        String thread = "{ \"title\": \"Example Title\", \"datetime\": \"1569764365459\", \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Test content\", " + "\"archived\": false, \"authorId\": \"1\", \"channelId\": \"1\"}";
+
+        MockHttpServletResponse response = testPut("/api/thread/1", thread);
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertNotNull(response.getContentAsString());
+	}
+
+    @Test
+    public void testUpdateThreadFailMissing() throws Exception {
+        String thread = "{ \"title\": \"Example Title\", \"datetime\": \"1569764365459\", \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Test content\", " + "\"archived\": false, \"authorId\": \"1\", \"channelId\": \"1\"}";
+
+        MockHttpServletResponse response = testPut("/api/thread/10", thread);
+        assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+        assertNotNull(response.getContentAsString());
+    }
+
+    public MockHttpServletResponse testGet(String url) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url)
                 .with(user(TEST_USER_ID))
                 .with(csrf())
-                .header("authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andReturn();
+        return result.getResponse();
+    }
+
+    public MockHttpServletResponse testPut(String url, String content) throws Exception {
+
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(url)
+                .with(user(TEST_USER_ID))
+                .with(csrf())
+                .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn();
 
-		return result;
-	}
+        return result.getResponse();
+    }
 
-//    @Test
-//    public void testThreadGetByChannelId() throws Exception {
-//        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/thread?chan=<chan_id>")
-//                .with(user(TEST_USER_ID))
-//                .with(csrf())
-//                .header("authorization", "Bearer " + token)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andReturn();
-//
-//        MockHttpServletResponse response = result.getResponse();
-//        assertEquals(HttpStatus.OK.value(), response.getStatus());
-//        assertNotNull(response.getContentAsString());
-//    }
+    private MockHttpServletResponse testPost(String url, String content) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(url)
+                .with(user(TEST_USER_ID))
+                .with(csrf())
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andReturn();
+        return result.getResponse();
+    }
 
-
-    // Nothing wrong with this - just ran out of time to get it working. I updated put implementation to update all non-null fields. Suspect there's too many fields to update, or some can't be changed - Sam 29/09/19
-//    @Test
-//    @After
-//    public void testUpdateThread() throws Exception {
-//        String thread = "{ \"title\": \"Updated Title\", \"datetime\": \"1569764365459\", \"upspikes\": 40, \"downspikes\": 3, \"content\": \"This is the new updated content\", "
-//                + "\"archived\": false, \"authorId\": \"1\", \"channelId\": \"1\", \"taggedChannels\": \"Java\"}";
-//        testThreadPut(thread);
-//    }
-//
-//
-//
-//    public void testThreadPut(String thread) throws Exception {
-//        String thread2 = "{ \"id\": 1, \"title\": \"Example Title\", \"datetime\": \"1569764365459\", \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard.\", "
-//                + "\"archived\": false, \"authorId\": \"1\", \"channelId\": \"1\", \"taggedChannels\": \"Java\"}";
-//    	mockMvc.perform(MockMvcRequestBuilders.post("/api/thread/")
-//                .with(user(TEST_USER_ID))
-//                .with(csrf())
-//                .header("authorization", "Bearer " + token)
-//                .content(thread2)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andReturn();
-//
-//        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/thread/1")
-//                .with(user(TEST_USER_ID))
-//                .with(csrf())
-//                .header("authorization", "Bearer " + token)
-//                .content(thread)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andReturn();
-//
-//        MockHttpServletResponse response = result.getResponse();
-//        assertEquals(HttpStatus.OK.value(), response.getStatus());
-//        assertNotNull(response.getContentAsString());
-//    }
-
-//    private void testThreadPost(String thread) throws Exception {
-//        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/thread/")
-//                .with(user(TEST_USER_ID))
-//                .with(csrf())
-//                .header("authorization", "Bearer " + token)
-//                .content(thread)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .accept(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isOk())
-//                .andReturn();
-//
-//
-//        MockHttpServletResponse response = result.getResponse();
-//        assertEquals(HttpStatus.OK.value(), response.getStatus());
-//        assertNotNull(response.getContentAsString());
-//    }
 }

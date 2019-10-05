@@ -3,12 +3,7 @@ package com.sept.rest.webservices.restfulwebservices.model;
 import java.util.Date;
 import org.ocpsoft.prettytime.PrettyTime;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Table;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import javax.management.InvalidAttributeValueException;
 
 @Entity
@@ -31,7 +26,8 @@ public class Comment {
 	@Column(name = "downspikes", columnDefinition="integer default 0")
 	private Integer downspikes = 0;
 
-	@Column(name = "content")
+	@Lob
+	@Column(name = "content", nullable = false)
 	private String content;
 
 	@Column(name = "reply_id", columnDefinition="integer default 0")

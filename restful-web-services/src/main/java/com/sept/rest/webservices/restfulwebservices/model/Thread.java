@@ -61,15 +61,15 @@ public class Thread {
 	}
 
 	// Constructor for instantiating existing thread from serialization
-	public Thread(Long id, String title, String content, Date datetime, boolean archived, int upspikes, int downspikes, long userId, long primaryChannel, long channelId, long authorId, String taggedChannels) {
+	public Thread(Long id, String title, String content, Date datetime, Boolean archived, Integer upspikes, Integer downspikes, Long authorId, Long channelId, String taggedChannels) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.content = content;
 		this.datetime =  datetime;
 		this.archived = archived;
-		this.upspikes = 0;
-		this.downspikes = 0;
+		this.upspikes = upspikes;
+		this.downspikes = downspikes;
 		this.authorId = authorId;
 		this.channelId = channelId;
 		this.setTaggedChannels(taggedChannels);
@@ -169,7 +169,7 @@ public class Thread {
 		return this.authorId;
 	}
 
-	public void setOp(Long authorId) {
+	public void setAuthorId(Long authorId) {
 		this.authorId = authorId;
 	}
 

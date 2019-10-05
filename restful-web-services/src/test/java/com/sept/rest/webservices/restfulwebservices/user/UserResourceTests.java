@@ -192,22 +192,6 @@ public class UserResourceTests {
 	}
 
 	@Test
-	public void testChannelGetByUserId() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/channel?user=<user_id>")
-				.with(user(REGISTERED_USERNAME))
-				.with(csrf())
-				.header("authorization", "Bearer " + token)
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andReturn();
-
-		MockHttpServletResponse response = result.getResponse();
-		assertEquals(HttpStatus.OK.value(), response.getStatus());
-		assertNotNull(response.getContentAsString());
-	}
-
-	@Test
 	public void testUpdateUser() throws Exception {
 		testUserPut(1, UPDATED_USER);
 	}

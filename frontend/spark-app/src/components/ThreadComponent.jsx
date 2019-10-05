@@ -7,6 +7,7 @@ import ChannelDataService from '../api/ChannelDataService.js'
 import CommentComponent from './CommentComponent.jsx'
 import InteractionEntryForm from './InteractionEntryForm.jsx'
 import UserDataService from '../api/UserDataService';
+import {USER_NAME_SESSION_ATTRIBUTE_NAME} from './AuthenticationService.js'
 
 /**
  * ThreadComponent is a component representing a thread. It is responsible for rendering the
@@ -34,7 +35,9 @@ class ThreadComponent extends React.Component {
 			replyActive: true,
 			reportActive: false,
 			upspiked: false,
-			downspiked: false
+			downspiked: false,
+			primary_channel: '',
+			author: ''
 		}
 		this.id = this.props.match.params.id;
 		this.refresh = this.refresh.bind(this);
@@ -59,13 +62,10 @@ class ThreadComponent extends React.Component {
 	 * @param id: the id of the thread
 	 */
 	refresh() {
-		// console.log("Thread refreshed")
 		ThreadDataService.retrieveThread(this.id)
 		.then((response) => {
-			console.log("Thread response", response);
 			this.setState({
 				title: response.data.title,
-				primary_channel: response.data.primary_channel,
 				content: response.data.content,
 				tagged_channels: response.data.tagged_channels,
 				timeDelta: response.data.timeDelta
@@ -73,13 +73,17 @@ class ThreadComponent extends React.Component {
 
 			// Channel id resolution
 			ChannelDataService.getChannel(response.data.channelId, 1)
-			.then((response) => {
-				this.setState({primary_channel: response.data.channelName});
+			.then((channel_response) => {
+				this.setState({
+					primary_channel: channel_response.data.channelName
+				})
 			}).catch(error => console.log(error))
 			// User id resolution
 			UserDataService.getUser(response.data.authorId)
-			.then((response) => {
-				this.setState({author: response.data.username});
+			.then((user_response) => {
+				this.setState({
+					author: user_response.data.username
+				});
 			}).catch(error => console.log(error))
 
 		}).catch(function (error) {
@@ -104,7 +108,7 @@ class ThreadComponent extends React.Component {
 
 		CommentDataService.getComments(this.id)
 		.then((response) => {
-			console.log(response)
+			// console.log(response)
 			this.setState({
 				comments: response.data,
 				commentsLoading: false
@@ -129,8 +133,6 @@ class ThreadComponent extends React.Component {
 			console.log(error.config);
 		  })
 
-
-		// console.log(this.state)
 	}
 
 	/**
@@ -138,7 +140,6 @@ class ThreadComponent extends React.Component {
 	 * the "Reply" form, as both cannot be open simultaneously.
 	 */
 	activateReport() {
-		// console.log("Activate report called");
 		this.setState({
 			reportActive: !this.state.reportActive,
 			replyActive: this.state.reportActive ? true : false
@@ -181,7 +182,6 @@ class ThreadComponent extends React.Component {
 		}
 		this.setState(updatePacket)
 		ThreadDataService.updateThread(this.id, updatePacket)
-		// console.log(this.state)
 	}
 
 
@@ -189,6 +189,7 @@ class ThreadComponent extends React.Component {
 	 * Renders the thread HTML
 	 */
     render() {
+		// console.log(this.state)
         return (
             <>
             	<div className="thread">
