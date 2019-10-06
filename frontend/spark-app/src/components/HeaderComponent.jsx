@@ -23,6 +23,7 @@ class HeaderComponent extends React.Component {
       this.handleChange = this.handleChange.bind(this);
       this.handleSearch = this.handleSearch.bind(this);
       this.handleSearchFocus = this.handleSearchFocus.bind(this);
+      this.showNavContents = this.showNavContents.bind(this);
     }
 
     /**
@@ -71,12 +72,14 @@ class HeaderComponent extends React.Component {
       }
     }
 
+    showNavContents() {
+    }
+
     /**
      * Renders the navigation bar HTML
      */
     render() {
-        // const isUserLoggedIn = AuthenticationService.isUserLoggedIn();
-        //console.log(isUserLoggedIn);
+        const isUserLoggedIn = AuthenticationService.isUserLoggedIn();
 
         return (
           <header>
@@ -84,34 +87,38 @@ class HeaderComponent extends React.Component {
               <ul className="navbar-nav navbar-collapse">
                 <li><a href="/wall" className="navbar-brand">RMIT Spike</a></li>
               </ul>
-              <ul className="navbar-nav navbar-collapse justify-content-center">
-                <form autoComplete="off" onSubmit={this.handleSearch} onBlur={this.handleSearchFocus}>
-                  <div className="input-group">
-                    <input type="text" className="form-control" placeholder="Search..." name="query" onChange={this.handleChange}/>
-                    <div className="input-group-append">
-                      <span className="input-group-text"><FaSearch /></span>
-                    </div>
-                  </div>
-                </form>
-              </ul>
-              <ul className="navbar-nav navbar-collapse justify-content-end">
-                <li><Link className="nav-link" to=""><FaBell /></Link></li>
-                <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Account</a>
-                  <div className="dropdown-menu dropdown-menu-right">
-                    <a className="dropdown-item" href="">
-                      <FaWrench /> User Settings
-                    </a>
-                    <a className="dropdown-item" href="/create-channel">
-                     <FaPlus /> New Channel
-                    </a>
-                    <div className="dropdown-divider"></div>
-                    <a className="dropdown-item" href="/logout" onClick={AuthenticationService.logout}>
-                      <FaDoorOpen /> Logout
-                    </a>
-                  </div>
-                </li>
-              </ul>
+              {isUserLoggedIn &&
+                <>
+                  <ul className="navbar-nav navbar-collapse justify-content-center">
+                    <form autoComplete="off" onSubmit={this.handleSearch} onBlur={this.handleSearchFocus}>
+                      <div className="input-group">
+                        <input type="text" className="form-control" placeholder="Search..." name="query" onChange={this.handleChange}/>
+                        <div className="input-group-append">
+                          <span className="input-group-text"><FaSearch /></span>
+                        </div>
+                      </div>
+                    </form>
+                  </ul>
+                  <ul className="navbar-nav navbar-collapse justify-content-end">
+                    <li><Link className="nav-link" to=""><FaBell /></Link></li>
+                    <li className="nav-item dropdown">
+                      <a className="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Account</a>
+                      <div className="dropdown-menu dropdown-menu-right">
+                        <a className="dropdown-item" href="">
+                          <FaWrench /> User Settings
+                        </a>
+                        <a className="dropdown-item" href="/create-channel">
+                         <FaPlus /> New Channel
+                        </a>
+                        <div className="dropdown-divider"></div>
+                        <a className="dropdown-item" href="/logout" onClick={AuthenticationService.logout}>
+                          <FaDoorOpen /> Logout
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </>
+              }
             </nav>
             {this.state.showSearchResults &&
               <SearchResultsComponent
