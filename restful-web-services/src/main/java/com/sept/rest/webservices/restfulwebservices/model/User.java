@@ -31,7 +31,6 @@ public class User {
 	private String username;
 
 	// Password that is encrypted using BCrypt
-	@JsonIgnore
 	@Column(name = "password")
 	private String password;
 
