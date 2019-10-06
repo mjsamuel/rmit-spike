@@ -82,7 +82,7 @@ public class SearchResourceTests {
 					+ "["
 						+ "{\"id\":1,"
 						+ "\"name\":\"SEPT\","
-						+ "\"datetime\":\"2019-08-20T11:00:00.000+0000\","
+						+ "\"datetime\":\"2019-08-20T21:00:00.000+0000\","
 						+ "\"archived\":false,"
 						+ "\"visibility\":\"PRIVATE\""
 						+ "}"
