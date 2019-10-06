@@ -23,7 +23,6 @@ class HeaderComponent extends React.Component {
       this.handleChange = this.handleChange.bind(this);
       this.handleSearch = this.handleSearch.bind(this);
       this.handleSearchFocus = this.handleSearchFocus.bind(this);
-      this.showNavContents = this.showNavContents.bind(this);
     }
 
     /**
@@ -70,9 +69,6 @@ class HeaderComponent extends React.Component {
       } else {
         this.setState({ showSearchResults: false });
       }
-    }
-
-    showNavContents() {
     }
 
     /**
