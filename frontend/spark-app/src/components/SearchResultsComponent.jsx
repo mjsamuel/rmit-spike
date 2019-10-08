@@ -25,12 +25,16 @@ class SearchResultsComponent extends React.Component {
      * query and updates the state of the component with what is returned
      */
     componentDidMount() {
-      const data = SearchDataService.makeSearch(this.props.query);
+      SearchDataService.makeSearch(this.props.query)
+        .then((response) => {
+          this.setState({
+            users: response.data.users,
+            channels: response.data.channels,
+          })
+        })
+        .catch(() => {
 
-      this.setState({
-        users: data.users,
-        channels: data.channels,
-      });
+        })
     }
 
     /**
@@ -45,7 +49,7 @@ class SearchResultsComponent extends React.Component {
               {this.state.users.map((user, index) => {
                 return (
                   <li id={"search-username-" + index} key={index}>
-                    <a className="dropdown-item" href={"/u/" + user.userId}>
+                    <a className="dropdown-item" href={"/u/" + user.id}>
                       {"u/" + user.username}
                     </a>
                   </li>
@@ -59,8 +63,8 @@ class SearchResultsComponent extends React.Component {
               {this.state.channels.map((channel, index) => {
                 return (
                   <li id={"search-channel-" + index} key={index}>
-                    <a className="dropdown-item" href={"/c/" + channel.channelId}>
-                      {"c/" + channel.channelName}
+                    <a className="dropdown-item" href={"/c/" + channel.id}>
+                      {"c/" + channel.name}
                     </a>
                   </li>
                   )

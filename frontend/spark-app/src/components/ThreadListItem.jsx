@@ -43,7 +43,7 @@ class ThreadListItem extends React.Component {
     .catch(() => {
     })
 
-    UserDataService.getUser(1)
+    UserDataService.getUser(this.props.thread.authorId)
     .then((response) => {
       this.setState({
         username: response.data.username,
