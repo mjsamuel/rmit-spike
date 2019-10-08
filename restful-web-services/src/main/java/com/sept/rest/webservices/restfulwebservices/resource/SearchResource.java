@@ -35,23 +35,22 @@ public class SearchResource {
 	public ResponseEntity<?> search(@RequestParam String query) {
 		ResponseEntity<?> retVal;
 		
-		// Kept as lists for now, for when (or if) fuzzy search is implemented
-		ArrayList<User> users = new ArrayList<>();
-		User user = userRepository.findByUsername(query);
-		if (user != null) users.add(user);
-		
-		ArrayList<Channel> channels = new ArrayList<>();
-		Channel channel = channelRepository.findByName(query);
-		if (channel != null) channels.add(channel);
-		
-		HashMap<String, Object> responseBody = new HashMap<>();
-		responseBody.put("users", users);
-		responseBody.put("channels", channels);
-
-		if (user == null && channel == null) {
+		if (query.equals("") || query == null) {
 			retVal = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} else {
-			retVal = new ResponseEntity<>(responseBody, HttpStatus.OK);
+			// Kept as lists for now, for when (or if) fuzzy search is implemented
+			ArrayList<User> users = userRepository.findByUsernameContainingIgnoreCase(query);
+			ArrayList<Channel> channels = channelRepository.findByNameContainingIgnoreCase(query);
+			
+			HashMap<String, Object> responseBody = new HashMap<>();
+			responseBody.put("users", users);
+			responseBody.put("channels", channels);
+	
+			if (users.isEmpty() && channels.isEmpty()) {
+				retVal = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			} else {
+				retVal = new ResponseEntity<>(responseBody, HttpStatus.OK);
+			}
 		}
 		
 		return retVal;

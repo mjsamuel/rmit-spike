@@ -4,10 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,8 +77,8 @@ public class SearchResourceTests {
 		final String EXPECTED = "{"
 				+ "\"channels\":"
 					+ "["
-						+ "{\"id\":1,"
-						+ "\"name\":\"SEPT\","
+						+ "{\"id\":2,"
+						+ "\"name\":\"CT2019\","
 						+ "\"datetime\":\"2019-08-20T21:00:00.000+0000\","
 						+ "\"archived\":false,"
 						+ "\"visibility\":\"PRIVATE\""
@@ -90,7 +87,7 @@ public class SearchResourceTests {
 					+ "\"users\":[]"
 				+ "}";
 
-		MockHttpServletResponse response = makeSearch("SEPT");
+		MockHttpServletResponse response = makeSearch("CT2019");
 		
         assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertEquals(EXPECTED, response.getContentAsString());
