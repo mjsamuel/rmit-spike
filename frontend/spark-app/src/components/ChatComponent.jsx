@@ -2,6 +2,8 @@ import React from 'react'
 import ChatDataService from '../api/ChatDataService.js'
 import './ChatComponent.css';
 import ChatMessageComponent from './ChatMessageComponent.jsx'
+import SockJsClient from 'react-stomp'
+import { API_URL } from '../Constants'
 
 class ChatComponent extends React.Component {
 
@@ -17,13 +19,16 @@ class ChatComponent extends React.Component {
 
     this.state = {
       messages: [],
-      currentMessage: ""
+      currentMessage: "",
+      topic: "",
+      clientConnected: false
     };
 
     this.chatBottom = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.handleSentMessage = this.handleSentMessage.bind(this);
     this.scrollToBottom = this.scrollToBottom.bind(this);
+    this.handleMessageReceived = this.handleMessageReceived.bind(this);
   }
 
   /**
@@ -32,7 +37,10 @@ class ChatComponent extends React.Component {
   componentDidMount() {
     if (this.props.channelId != null) {
       var data = ChatDataService.retrieveMessages(this.props.channelId);
-      this.setState({ messages: data.messages });
+      this.setState({
+        messages: data.messages,
+        topic: `/channel/1/chat`
+      });
     } else {
 
     }
@@ -60,25 +68,34 @@ class ChatComponent extends React.Component {
   }
 
   handleSentMessage(e) {
-    if (e) e.preventDefault();
-
-    if (this.state.currentMessage.trim() !== "") {
-      let newMessage = {
-        username: "currentUser",
-        content: this.state.currentMessage,
-        timeNumber: 0,
-        timeUnit: "seconds"
-      };
-
-      let messages = this.state.messages.concat(newMessage);
-      this.setState({
-        messages: messages,
-        currentMessage: ""
-      }, () => {
-        if (e) this.scrollToBottom();
-      });
+    try {
+      if (e) e.preventDefault();
+      if (this.state.currentMessage.trim() !== "") {
+        let newMessage = {
+          username: "currentUser",
+          content: this.state.currentMessage,
+          datetime: Date.now()
+        };
+        this.clientRef.sendMessage(this.topic, newMessage);
+        this.setState({
+          currentMessage: ""
+        }, () => {
+          if (e) this.scrollToBottom();
+        });
+      }
+      return true;
+    } catch (e) {
+      console.log(e)
+      return false;
     }
 
+  }
+
+  handleMessageReceived(message) {
+    console.log("Message received: " + message)
+    this.setState(prevState => ({
+      messages: [...prevState.messages, message]
+    }));
   }
 
   /**
@@ -87,6 +104,15 @@ class ChatComponent extends React.Component {
   render() {
     return (
       <div className="chat-panel">
+        <div>
+          <SockJsClient url={`${API_URL}/channel/1/chat`} topics={['/topics/all']}
+          onMessage={(msg) => { this.handleMessageReceived(msg) }} //message is received, what do we do
+          ref={(client) => {this.clientRef = client}}
+          onConnect={ () => { this.setState({ clientConnected: true })}}
+          onDisconnect={ () => this.setState({ clientConnected: false })}
+          />
+        </div>
+
         <div className="chat-banner">CHAT</div>
         <div className="chat-messages" id="chat-messages">
           {this.state.messages.map((message, index) => {
