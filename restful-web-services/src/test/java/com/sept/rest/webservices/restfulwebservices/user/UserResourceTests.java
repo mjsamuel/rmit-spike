@@ -50,7 +50,7 @@ public class UserResourceTests {
 			+ "}";
 	private final static String UNREGISTERED_USER = "{ "
 			+ "\"email\": \"s013579@student.rmit.edu.au\", "
-			+ "\"username\": \"new-user\", "
+			+ "\"username\": \"johndoe\", "
 			+ "\"password\": \"whateverman\", "
 			+ "\"firstName\": \"john\", "
 			+ "\"lastName\": \"doe\""
@@ -91,7 +91,7 @@ public class UserResourceTests {
 	public void testRegisterMissingEmail() throws Exception {
 		final String UNREGISTERED_USER_MISSING_FIELD = "{ "
 				+ "\"email\": \"\", "
-				+ "\"username\": \"new-user\", "
+				+ "\"username\": \"johndoe\", "
 				+ "\"password\": \"whateverman\", "
 				+ "\"firstName\": \"john\", "
 				+ "\"lastName\": \"doe\""
@@ -121,7 +121,7 @@ public class UserResourceTests {
 	public void testRegisterMissingPassword() throws Exception {
 		final String UNREGISTERED_USER_MISSING_FIELD = "{ "
 				+ "\"email\": \"s013579@student.rmit.edu.au\", "
-				+ "\"username\": \"new-user\", "
+				+ "\"username\": \"johndoe\", "
 				+ "\"password\": \"\", "
 				+ "\"firstName\": \"john\", "
 				+ "\"lastName\": \"doe\""
@@ -136,7 +136,7 @@ public class UserResourceTests {
 	public void testRegisterMissingFirstName() throws Exception {
 		final String UNREGISTERED_USER_MISSING_FIRSTNAME = "{ "
 				+ "\"email\": \"s013579@student.rmit.edu.au\", "
-				+ "\"username\": \"new-user\", "
+				+ "\"username\": \"johndoe\", "
 				+ "\"password\": \"whateverman\", "
 				+ "\"firstName\": \"\", "
 				+ "\"lastName\": \"doe\""
@@ -151,7 +151,7 @@ public class UserResourceTests {
 	public void testRegisterMissingLastName() throws Exception {
 		final String UNREGISTERED_USER_MISSING_FIRSTNAME = "{ "
 				+ "\"email\": \"s013579@student.rmit.edu.au\", "
-				+ "\"username\": \"new-user\", "
+				+ "\"username\": \"johndoe\", "
 				+ "\"password\": \"whateverman\", "
 				+ "\"firstName\": \"john\", "
 				+ "\"lastName\": \"\""
