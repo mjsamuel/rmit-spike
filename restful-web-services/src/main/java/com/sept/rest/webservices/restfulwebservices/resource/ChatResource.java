@@ -9,8 +9,8 @@ import org.springframework.web.util.HtmlUtils;
 @Controller
 public class ChatResource {
 
-    @MessageMapping("/chat")
-    @SendTo("/channel/1/chat")
+    @MessageMapping("/channel/1")
+    @SendTo("/1")
     public ChatMessage broadcast(ChatMessage message) throws Exception {
         String name = HtmlUtils.htmlEscape(message.getName());
         String content = HtmlUtils.htmlEscape(message.getContent());

@@ -20,7 +20,6 @@ class ChatComponent extends React.Component {
     this.state = {
       messages: [],
       currentMessage: "",
-      topic: "",
       clientConnected: false
     };
 
@@ -39,7 +38,6 @@ class ChatComponent extends React.Component {
       var data = ChatDataService.retrieveMessages(this.props.channelId);
       this.setState({
         messages: data.messages,
-        topic: `/channel/1/chat`
       });
     } else {
 
@@ -76,7 +74,7 @@ class ChatComponent extends React.Component {
           content: this.state.currentMessage,
           datetime: Date.now()
         };
-        this.clientRef.sendMessage(this.topic, newMessage);
+        this.clientRef.sendMessage(`/app/channel/${1}`, newMessage); //replace {1} with channelId when confirmed working
         this.setState({
           currentMessage: ""
         }, () => {
@@ -105,10 +103,10 @@ class ChatComponent extends React.Component {
     return (
       <div className="chat-panel">
         <div>
-          <SockJsClient url={`${API_URL}/channel/1/chat`} topics={['/topics/all']}
+          <SockJsClient url={`${API_URL}/spark-websocket`} topics={['/topic/1']}
           onMessage={(msg) => { this.handleMessageReceived(msg) }} //message is received, what do we do
           ref={(client) => {this.clientRef = client}}
-          onConnect={ () => { this.setState({ clientConnected: true })}}
+          onConnect={ () => { this.setState({ clientConnected: true }); console.log("Connected to SockJS websocket"); }}
           onDisconnect={ () => this.setState({ clientConnected: false })}
           />
         </div>
