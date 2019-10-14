@@ -62,6 +62,14 @@ public class ThreadResource {
 				&& thread.getContent() != null
 				&& !thread.getContent().equals("")
 				) {
+			
+			// Setting tagged channel based on the name specified 
+			if (thread.getTaggedChannels() != null && !thread.getTaggedChannels().equals("")) {
+				Channel taggedChannel = channelRepository.findByName(thread.getTaggedChannels());
+				if (taggedChannel != null) thread.setTaggedChannels(taggedChannel.getId().toString());
+				else thread.setTaggedChannels(null);
+			}
+			
 			updatedChannel.get().addThread(thread);
 			threadRepository.save(thread);
 			channelRepository.save(updatedChannel.get());

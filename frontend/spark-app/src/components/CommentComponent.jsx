@@ -153,16 +153,16 @@ class CommentComponent extends React.Component {
         			<span className="timeDelta">{this.props.timeDelta}</span>
 	        	</div>
         		<div className="content">
-        			<p>{this.props.content}</p>
+        			<p dangerouslySetInnerHTML={{ __html: this.props.content}} />
         		</div>
         		<div className="interactions">
                 	<button className={this.state.upspiked ? 'upspiked' : 'no-spike'} onClick={this.addUpSpike}> <FaAngleUp/> </button>
                 	<button className={this.state.downspiked ? 'downspiked' : 'no-spike'} onClick={this.addDownSpike}> <FaAngleDown/> </button>
-            		<div className="divider"/>	                	
+            		<div className="divider"/>
                 	<button className="reply-interaction" onClick={this.activateReply}> <FaRegComment/> Reply </button>
-            		<div className="divider"/>	                	
+            		<div className="divider"/>
                 	<button className="share-interaction" onClick={this.share}> <FaShareAlt/> Share </button>
-            		<div className="divider"/>	                	
+            		<div className="divider"/>
                 	<button className="report-interaction" onClick={this.activateReport}> <FaFlag/> Report </button>
 	            </div>
 	            <div className={this.state.replyActive ? 'active-reply' : 'hidden-reply'}>

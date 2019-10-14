@@ -19,11 +19,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.sept.rest.webservices.restfulwebservices.model.Channel;
 import com.sept.rest.webservices.restfulwebservices.model.Comment;
+import com.sept.rest.webservices.restfulwebservices.repository.ChannelRepository;
 import com.sept.rest.webservices.restfulwebservices.repository.CommentRepository;
-import com.sept.rest.webservices.restfulwebservices.service.CommentService;
-
-
 
 @CrossOrigin(origins="*")
 @RestController
@@ -32,11 +31,20 @@ public class CommentResource {
 	@Autowired
 	private CommentRepository commentRepository;
 
+	@Autowired
+	private ChannelRepository channelRepository;
+	
 
 	@PostMapping("/api/thread/{thread_id}/comment")
 	public ResponseEntity<String> persist(@PathVariable long thread_id, @RequestBody final Comment comment) {
 		if (comment != null) {
 			comment.setThreadId(thread_id);
+		}
+		
+		if(comment.getTaggedChannels() != null && !comment.getTaggedChannels().equals("")) {
+			Channel taggedChannel = channelRepository.findByName(comment.getTaggedChannels());
+			if (taggedChannel != null) comment.setTaggedChannels(taggedChannel.getId().toString());
+			else comment.setTaggedChannels(null);
 		}
 
 		Comment createdComment = commentRepository.save(comment);

@@ -42,12 +42,21 @@ class InteractionEntryForm extends React.Component {
 	handleSubmit(event) {
 		// console.log("isReply", this.props.isReply)
 		// console.log("threadId", this.props.thread_id)
+
+    let tagChannelPattern = new RegExp("c/[a-zA-Z0-9]+");
+    let taggedChannels = this.state.value.match(tagChannelPattern);
+    var taggedChannel;
+    if (taggedChannels) {
+      taggedChannel = taggedChannels[0].substring(2);
+    }
+
 		const request = {
 			content: this.state.value,
 			datetime: Date.now(),
 			authorId: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME),
 			threadId: this.props.thread_id,
-			replyId: this.props.isReply ? this.props.reply_id : null
+			replyId: this.props.isReply ? this.props.reply_id : null,
+      taggedChannels: taggedChannel
 		}
 
 		const apiCall = this.props.isReport ? ThreadDataService.addReport : ThreadDataService.addComment
