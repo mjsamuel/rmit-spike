@@ -62,24 +62,16 @@ class ThreadComponent extends React.Component {
 	 * @param id: the id of the thread
 	 */
 	refresh() {
+    let tagChannelPattern = new RegExp("c/[a-zA-Z0-9]+");
+
 		ThreadDataService.retrieveThread(this.id)
 		.then((response) => {
-
       if (response.data.taggedChannels) {
-        let tagChannelPattern = new RegExp("c\/[a-zA-Z0-9]+");
         let taggedChannels = response.data.content.match(tagChannelPattern);
         var taggedChannel = taggedChannels[0];
-        console.log("taggedChannel: " + taggedChannel)
 
-         response.data.content = response.data.content.replace(tagChannelPattern,
-          `<a href=\"/c/${response.data.taggedChannels}\">${taggedChannel}</a>`);
-        // console.log("testContent: " + testContent)
-
-
-        // let trimmedContent = response.data.content.substring()
-        // let content = response.data.content.substring(0, response.data.content.indexOf("c/"))
-        //   + "<a href=\"#\">Previous</a>";
-        // console.log(content);
+        response.data.content = response.data.content.replace(tagChannelPattern,
+          `<a href="/c/${response.data.taggedChannels}">${taggedChannel}</a>`);
       }
 
 			this.setState({
@@ -126,6 +118,18 @@ class ThreadComponent extends React.Component {
 
 		CommentDataService.getComments(this.id)
 		.then((response) => {
+
+      response.data.map((comment, i) => {
+        if (comment.taggedChannels) {
+          let taggedChannels = comment.content.match(tagChannelPattern);
+          var taggedChannel = taggedChannels[0];
+
+          comment.content = comment.content.replace(tagChannelPattern,
+            `<a href="/c/${comment.taggedChannels}">${taggedChannel}</a>`);
+        console.log(i + " tagged " + comment.taggedChannels)
+        }
+      });
+
 			// console.log(response)
 			this.setState({
 				comments: response.data,

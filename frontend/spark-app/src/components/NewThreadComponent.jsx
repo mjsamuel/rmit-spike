@@ -84,8 +84,6 @@ class NewThreadComponent extends React.Component {
           taggedChannels: taggedChannel
         }
 
-        console.log(request);
-
         ThreadDataService.newThread(request)
         .then(() => {
           this.setState({showSuccessMessage: true})
