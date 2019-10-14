@@ -4,6 +4,7 @@ import './ChatComponent.css';
 import ChatMessageComponent from './ChatMessageComponent.jsx'
 import SockJsClient from 'react-stomp'
 import { API_URL } from '../Constants'
+import { AXIOS_HEADERS } from '../axios.js'
 
 class ChatComponent extends React.Component {
 
@@ -70,11 +71,12 @@ class ChatComponent extends React.Component {
       if (e) e.preventDefault();
       if (this.state.currentMessage.trim() !== "") {
         let newMessage = {
-          username: "currentUser",
+          // username: "currentUser",
+          authorId: Number(sessionStorage.getItem("authenticatedUser")),
           content: this.state.currentMessage,
           datetime: Date.now()
         };
-        this.clientRef.sendMessage(`/app/channel/${1}`, newMessage); //replace {1} with channelId when confirmed working
+        this.clientRef.sendMessage(`/app/channel/${1}`, JSON.stringify(newMessage)); //replace {1} with channelId when confirmed working
         this.setState({
           currentMessage: ""
         }, () => {
@@ -90,7 +92,7 @@ class ChatComponent extends React.Component {
   }
 
   handleMessageReceived(message) {
-    console.log("Message received: " + message)
+    console.log("Message received: ", message)
     this.setState(prevState => ({
       messages: [...prevState.messages, message]
     }));
@@ -100,14 +102,22 @@ class ChatComponent extends React.Component {
    * Renders the chat panel HTML
    */
   render() {
+    const headers = JSON.parse(sessionStorage.getItem(AXIOS_HEADERS))
+    // const headers = {
+    //   "Authorization": axiosHeaders.common.Authorization
+    // };
+    // console.log(headers)
     return (
       <div className="chat-panel">
         <div>
-          <SockJsClient url={`${API_URL}/spark-websocket`} topics={['/topic/1']}
-          onMessage={(msg) => { this.handleMessageReceived(msg) }} //message is received, what do we do
+          <SockJsClient url={`${API_URL}/spark-websocket`} topics={['/topic/1']} 
+          headers={headers} subscribeHeaders={headers}
+          onMessage={(msg) => { this.handleMessageReceived(msg) }}
           ref={(client) => {this.clientRef = client}}
-          onConnect={ () => { this.setState({ clientConnected: true }); console.log("Connected to SockJS websocket"); }}
+          onConnect={ () => { this.setState({ clientConnected: true }); }}
           onDisconnect={ () => this.setState({ clientConnected: false })}
+          debug={true}
+          options={{ transports: ['xhr-polling'] }}
           />
         </div>
 
