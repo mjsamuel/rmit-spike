@@ -61,10 +61,22 @@ class NewThreadComponent extends React.Component {
      * form data along with the current user's username and channel id
      */
     confirmClicked() {
-      if (this.state.title.trim() === "" || this.state.body.trim() === "") {
+      if (this.state.title.trim() === "" && this.state.body.trim() === "") {
         this.setState({
           hasSubmissionFailed: true,
-          errorText: "Error: Missing field/s"
+          errorText: "Error: Missing Fields."
+        });
+      }
+      else if (this.state.title.trim() === "") {
+        this.setState({
+          hasSubmissionFailed: true,
+          errorText: "Error: Invalid Title."
+        });
+      }
+      else if (this.state.body.trim() === "") {
+        this.setState({
+          hasSubmissionFailed: true,
+          errorText: "Error: Invalid Body."
         });
       }
       else {

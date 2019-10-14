@@ -11,6 +11,11 @@ class RegisterComponent extends React.Component {
     * It also displays a button to redirect to the login page and a button to submit the from
     * data.
     */
+    name = new RegExp("^[a-zA-Z]+['-]*[a-zA-Z]+['-]*[a-zA-Z]+$");
+    email = new RegExp('^[sS]{1}[0-9]{7}@student.rmit.edu.au$')  ;
+    username = new RegExp('^[^ ]*$');
+    
+
     constructor(props) {
         super(props)
 
@@ -22,8 +27,9 @@ class RegisterComponent extends React.Component {
             firstName: '',
             lastName: '',
             hasRegisterFailed: false,
-            showSuccessMessage: false
-        }
+            showSuccessMessage: false,
+            errorText: ''
+        };
 
         this.handleChange = this.handleChange.bind(this)
         this.submitClicked = this.submitClicked.bind(this)
@@ -49,14 +55,46 @@ class RegisterComponent extends React.Component {
      * If register succeeds, redirect to the user wall. If not display an error message.
      */
     submitClicked() {
-      if (this.state.password !== this.state.confirmedPassword
-          || this.state.email.trim() === ""
+      if (this.state.email.trim() === ""
           || this.state.username.trim() === ""
           || this.state.password.trim() === ""
-          || this.state.confirmedPassword.trim === ""
-          || this.state.firstName.trim === ""
-          || this.state.lastName.trim === "") {
-        this.setState({ hasRegisterFailed: true })
+          || this.state.confirmedPassword.trim() === ""
+          || this.state.firstName.trim() === ""
+          || this.state.lastName.trim() === "") {
+        this.setState({ 
+          hasRegisterFailed: true,
+          errorText: "Error: Missing Fields." 
+        });
+      }
+      else if (!this.name.test(this.state.firstName)) {
+        this.setState({
+          hasRegisterFailed: true,
+          errorText: "Error: Invalid First Name. Can only contain (A-Z, ', -)."
+        });
+      }
+      else if (!this.name.test(this.state.lastName)) {
+        this.setState({
+          hasRegisterFailed: true,
+          errorText: "Error: Invalid Last Name. Can only contain (A-Z, ', -)."
+        });
+      }
+      else if (!this.email.test(this.state.email)) {
+        this.setState({
+          hasRegisterFailed: true,
+          errorText: "Error: Invalid Email. Must be in the format s1234567@student.rmit.edu.au."
+        });
+      }
+      else if (!this.username.test(this.state.username)) {
+        this.setState({
+          hasRegisterFailed: true,
+          errorText: "Error: Invalid Username. Cannot contain ' '."
+        });
+      }
+      else if (this.state.password !== this.state.confirmedPassword) {
+        this.setState({
+          hasRegisterFailed: true,
+          errorText: "Error: Entered Passwords Don't Match."
+        });
       }
       else {
         AuthenticationService
@@ -92,8 +130,8 @@ class RegisterComponent extends React.Component {
               <img src={Logo} alt="RMIT Spike logo"/>
               <h1>RMIT SPIKE</h1>
               <div className="form">
-                {this.state.hasRegisterFailed && <div className="alert alert-warning" id="error">Invalid Credentials or something is wrong</div>}
-                {this.state.showSuccessMessage && <div id="success">Register Sucessful</div>}
+                {this.state.hasRegisterFailed && <div className="alert alert-warning" id="error">{this.state.errorText}</div>}
+                {this.state.showSuccessMessage && <div id="success">Register Successful</div>}
                 <div className="form-group">
                   <input type="text" className="form-control" placeholder="First Name" name="firstName" value={this.state.firstName} onChange={this.handleChange} />
                 </div>
