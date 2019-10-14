@@ -64,6 +64,24 @@ class ThreadComponent extends React.Component {
 	refresh() {
 		ThreadDataService.retrieveThread(this.id)
 		.then((response) => {
+
+      if (response.data.taggedChannels) {
+        let tagChannelPattern = new RegExp("c\/[a-zA-Z0-9]+");
+        let taggedChannels = response.data.content.match(tagChannelPattern);
+        var taggedChannel = taggedChannels[0];
+        console.log("taggedChannel: " + taggedChannel)
+
+         response.data.content = response.data.content.replace(tagChannelPattern,
+          `<a href=\"/c/${response.data.taggedChannels}\">${taggedChannel}</a>`);
+        // console.log("testContent: " + testContent)
+
+
+        // let trimmedContent = response.data.content.substring()
+        // let content = response.data.content.substring(0, response.data.content.indexOf("c/"))
+        //   + "<a href=\"#\">Previous</a>";
+        // console.log(content);
+      }
+
 			this.setState({
 				title: response.data.title,
 				content: response.data.content,
@@ -203,7 +221,7 @@ class ThreadComponent extends React.Component {
 	                	<h4>Posted by u/{this.state.author} {this.state.timeDelta}</h4>
 	                </div>
 	                <div className="thread-contents">
-	                    <p>{this.state.content}</p>
+	                    <p dangerouslySetInnerHTML={{ __html: this.state.content}} />
 	                </div>
 	                <div className="interactions">
                 		<button className={this.state.upspiked ? 'upspiked' : 'no-spike'} onClick={this.addUpSpike}> <FaAngleUp/> </button>
