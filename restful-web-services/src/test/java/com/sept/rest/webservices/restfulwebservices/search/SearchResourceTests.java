@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,11 +28,11 @@ import org.springframework.http.HttpStatus;
 @AutoConfigureTestDatabase
 @SpringBootTest(classes = RestfulWebServicesApplication.class)
 public class SearchResourceTests {
+	private final static String TEST_USER_ID = "sept";
 
 	@Autowired
 	private MockMvc mockMvc;
-	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcwODc0ODU5LCJpYXQiOjE1NzAyNzAwNTl9.8a5nA1HlSMOA_i0O9RIZh5pNE6jRMdOwYATKsxCePmbA1vVLW7kCMrWQAO7zvhg5VhywCienWv3BZ2jw9n5rOA";
-	
+
 	@Test
 	public void searchNoInput() throws Exception {
 		MockHttpServletResponse response = makeSearch("");
@@ -95,8 +96,8 @@ public class SearchResourceTests {
 	
 	private MockHttpServletResponse makeSearch(String query) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/search?query=" + query)
-                .with(csrf())
-                .header("authorization", "Bearer " + token)
+				.with(user(TEST_USER_ID))
+				.with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn();

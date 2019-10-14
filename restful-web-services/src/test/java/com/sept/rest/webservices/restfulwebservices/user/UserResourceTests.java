@@ -29,11 +29,11 @@ import org.springframework.http.HttpStatus;
 @AutoConfigureTestDatabase
 @SpringBootTest(classes = RestfulWebServicesApplication.class)
 public class UserResourceTests {
+	private final static String TEST_USER_ID = "sept";
 
 	@Autowired
 	private MockMvc mockMvc;
-	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcwODc0ODU5LCJpYXQiOjE1NzAyNzAwNTl9.8a5nA1HlSMOA_i0O9RIZh5pNE6jRMdOwYATKsxCePmbA1vVLW7kCMrWQAO7zvhg5VhywCienWv3BZ2jw9n5rOA";
-	
+
 	private final static String REGISTERED_USERNAME = "{ "
 			+ "\"email\": \"@student.rmit.edu.au\", "
 			+ "\"username\": \"sept\", "
@@ -164,8 +164,9 @@ public class UserResourceTests {
 
 	@Test
 	public void testGetUsers() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/user/").with(csrf())
-				.header("authorization", "Bearer " + token)
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/user/")
+				.with(user(TEST_USER_ID))
+				.with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
@@ -180,8 +181,8 @@ public class UserResourceTests {
 	public void testUserGetById() throws Exception {
 		long userId = 1;
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/user/" + userId)
+				.with(user(TEST_USER_ID))
 				.with(csrf())
-				.header("authorization", "Bearer " + token)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
@@ -199,8 +200,8 @@ public class UserResourceTests {
 
 	public void testUserPut(long userId, String user) throws Exception {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/user/" + userId)
+				.with(user(TEST_USER_ID))
 				.with(csrf())
-				.header("authorization", "Bearer " + token)
 				.content(user)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -214,7 +215,8 @@ public class UserResourceTests {
 
 	private MockHttpServletResponse testUserPost(String user) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/user")
-                .with(csrf())
+				.with(user(TEST_USER_ID))
+				.with(csrf())
                 .content(user)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))

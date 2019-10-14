@@ -29,11 +29,11 @@ import org.springframework.http.HttpStatus;
 @AutoConfigureTestDatabase
 @SpringBootTest(classes = RestfulWebServicesApplication.class)
 public class WallResourceTests {
+	private final static String TEST_USER_ID = "sept";
 
 	@Autowired
 	private MockMvc mockMvc;
-	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcwODc0ODU5LCJpYXQiOjE1NzAyNzAwNTl9.8a5nA1HlSMOA_i0O9RIZh5pNE6jRMdOwYATKsxCePmbA1vVLW7kCMrWQAO7zvhg5VhywCienWv3BZ2jw9n5rOA";
-	
+
 	@Test
 	public void testUserWall() throws Exception {
 		MockHttpServletResponse response = testUserWallGet(1);		
@@ -50,8 +50,8 @@ public class WallResourceTests {
 
 	private MockHttpServletResponse testUserWallGet(int userId) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/user/" + userId + "/wall")
-                .with(csrf())
-                .header("authorization", "Bearer " + token)
+				.with(user(TEST_USER_ID))
+				.with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn();

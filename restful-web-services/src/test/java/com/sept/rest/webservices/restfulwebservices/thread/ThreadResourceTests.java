@@ -42,7 +42,6 @@ public class ThreadResourceTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTY5Mzg5ODc4LCJpYXQiOjE1Njg3ODUwNzh9.aPcEZ-_dk_SmkY0MYUCU1KCa28mfMMgaon0iSPUbvmPdZXL2OtLNYBJN3vrcikAhbKYmjEZLxYtOnpclDoL01A";
 
 	@Test
 	public void testAddThread() throws Exception {
