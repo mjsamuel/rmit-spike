@@ -33,7 +33,6 @@ public class UserResourceTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-
 	private final static String REGISTERED_USERNAME = "{ "
 			+ "\"email\": \"@student.rmit.edu.au\", "
 			+ "\"username\": \"sept\", "

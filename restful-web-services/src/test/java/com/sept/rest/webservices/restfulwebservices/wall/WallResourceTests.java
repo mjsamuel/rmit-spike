@@ -33,7 +33,6 @@ public class WallResourceTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-
 	@Test
 	public void testUserWall() throws Exception {
 		MockHttpServletResponse response = testUserWallGet(1);		

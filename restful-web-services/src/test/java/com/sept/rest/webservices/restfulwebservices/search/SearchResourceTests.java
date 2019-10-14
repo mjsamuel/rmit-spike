@@ -32,7 +32,6 @@ public class SearchResourceTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-
 	@Test
 	public void searchNoInput() throws Exception {
 		MockHttpServletResponse response = makeSearch("");
