@@ -41,7 +41,7 @@ public class ThreadResourceTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcxNjM1NzQyLCJpYXQiOjE1NzEwMzA5NDJ9.j4ND8ACeyrt8OsLpPvOHhxTt7ofi4EjedBPSzlfxITt4vsYhPtr4BjFoYehhvG9bsfg2ymXfjOCQkCOrnpNv4w";
+	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTY5Mzg5ODc4LCJpYXQiOjE1Njg3ODUwNzh9.aPcEZ-_dk_SmkY0MYUCU1KCa28mfMMgaon0iSPUbvmPdZXL2OtLNYBJN3vrcikAhbKYmjEZLxYtOnpclDoL01A";
 
 	@Test
 	@Before

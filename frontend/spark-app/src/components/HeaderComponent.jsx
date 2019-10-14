@@ -82,7 +82,7 @@ class HeaderComponent extends React.Component {
           <header>
             <nav className="navbar navbar-expand-md navbar-dark bg-dark">
               <ul className="navbar-nav navbar-collapse">
-                <li><a href="/wall" className="navbar-brand" data-toggle="tooltip" data-placement="top" title="Go to Home Page">RMIT Spike</a></li>
+                <li><a href="/wall" className="navbar-brand">RMIT Spike</a></li>
               </ul>
               <ul className="navbar-nav navbar-collapse justify-content-center">
                 <form autoComplete="off" onSubmit={this.handleSearch} onBlur={this.handleSearchFocus}>
@@ -95,7 +95,7 @@ class HeaderComponent extends React.Component {
                 </form>
               </ul>
               <ul className="navbar-nav navbar-collapse justify-content-end">
-                <li><Link className="nav-link" to="" data-toggle="tooltip" data-placement="top" title="Logout of RMIT Spike"><FaBell /></Link></li>
+                <li><Link className="nav-link" to=""><FaBell /></Link></li>
                 <li className="nav-item dropdown">
                   <a className="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Account</a>
                   <div className="dropdown-menu dropdown-menu-right">

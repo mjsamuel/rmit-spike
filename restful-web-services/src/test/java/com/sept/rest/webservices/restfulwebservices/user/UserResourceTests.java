@@ -32,7 +32,7 @@ public class UserResourceTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcxNjM1NzQyLCJpYXQiOjE1NzEwMzA5NDJ9.j4ND8ACeyrt8OsLpPvOHhxTt7ofi4EjedBPSzlfxITt4vsYhPtr4BjFoYehhvG9bsfg2ymXfjOCQkCOrnpNv4w";
+	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcwMjYwMTczLCJpYXQiOjE1Njk2NTUzNzN9.5V2M7-scozJg2x78U92zJuHmmW4mTBCvZMIrpmcSZNKF-3xkCose7xHiH9ZOQizPtLp6AZqIkUM_ZvbkapN8QQ";
 	private final static String REGISTERED_USERNAME = "{ "
 			+ "\"email\": \"@student.rmit.edu.au\", "
 			+ "\"username\": \"sept\", "

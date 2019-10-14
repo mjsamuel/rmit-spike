@@ -35,7 +35,7 @@ public class ChannelResourceTests {
 	private MockMvc mockMvc;
 	
 	@Autowired ChannelRepository channelRepository;
-	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcxNjM1NzQyLCJpYXQiOjE1NzEwMzA5NDJ9.j4ND8ACeyrt8OsLpPvOHhxTt7ofi4EjedBPSzlfxITt4vsYhPtr4BjFoYehhvG9bsfg2ymXfjOCQkCOrnpNv4w";
+	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcwMTg1MDU4LCJpYXQiOjE1Njk1ODAyNTh9.xoEihglhwg_M_LJRAd9N3LyeN9Ds72rQSzOyohfL2NkhanGDYHSRkH5ua2Li9_TpSwJQmEZ6v3iLw8b8CG3alg";
 	private String channel = "{ "
 			+ "\"id\": 1, "
 			+ "\"name\": \"Test Channel\", "

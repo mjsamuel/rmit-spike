@@ -34,7 +34,8 @@ public class CommentResourceTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-    private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcxNjM1NzQyLCJpYXQiOjE1NzEwMzA5NDJ9.j4ND8ACeyrt8OsLpPvOHhxTt7ofi4EjedBPSzlfxITt4vsYhPtr4BjFoYehhvG9bsfg2ymXfjOCQkCOrnpNv4w";
+    private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcwMzIyODIzLCJpYXQiOjE1Njk3MTgwMjN9.veWdLv3z_tqgfcyp2wP_ERbwT19cPEYLS0cacBL5hA2HDHbFY44_2HwL_jbSG22YOph1dLRBvU6e3ZTXYi4lXw";
+
 	@Test
 	public void testAddComment() throws Exception {
 
