@@ -38,13 +38,16 @@ public class Comment {
 
 	@Column(name = "archived", columnDefinition="boolean default false")
 	private Boolean archived = false;
+	
+	@Column(name = "tagged_channels")
+	private String taggedChannels;
 
 	// Default constructor
 	public Comment() {
 	}
 
 	// Constructor for creation of a new thread
-	public Comment(Long authorId, Date datetime, String content, Long replyId, Long threadId) throws InvalidAttributeValueException {
+	public Comment(Long authorId, Date datetime, String content, Long replyId, Long threadId, String taggedChannels) throws InvalidAttributeValueException {
 		super();
 		this.id = id;
 		this.authorId = authorId;
@@ -55,10 +58,11 @@ public class Comment {
 		this.replyId = replyId;
 		this.threadId = threadId;
 		this.archived = false;
+		this.taggedChannels = taggedChannels;
 	}
 
 	// Constructor for instantiating existing thread from serialization
-	public Comment(Long id, Long authorId, Date datetime, Integer upspikes, Integer downspikes, String content, Long replyId, Long threadId, Boolean archived) throws InvalidAttributeValueException {
+	public Comment(Long id, Long authorId, Date datetime, Integer upspikes, Integer downspikes, String content, Long replyId, Long threadId, Boolean archived, String taggedChannels) throws InvalidAttributeValueException {
 		super();
 		this.id = id;
 		this.authorId = authorId;
@@ -69,6 +73,7 @@ public class Comment {
 		this.replyId = replyId;
 		this.threadId = threadId;
 		this.archived = archived;
+		this.taggedChannels = taggedChannels;
 	}
 
 	// Getters
@@ -135,6 +140,10 @@ public class Comment {
 		PrettyTime p = new PrettyTime(new Date());
 		return p.format(this.datetime);
 	}
+	
+	public String getTaggedChannels() {
+		return taggedChannels;
+	}
 
 	// Setters
 	public void setId(Long id) { this.id = id;}
@@ -173,6 +182,9 @@ public class Comment {
 		this.archived = archived;
 	}
 
+	public void setTaggedChannels(String taggedChannels) {
+		this.taggedChannels = taggedChannels;
+	}
 
 	@Override
 	public int hashCode() {

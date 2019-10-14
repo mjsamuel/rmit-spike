@@ -50,7 +50,6 @@ public class ThreadResourceTests {
         MockHttpServletResponse response = testPost("/api/thread", thread);
         assertEquals(HttpStatus.CREATED.value(), response.getStatus());
         assertNotNull(response.getContentAsString());
-
 	}
 
     @Test
@@ -122,6 +121,15 @@ public class ThreadResourceTests {
 
         MockHttpServletResponse response = testPut("/api/thread/10", thread);
         assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+        assertNotNull(response.getContentAsString());
+    }
+    
+    @Test
+    public void testTagChannel() throws Exception {
+        String thread = "{ \"title\": \"Example Title\", \"datetime\": \"1569764365459\", \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Test content\", " + "\"archived\": false, \"authorId\": \"1\", \"channelId\": \"1\", \"taggedChannels\": \"sept\"}";
+
+        MockHttpServletResponse response = testPost("/api/thread", thread);
+        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
         assertNotNull(response.getContentAsString());
     }
 
