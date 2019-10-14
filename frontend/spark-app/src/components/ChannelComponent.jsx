@@ -110,9 +110,9 @@ class ChannelComponent extends React.Component {
             })
           }
           <ul className="pagination">
-            <li className="page-item"><a className="page-link" href="#">Previous</a></li>
-            <li className="page-item"><a className="page-link" href="?page1">1</a></li>
-            <li className="page-item"><a className="page-link" href="#">Next</a></li>
+          <li className="page-item"><a className="page-link" href="#">Previous</a></li>
+          <li className="page-item"><a className="page-link" href="?page1">1</a></li>
+          <li className="page-item"><a className="page-link" href="#">Next</a></li>
           </ul>
         </div>
         <div className="side-panel">
