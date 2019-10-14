@@ -41,7 +41,7 @@ class CommentComponent extends React.Component {
 
 	componentDidMount() {
 		//This will tax the API, should try to replace this with custom return server side
-		console.log("Comment component mounted", this.props.authorId)
+		// console.log("Comment component mounted", this.props.authorId)
 		if (this.props.authorId) {
 			UserDataService.getUser(this.props.authorId)
 			.then((response) => {

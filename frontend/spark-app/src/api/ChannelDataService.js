@@ -8,7 +8,6 @@ class ChannelDataService {
   }
 
   retrieveChannelThreads(channel_id) {
-      console.log('retrieveChannelThreads API endpoint called')
       return axios.instance.get(`${DATA_API_URL}/channel/${channel_id}/thread`)
       // const response = {
       //   channelName: "sept",
@@ -35,12 +34,10 @@ class ChannelDataService {
   }
 
   createChannel(request) {
-    console.log('createChannel API endpoint called')
     return axios.instance.post(`${DATA_API_URL}/channel`, request)
   }
 
   subscribeToChannel(channelId, userId) {
-    console.log('subscribeToChannel API endpoint called')
     return axios.instance.post(`${DATA_API_URL}/user/${userId}/subscribe?channel_id=${channelId}`)
   }
 }

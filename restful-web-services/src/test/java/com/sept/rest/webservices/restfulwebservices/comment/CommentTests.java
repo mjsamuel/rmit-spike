@@ -4,9 +4,13 @@ import com.sept.rest.webservices.restfulwebservices.model.Comment;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.Date;
+
 import org.junit.jupiter.api.Test;
 import javax.management.InvalidAttributeValueException;
 
+@SuppressWarnings ("deprecation")
 class CommentTests {
 
 	private final Comment comment = new Comment();
@@ -78,7 +82,37 @@ class CommentTests {
 		assertEquals(0.33333, comment.getSpikeRatio(), 0.0001);
 	}
 
-
+	@Test
+	void timeDeltaMomentsAgo() {
+		Date newDate = new Date();
+		newDate.setSeconds(newDate.getSeconds() - 2);
+		comment.setDatetime(newDate);
+		assertEquals("moments ago", comment.getTimeDelta());
+	}
+	
+	@Test 
+	void timeDeltaMinutesAgo() {
+		Date newDate = new Date();
+		newDate.setMinutes(newDate.getMinutes() - 23);
+		comment.setDatetime(newDate);
+		assertEquals("23 minutes ago", comment.getTimeDelta());
+	}
+	
+	@Test 
+	void timeDeltaHoursAgo() {
+		Date newDate = new Date();
+		newDate.setHours(newDate.getHours() - 5);
+		comment.setDatetime(newDate);
+		assertEquals("5 hours ago", comment.getTimeDelta());
+	}
+	
+	@Test 
+	void timeDeltaYearsAgo() {
+		Date newDate = new Date();
+		newDate.setYear(newDate.getYear() - 2);
+		comment.setDatetime(newDate);
+		assertEquals("2 years ago", comment.getTimeDelta());
+	}
 
 
 }

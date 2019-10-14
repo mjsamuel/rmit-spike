@@ -32,7 +32,8 @@ public class UserResourceTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcwMjYwMTczLCJpYXQiOjE1Njk2NTUzNzN9.5V2M7-scozJg2x78U92zJuHmmW4mTBCvZMIrpmcSZNKF-3xkCose7xHiH9ZOQizPtLp6AZqIkUM_ZvbkapN8QQ";
+	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcwODc0ODU5LCJpYXQiOjE1NzAyNzAwNTl9.8a5nA1HlSMOA_i0O9RIZh5pNE6jRMdOwYATKsxCePmbA1vVLW7kCMrWQAO7zvhg5VhywCienWv3BZ2jw9n5rOA";
+	
 	private final static String REGISTERED_USERNAME = "{ "
 			+ "\"email\": \"@student.rmit.edu.au\", "
 			+ "\"username\": \"sept\", "
@@ -179,22 +180,6 @@ public class UserResourceTests {
 	public void testUserGetById() throws Exception {
 		long userId = 1;
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/user/" + userId)
-				.with(csrf())
-				.header("authorization", "Bearer " + token)
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andReturn();
-
-		MockHttpServletResponse response = result.getResponse();
-		assertEquals(HttpStatus.OK.value(), response.getStatus());
-		assertNotNull(response.getContentAsString());
-	}
-
-	@Test
-	public void testChannelGetByUserId() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/channel?user=<user_id>")
-				.with(user(REGISTERED_USERNAME))
 				.with(csrf())
 				.header("authorization", "Bearer " + token)
 				.contentType(MediaType.APPLICATION_JSON)

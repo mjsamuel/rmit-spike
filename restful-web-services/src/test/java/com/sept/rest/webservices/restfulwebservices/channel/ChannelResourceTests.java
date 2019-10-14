@@ -35,7 +35,7 @@ public class ChannelResourceTests {
 	private MockMvc mockMvc;
 	
 	@Autowired ChannelRepository channelRepository;
-	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcwMTg1MDU4LCJpYXQiOjE1Njk1ODAyNTh9.xoEihglhwg_M_LJRAd9N3LyeN9Ds72rQSzOyohfL2NkhanGDYHSRkH5ua2Li9_TpSwJQmEZ6v3iLw8b8CG3alg";
+	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcwODc0ODU5LCJpYXQiOjE1NzAyNzAwNTl9.8a5nA1HlSMOA_i0O9RIZh5pNE6jRMdOwYATKsxCePmbA1vVLW7kCMrWQAO7zvhg5VhywCienWv3BZ2jw9n5rOA";
 	private String channel = "{ "
 			+ "\"id\": 1, "
 			+ "\"name\": \"Test Channel\", "
@@ -80,7 +80,7 @@ public class ChannelResourceTests {
 
 	@Test
 	public void testChannelGetByUserId() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/channel?user=<user_id>")
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/channel?user=1")
 				.with(user(TEST_USER_ID))
 				.with(csrf())
 				.header("authorization", "Bearer " + token)
