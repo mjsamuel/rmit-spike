@@ -120,6 +120,18 @@ public class CommentResourceTests {
         assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
         assertNotNull(response.getContentAsString());
     }
+    
+	@Test
+	public void testTagChannel() throws Exception {
+        String comment = "{ \"authorId\": 1, \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard.\", \"threadId\": 1, \"taggedChannels\": \"sept\" }";
+        String url = "/api/thread/1/comment";
+        MockHttpServletResponse response = testPost(url, comment);
+
+        assertNotNull(response.getContentAsString());
+        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+        assertThat(response.getHeader(HttpHeaders.LOCATION),
+                RegexMatchers.matchesPattern("^http://localhost/api/thread/1/comment/\\d"));
+	}
 
 
     public MockHttpServletResponse testGet(String url) throws Exception {
