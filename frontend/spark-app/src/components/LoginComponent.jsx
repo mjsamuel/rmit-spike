@@ -96,7 +96,7 @@ class LoginComponent extends React.Component {
               <h1>RMIT SPIKE</h1>
               <div className="form">
                 {this.state.hasLoginFailed && <div className="alert alert-warning" id="error">{this.state.errorText}</div>}
-                {this.state.showSuccessMessage && <div id="success">Login Sucessful</div>}
+                {this.state.showSuccessMessage && <div id="success">Login Successful</div>}
                 <div className="form-group">
                   <input type="text" className="form-control" placeholder="Username" name="username" value={this.state.username} onChange={this.handleChange} />
                 </div>

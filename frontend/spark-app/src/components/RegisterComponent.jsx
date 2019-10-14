@@ -108,8 +108,8 @@ class RegisterComponent extends React.Component {
                 AuthenticationService.registerSuccessfulLoginForJwt(response.data.id, response.data.token)
                 this.props.history.push('/wall')
             }).catch(() => {
-                this.setState({ showSuccessMessage: false })
                 this.setState({ 
+                  showSuccessMessage: false, 
                   hasRegisterFailed: true, 
                   errorText: "Error: Can't communicate with Backend."})
             })
