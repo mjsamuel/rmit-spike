@@ -80,12 +80,20 @@ class NewThreadComponent extends React.Component {
         });
       }
       else {
+        let tagChannelPattern = new RegExp("c\/[a-zA-Z0-9]+");
+        let taggedChannels = this.state.body.match(tagChannelPattern);
+        var taggedChannel;
+        if (taggedChannels) {
+          taggedChannel = taggedChannels[0].substring(2);
+        }
+
         const request = {
           channelId: this.state.channelId,
           title: this.state.title,
           content: this.state.body,
           datetime: Date.now(),
-          authorId: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
+          authorId: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME),
+          taggedChannels: taggedChannel
         }
 
         ThreadDataService.newThread(request)

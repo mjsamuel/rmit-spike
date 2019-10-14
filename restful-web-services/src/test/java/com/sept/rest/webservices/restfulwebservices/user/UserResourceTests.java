@@ -32,7 +32,7 @@ public class UserResourceTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcwODc0ODU5LCJpYXQiOjE1NzAyNzAwNTl9.8a5nA1HlSMOA_i0O9RIZh5pNE6jRMdOwYATKsxCePmbA1vVLW7kCMrWQAO7zvhg5VhywCienWv3BZ2jw9n5rOA";
+	private final static String TEST_USER_ID = "sept";	
 	
 	private final static String REGISTERED_USERNAME = "{ "
 			+ "\"email\": \"@student.rmit.edu.au\", "
@@ -165,7 +165,7 @@ public class UserResourceTests {
 	@Test
 	public void testGetUsers() throws Exception {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/user/").with(csrf())
-				.header("authorization", "Bearer " + token)
+                .with(user(TEST_USER_ID))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
@@ -181,7 +181,7 @@ public class UserResourceTests {
 		long userId = 1;
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/user/" + userId)
 				.with(csrf())
-				.header("authorization", "Bearer " + token)
+                .with(user(TEST_USER_ID))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
@@ -200,7 +200,7 @@ public class UserResourceTests {
 	public void testUserPut(long userId, String user) throws Exception {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/user/" + userId)
 				.with(csrf())
-				.header("authorization", "Bearer " + token)
+                .with(user(TEST_USER_ID))
 				.content(user)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
