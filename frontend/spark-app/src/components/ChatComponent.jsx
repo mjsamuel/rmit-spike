@@ -36,12 +36,32 @@ class ChatComponent extends React.Component {
    */
   componentDidMount() {
     if (this.props.channelId != null) {
-      var data = ChatDataService.retrieveMessages(this.props.channelId);
-      this.setState({
-        messages: data.messages,
-      });
-    } else {
-
+      ChatDataService.retrieveMessages(this.props.channelId)
+      .then((response) => {
+        console.log(response)
+        this.setState({
+          messages: response.data,
+        })
+      }).catch(function (error) {
+        console.log("Error getting chat messages")
+        console.log(error)
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+          // http.ClientRequest in node.js
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        }
+        console.log(error.config);
+        })
     }
   }
 
@@ -71,12 +91,15 @@ class ChatComponent extends React.Component {
       if (e) e.preventDefault();
       if (this.state.currentMessage.trim() !== "") {
         let newMessage = {
-          // username: "currentUser",
           authorId: Number(sessionStorage.getItem("authenticatedUser")),
           content: this.state.currentMessage,
           datetime: Date.now()
         };
-        this.clientRef.sendMessage(`/app/channel/${this.props.channelId}`, JSON.stringify(newMessage)); //replace {1} with channelId when confirmed working
+        this.clientRef.sendMessage(
+          `/app/channel/${this.props.channelId}`,
+          JSON.stringify(newMessage)
+          );
+        
         this.setState({
           currentMessage: ""
         }, () => {
@@ -92,10 +115,11 @@ class ChatComponent extends React.Component {
   }
 
   handleMessageReceived(message) {
-    console.log("Message received: ", message)
     this.setState(prevState => ({
       messages: [...prevState.messages, message]
-    }));
+    }), () => {
+      this.scrollToBottom();
+    });
   }
 
   /**
@@ -116,7 +140,7 @@ class ChatComponent extends React.Component {
           ref={(client) => {this.clientRef = client}}
           onConnect={ () => { this.setState({ clientConnected: true }); }}
           onDisconnect={ () => this.setState({ clientConnected: false })}
-          debug={true}
+          debug={false}
           options={{ transports: ['xhr-polling'] }}
           />
         </div>
