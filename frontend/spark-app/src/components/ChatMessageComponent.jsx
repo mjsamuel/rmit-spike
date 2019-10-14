@@ -19,8 +19,7 @@ class ChatMessageComponent extends React.Component {
     this.state = {
       username: '',
       content: '',
-      timeNumber: 0,
-      timeUnit: ''
+      timeDelta: ''
     }
   }
 
@@ -31,8 +30,7 @@ class ChatMessageComponent extends React.Component {
     this.setState({
       username: this.props.username,
       content: this.props.content,
-      timeNumber: this.props.timeNumber,
-      timeUnit: this.props.timeUnit
+      timeNumber: this.props.timeDelta
     })
   }
 
@@ -42,7 +40,7 @@ class ChatMessageComponent extends React.Component {
   render() {
     return (
       <div className="chat-message">
-        <FaUserAlt/><span><b>u/{this.state.username}</b> said {this.state.timeNumber} {this.state.timeUnit} ago</span><br/>
+        <FaUserAlt/><span><b>u/{this.state.username}</b> said {this.state.timeNumber} {this.state.timeDelta}</span><br/>
         <p>{this.state.content}</p>
       </div>
     )

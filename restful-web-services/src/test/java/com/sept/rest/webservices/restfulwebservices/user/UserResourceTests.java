@@ -29,11 +29,10 @@ import org.springframework.http.HttpStatus;
 @AutoConfigureTestDatabase
 @SpringBootTest(classes = RestfulWebServicesApplication.class)
 public class UserResourceTests {
+	private final static String TEST_USER_ID = "sept";
 
 	@Autowired
 	private MockMvc mockMvc;
-	private final static String TEST_USER_ID = "sept";	
-	
 	private final static String REGISTERED_USERNAME = "{ "
 			+ "\"email\": \"@student.rmit.edu.au\", "
 			+ "\"username\": \"sept\", "
@@ -50,7 +49,7 @@ public class UserResourceTests {
 			+ "}";
 	private final static String UNREGISTERED_USER = "{ "
 			+ "\"email\": \"s013579@student.rmit.edu.au\", "
-			+ "\"username\": \"new-user\", "
+			+ "\"username\": \"johndoe\", "
 			+ "\"password\": \"whateverman\", "
 			+ "\"firstName\": \"john\", "
 			+ "\"lastName\": \"doe\""
@@ -91,7 +90,7 @@ public class UserResourceTests {
 	public void testRegisterMissingEmail() throws Exception {
 		final String UNREGISTERED_USER_MISSING_FIELD = "{ "
 				+ "\"email\": \"\", "
-				+ "\"username\": \"new-user\", "
+				+ "\"username\": \"johndoe\", "
 				+ "\"password\": \"whateverman\", "
 				+ "\"firstName\": \"john\", "
 				+ "\"lastName\": \"doe\""
@@ -121,7 +120,7 @@ public class UserResourceTests {
 	public void testRegisterMissingPassword() throws Exception {
 		final String UNREGISTERED_USER_MISSING_FIELD = "{ "
 				+ "\"email\": \"s013579@student.rmit.edu.au\", "
-				+ "\"username\": \"new-user\", "
+				+ "\"username\": \"johndoe\", "
 				+ "\"password\": \"\", "
 				+ "\"firstName\": \"john\", "
 				+ "\"lastName\": \"doe\""
@@ -136,7 +135,7 @@ public class UserResourceTests {
 	public void testRegisterMissingFirstName() throws Exception {
 		final String UNREGISTERED_USER_MISSING_FIRSTNAME = "{ "
 				+ "\"email\": \"s013579@student.rmit.edu.au\", "
-				+ "\"username\": \"new-user\", "
+				+ "\"username\": \"johndoe\", "
 				+ "\"password\": \"whateverman\", "
 				+ "\"firstName\": \"\", "
 				+ "\"lastName\": \"doe\""
@@ -151,7 +150,7 @@ public class UserResourceTests {
 	public void testRegisterMissingLastName() throws Exception {
 		final String UNREGISTERED_USER_MISSING_FIRSTNAME = "{ "
 				+ "\"email\": \"s013579@student.rmit.edu.au\", "
-				+ "\"username\": \"new-user\", "
+				+ "\"username\": \"johndoe\", "
 				+ "\"password\": \"whateverman\", "
 				+ "\"firstName\": \"john\", "
 				+ "\"lastName\": \"\""
@@ -164,8 +163,9 @@ public class UserResourceTests {
 
 	@Test
 	public void testGetUsers() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/user/").with(csrf())
-                .with(user(TEST_USER_ID))
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/user/")
+				.with(user(TEST_USER_ID))
+				.with(csrf())
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
@@ -180,8 +180,8 @@ public class UserResourceTests {
 	public void testUserGetById() throws Exception {
 		long userId = 1;
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/user/" + userId)
+				.with(user(TEST_USER_ID))
 				.with(csrf())
-                .with(user(TEST_USER_ID))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
@@ -199,8 +199,8 @@ public class UserResourceTests {
 
 	public void testUserPut(long userId, String user) throws Exception {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/user/" + userId)
+				.with(user(TEST_USER_ID))
 				.with(csrf())
-                .with(user(TEST_USER_ID))
 				.content(user)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -214,7 +214,8 @@ public class UserResourceTests {
 
 	private MockHttpServletResponse testUserPost(String user) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/user")
-                .with(csrf())
+				.with(user(TEST_USER_ID))
+				.with(csrf())
                 .content(user)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))

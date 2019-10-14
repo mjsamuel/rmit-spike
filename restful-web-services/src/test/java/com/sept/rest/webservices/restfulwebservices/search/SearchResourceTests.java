@@ -28,11 +28,10 @@ import org.springframework.http.HttpStatus;
 @AutoConfigureTestDatabase
 @SpringBootTest(classes = RestfulWebServicesApplication.class)
 public class SearchResourceTests {
+	private final static String TEST_USER_ID = "sept";
 
 	@Autowired
 	private MockMvc mockMvc;
-	private final static String TEST_USER_ID = "sept";
-    
 	@Test
 	public void searchNoInput() throws Exception {
 		MockHttpServletResponse response = makeSearch("");
@@ -96,8 +95,8 @@ public class SearchResourceTests {
 	
 	private MockHttpServletResponse makeSearch(String query) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/search?query=" + query)
-                .with(csrf())
-                .with(user(TEST_USER_ID))
+				.with(user(TEST_USER_ID))
+				.with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn();

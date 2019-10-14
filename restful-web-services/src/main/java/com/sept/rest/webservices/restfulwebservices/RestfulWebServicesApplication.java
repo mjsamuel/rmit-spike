@@ -7,7 +7,12 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @EnableJpaRepositories(basePackages = "com.sept.rest.webservices.restfulwebservices.repository")
 @EntityScan("com.sept.rest.webservices.restfulwebservices.model")
-@SpringBootApplication(scanBasePackages={"com.sept.rest.webservices.restfulwebservices.resource", "com.sept.rest.webservices.restfulwebservices.jwt", "com.sept.rest.webservices.restfulwebservices.exception"})
+@SpringBootApplication(scanBasePackages={
+		"com.sept.rest.webservices.restfulwebservices.resource",
+		"com.sept.rest.webservices.restfulwebservices.jwt",
+		"com.sept.rest.webservices.restfulwebservices.exception",
+		"com.sept.rest.webservices.restfulwebservices.config"
+})
 public class RestfulWebServicesApplication {
 
 	public static void main(String[] args) {

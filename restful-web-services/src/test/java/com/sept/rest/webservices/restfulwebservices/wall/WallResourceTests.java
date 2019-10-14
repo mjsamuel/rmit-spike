@@ -29,11 +29,10 @@ import org.springframework.http.HttpStatus;
 @AutoConfigureTestDatabase
 @SpringBootTest(classes = RestfulWebServicesApplication.class)
 public class WallResourceTests {
+	private final static String TEST_USER_ID = "sept";
 
 	@Autowired
 	private MockMvc mockMvc;
-	private final static String TEST_USER_ID = "sept";
-    
 	@Test
 	public void testUserWall() throws Exception {
 		MockHttpServletResponse response = testUserWallGet(1);		
@@ -50,8 +49,8 @@ public class WallResourceTests {
 
 	private MockHttpServletResponse testUserWallGet(int userId) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/user/" + userId + "/wall")
-                .with(csrf())
-                .with(user(TEST_USER_ID))	
+				.with(user(TEST_USER_ID))
+				.with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn();
