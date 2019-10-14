@@ -53,7 +53,10 @@ class CreateChannelComponent extends React.Component {
            this.props.history.push(`/c/${channelId}`)
         })
          .catch(() => {
-          
+          this.setState({ 
+            hasCreationFailed: true, 
+            errorText: "Error: Can't Communicate With Backend."
+          })
         })
        }
     }

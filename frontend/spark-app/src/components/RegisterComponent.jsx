@@ -109,7 +109,9 @@ class RegisterComponent extends React.Component {
                 this.props.history.push('/wall')
             }).catch(() => {
                 this.setState({ showSuccessMessage: false })
-                this.setState({ hasRegisterFailed: true })
+                this.setState({ 
+                  hasRegisterFailed: true, 
+                  errorText: "Error: Can't communicate with Backend."})
             })
       }
     }

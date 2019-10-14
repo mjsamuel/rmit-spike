@@ -71,7 +71,10 @@ class LoginComponent extends React.Component {
                   this.props.history.push(`/wall`)
               }).catch(() => {
                   this.setState({ showSuccessMessage: false })
-                  this.setState({ hasLoginFailed: true })
+                  this.setState({ 
+                    hasLoginFailed: true, 
+                    errorText: "Error: Can't Communicate With Backend."
+                  })
               })
         }
     }

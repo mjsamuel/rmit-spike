@@ -96,10 +96,11 @@ class NewThreadComponent extends React.Component {
         })
         .catch((error) => {
           console.log(error)
-          this.setState({
-            hasSubmissionFailed: true,
-            errorText: "Error: Failed communicating with backend"
+          this.setState({ 
+            hasSubsmissionFailed: true, 
+            errorText: "Error: Can't Communicate With Backend."
           })
+          
           if (error.response) {
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx
