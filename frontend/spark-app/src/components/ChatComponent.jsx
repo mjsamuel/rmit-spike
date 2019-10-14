@@ -76,7 +76,7 @@ class ChatComponent extends React.Component {
           content: this.state.currentMessage,
           datetime: Date.now()
         };
-        this.clientRef.sendMessage(`/app/channel/${1}`, JSON.stringify(newMessage)); //replace {1} with channelId when confirmed working
+        this.clientRef.sendMessage(`/app/channel/${this.props.channelId}`, JSON.stringify(newMessage)); //replace {1} with channelId when confirmed working
         this.setState({
           currentMessage: ""
         }, () => {
@@ -110,7 +110,7 @@ class ChatComponent extends React.Component {
     return (
       <div className="chat-panel">
         <div>
-          <SockJsClient url={`${API_URL}/spark-websocket`} topics={['/topic/1']} 
+          <SockJsClient url={`${API_URL}/spark-websocket`} topics={[`/topic/${this.props.channelId}`]} 
           headers={headers} subscribeHeaders={headers}
           onMessage={(msg) => { this.handleMessageReceived(msg) }}
           ref={(client) => {this.clientRef = client}}
@@ -125,8 +125,8 @@ class ChatComponent extends React.Component {
         <div className="chat-messages" id="chat-messages">
           {this.state.messages.map((message, index) => {
               return (
-                  <ChatMessageComponent username={message.username} timeNumber={message.timeNumber}
-                  timeUnit={message.timeUnit} content={message.content} key={index}/>
+                  <ChatMessageComponent username={message.username} timeDelta={message.timeDelta}
+                  content={message.content} key={index}/>
               )
             })
           }
