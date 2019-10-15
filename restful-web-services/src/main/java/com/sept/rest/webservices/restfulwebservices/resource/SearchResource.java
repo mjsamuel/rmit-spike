@@ -46,11 +46,7 @@ public class SearchResource {
 			responseBody.put("users", users);
 			responseBody.put("channels", channels);
 	
-			if (users.isEmpty() && channels.isEmpty()) {
-				retVal = new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			} else {
-				retVal = new ResponseEntity<>(responseBody, HttpStatus.OK);
-			}
+			retVal = new ResponseEntity<>(responseBody, HttpStatus.OK);
 		}
 		
 		return retVal;
