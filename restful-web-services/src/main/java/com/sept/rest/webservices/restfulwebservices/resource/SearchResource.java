@@ -36,7 +36,7 @@ public class SearchResource {
 		ResponseEntity<?> retVal;
 		
 		if (query.equals("") || query == null) {
-			retVal = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			retVal = new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			// Kept as lists for now, for when (or if) fuzzy search is implemented
 			ArrayList<User> users = userRepository.findByUsernameContainingIgnoreCase(query);

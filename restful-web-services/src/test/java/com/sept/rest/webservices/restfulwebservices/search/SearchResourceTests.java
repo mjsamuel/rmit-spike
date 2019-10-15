@@ -36,7 +36,7 @@ public class SearchResourceTests {
 	public void searchNoInput() throws Exception {
 		MockHttpServletResponse response = makeSearch("");
 
-        assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertNotNull(response.getContentAsString());
 	}
 	
@@ -44,7 +44,7 @@ public class SearchResourceTests {
 	public void searchNoContent() throws Exception {
 		MockHttpServletResponse response = makeSearch("ZZZ");
 
-        assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
+        assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertNotNull(response.getContentAsString());
 	}
 	
