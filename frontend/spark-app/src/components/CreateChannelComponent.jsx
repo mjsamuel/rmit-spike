@@ -101,7 +101,8 @@ class CreateChannelComponent extends React.Component {
                 </div>
                 <div className="form-group">
                   <label htmlFor="visibility">Channel visibility:</label>
-                  <select className="form-control" id="visibility" name="visibility" onChange={this.handleChange}>
+                  <select className="form-control" id="visibility" name="visibility" onChange={this.handleChange}
+                  title="Choose for this channel to be seen by everyone (Public) or to viewable to only to those invited (Private)">
                     <option value='PUBLIC'>Public</option>
                     <option value='PRIVATE'>Private</option>
                   </select>

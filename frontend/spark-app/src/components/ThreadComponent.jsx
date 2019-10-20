@@ -233,7 +233,7 @@ class ThreadComponent extends React.Component {
                 		<div className="divider"/>
 	                	<span className="comment-interaction"> <FaRegComment/> {this.state.comments.length} Comments </span>
                 		<div className="divider"/>
-                		<button className="share-interaction" onClick={this.share}> <FaShareAlt/> Share </button>
+                		<button className="share-interaction" onClick={this.share} title="Share to others"> <FaShareAlt/> Share </button>
                 		<div className="divider"/>
                 		<button className="report-interaction" onClick={this.activateReport}> <FaFlag/> Report </button>
 	                </div>

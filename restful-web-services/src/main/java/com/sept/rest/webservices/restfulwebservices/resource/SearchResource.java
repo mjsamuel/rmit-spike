@@ -36,7 +36,7 @@ public class SearchResource {
 		ResponseEntity<?> retVal;
 		
 		if (query.equals("") || query == null) {
-			retVal = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			retVal = new ResponseEntity<>(HttpStatus.OK);
 		} else {
 			// Kept as lists for now, for when (or if) fuzzy search is implemented
 			ArrayList<User> users = userRepository.findByUsernameContainingIgnoreCase(query);
@@ -46,11 +46,7 @@ public class SearchResource {
 			responseBody.put("users", users);
 			responseBody.put("channels", channels);
 	
-			if (users.isEmpty() && channels.isEmpty()) {
-				retVal = new ResponseEntity<>(HttpStatus.NO_CONTENT);
-			} else {
-				retVal = new ResponseEntity<>(responseBody, HttpStatus.OK);
-			}
+			retVal = new ResponseEntity<>(responseBody, HttpStatus.OK);
 		}
 		
 		return retVal;

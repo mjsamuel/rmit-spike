@@ -51,8 +51,8 @@ public class ChannelResourceTests {
 	@Test
 	public void testGetChannels() throws Exception {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/channel/")
+				.with(user(TEST_USER_ID))
 				.with(csrf())
-			    .with(user(TEST_USER_ID))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andReturn();
@@ -65,8 +65,9 @@ public class ChannelResourceTests {
 	@Test
 	public void testChannelGetById() throws Exception {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-				.get("/api/channel/1?user_id=1").with(csrf())
-			    .with(user(TEST_USER_ID))
+				.get("/api/channel/1?user_id=1")
+				.with(user(TEST_USER_ID))
+				.with(csrf())
 				.content("1")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -82,7 +83,6 @@ public class ChannelResourceTests {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/channel?user=1")
 				.with(user(TEST_USER_ID))
 				.with(csrf())
-			    .with(user(TEST_USER_ID))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 				.andReturn();
@@ -99,8 +99,8 @@ public class ChannelResourceTests {
 
 	public void testChannelPut(String channel) throws Exception {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/channel/1")
+				.with(user(TEST_USER_ID))
 				.with(csrf())
-			    .with(user(TEST_USER_ID))
 				.content(channel)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -113,8 +113,8 @@ public class ChannelResourceTests {
 
 	private void testChannelPost(String channel) throws Exception {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/channel/")
+				.with(user(TEST_USER_ID))
 				.with(csrf())
-			    .with(user(TEST_USER_ID))
 				.content(channel)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))

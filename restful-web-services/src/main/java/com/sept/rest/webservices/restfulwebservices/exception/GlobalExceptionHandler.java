@@ -17,25 +17,25 @@ public class GlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public void handleConflict() {
+    public void handleConflict(DataIntegrityViolationException e) {
         //Nothing to do
-        logger.warn("DataIntegrityViolationException");
+        logger.error("DataIntegrityViolationException", e);
 
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoSuchElementException.class)
-    public void handleNotFound() {
+    public void handleNotFound(NoSuchElementException e) {
         //Nothing to do
-        logger.warn("NoSuchElementException");
+        logger.error("NoSuchElementException", e);
 
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public void handleGeneralException() {
+    public void handleGeneralException(Exception e) {
         //Nothing to do
-        logger.warn("General Exception");
+        logger.error("General Exception", e);
 
     }
 

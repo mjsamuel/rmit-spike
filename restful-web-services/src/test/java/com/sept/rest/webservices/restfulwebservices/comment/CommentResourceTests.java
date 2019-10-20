@@ -33,7 +33,6 @@ public class CommentResourceTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-    private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcwMzIyODIzLCJpYXQiOjE1Njk3MTgwMjN9.veWdLv3z_tqgfcyp2wP_ERbwT19cPEYLS0cacBL5hA2HDHbFY44_2HwL_jbSG22YOph1dLRBvU6e3ZTXYi4lXw";
 
 	@Test
 	public void testAddComment() throws Exception {
@@ -138,7 +137,6 @@ public class CommentResourceTests {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url)
                 .with(user(TEST_USER_ID))
                 .with(csrf())
-//                .header("authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn();
@@ -150,7 +148,6 @@ public class CommentResourceTests {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(url)
                 .with(user(TEST_USER_ID))
                 .with(csrf())
-//                .header("authorization", "Bearer " + token)
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -163,7 +160,6 @@ public class CommentResourceTests {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(url)
                 .with(user(TEST_USER_ID))
                 .with(csrf())
-//                .header("authorization", "Bearer " + token)
                 .content(content)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))

@@ -93,7 +93,10 @@ restful-web-services/.classpath
 restful-web-services/.project
 restful-web-services/.settings
 .project
+.classpath
+mssl.eml
+mssl.userlibraries
+restful-web-services/.metadata
 
 ## Credentials
 instance/
-
