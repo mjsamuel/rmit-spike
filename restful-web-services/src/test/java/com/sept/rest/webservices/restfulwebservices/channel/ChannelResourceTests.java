@@ -35,7 +35,6 @@ public class ChannelResourceTests {
 	private MockMvc mockMvc;
 	
 	@Autowired ChannelRepository channelRepository;
-	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcxNjM1NzQyLCJpYXQiOjE1NzEwMzA5NDJ9.j4ND8ACeyrt8OsLpPvOHhxTt7ofi4EjedBPSzlfxITt4vsYhPtr4BjFoYehhvG9bsfg2ymXfjOCQkCOrnpNv4w";
 	private String channel = "{ "
 			+ "\"id\": 1, "
 			+ "\"name\": \"Test Channel\", "
@@ -52,8 +51,8 @@ public class ChannelResourceTests {
 	@Test
 	public void testGetChannels() throws Exception {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/channel/")
+				.with(user(TEST_USER_ID))
 				.with(csrf())
-				.header("authorization", "Bearer " + token)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk()).andReturn();
@@ -66,8 +65,9 @@ public class ChannelResourceTests {
 	@Test
 	public void testChannelGetById() throws Exception {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-				.get("/api/channel/1?user_id=1").with(csrf())
-				.header("authorization", "Bearer " + token)
+				.get("/api/channel/1?user_id=1")
+				.with(user(TEST_USER_ID))
+				.with(csrf())
 				.content("1")
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -80,10 +80,9 @@ public class ChannelResourceTests {
 
 	@Test
 	public void testChannelGetByUserId() throws Exception {
-		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/channel?user=<user_id>")
+		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/channel?user=1")
 				.with(user(TEST_USER_ID))
 				.with(csrf())
-				.header("authorization", "Bearer " + token)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
 				.andReturn();
@@ -100,8 +99,8 @@ public class ChannelResourceTests {
 
 	public void testChannelPut(String channel) throws Exception {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/channel/1")
+				.with(user(TEST_USER_ID))
 				.with(csrf())
-				.header("authorization", "Bearer " + token)
 				.content(channel)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))
@@ -114,8 +113,8 @@ public class ChannelResourceTests {
 
 	private void testChannelPost(String channel) throws Exception {
 		MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/channel/")
+				.with(user(TEST_USER_ID))
 				.with(csrf())
-				.header("authorization", "Bearer " + token)
 				.content(channel)
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON))

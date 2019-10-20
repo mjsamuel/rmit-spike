@@ -41,7 +41,7 @@ class CommentComponent extends React.Component {
 
 	componentDidMount() {
 		//This will tax the API, should try to replace this with custom return server side
-		console.log("Comment component mounted", this.props.authorId)
+		// console.log("Comment component mounted", this.props.authorId)
 		if (this.props.authorId) {
 			UserDataService.getUser(this.props.authorId)
 			.then((response) => {
@@ -153,17 +153,17 @@ class CommentComponent extends React.Component {
         			<span className="timeDelta">{this.props.timeDelta}</span>
 	        	</div>
         		<div className="content">
-        			<p>{this.props.content}</p>
+        			<p dangerouslySetInnerHTML={{ __html: this.props.content}} />
         		</div>
         		<div className="interactions">
-                	<button className={this.state.upspiked ? 'upspiked' : 'no-spike'} onClick={this.addUpSpike} data-toggle="tooltip" data-placement="top" title="Up Spike"> <FaAngleUp/> </button>
-                	<button className={this.state.downspiked ? 'downspiked' : 'no-spike'} onClick={this.addDownSpike} data-toggle="tooltip" data-placement="top" title="Down Spike"> <FaAngleDown/> </button>
+                	<button className={this.state.upspiked ? 'upspiked' : 'no-spike'} onClick={this.addUpSpike}> <FaAngleUp/> </button>
+                	<button className={this.state.downspiked ? 'downspiked' : 'no-spike'} onClick={this.addDownSpike}> <FaAngleDown/> </button>
             		<div className="divider"/>
-                	<button className="reply-interaction" onClick={this.activateReply} data-toggle="tooltip" data-placement="top" title="Reply to Comment"> <FaRegComment/> Reply </button>
+                	<button className="reply-interaction" onClick={this.activateReply}> <FaRegComment/> Reply </button>
             		<div className="divider"/>
-                	<button className="share-interaction" onClick={this.share} data-toggle="tooltip" data-placement="top" title="Share Comment with Others"> <FaShareAlt/> Share </button>
+                	<button className="share-interaction" onClick={this.share}> <FaShareAlt/> Share </button>
             		<div className="divider"/>
-                	<button className="report-interaction" onClick={this.activateReport}data-toggle="tooltip" data-placement="top" title="Report Comment"> <FaFlag/> Report </button>
+                	<button className="report-interaction" onClick={this.activateReport}> <FaFlag/> Report </button>
 	            </div>
 	            <div className={this.state.replyActive ? 'active-reply' : 'hidden-reply'}>
 	                <InteractionEntryForm thread_id={this.props.threadId} isReply={true} reply_id={this.props.id} isReport={false} updateParent={this.props.updateParent}/>

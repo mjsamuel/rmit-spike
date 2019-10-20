@@ -95,6 +95,7 @@ class RegisterComponent extends React.Component {
                 {this.state.hasRegisterFailed && <div className="alert alert-warning" id="error">Invalid Credentials or something is wrong</div>}
                 {this.state.showSuccessMessage && <div id="success">Register Sucessful</div>}
                 <div className="form-group">
+<<<<<<< HEAD
                   <input type="text" className="form-control" placeholder="First Name" name="firstName" value={this.state.firstName} onChange={this.handleChange} data-toggle="tooltip" data-placement="top" title="Enter First Name"
                   title="Enter a name that does no contain any special characters"/>
                 </div>
@@ -105,20 +106,36 @@ class RegisterComponent extends React.Component {
                 <div className="form-group">
                   <input type="text" className="form-control" placeholder="s1234567@student.rmit.edu.au" name="email" value={this.state.email} onChange={this.handleChange} data-toggle="tooltip" data-placement="top" title="StudentNumber@student.rmit.edu.au"
                   title="Enter an email that ends with '@student.rmit.edu.au'"/>
+=======
+                  <input type="text" className="form-control" placeholder="First Name" name="firstName" value={this.state.firstName} onChange={this.handleChange} />
+                </div>
+                <div className="form-group">
+                  <input type="text" className="form-control" placeholder="Last Name" name="lastName" value={this.state.lastName} onChange={this.handleChange} />
+                </div>
+                <div className="form-group">
+                  <input type="text" className="form-control" placeholder="Email" name="email" value={this.state.email} onChange={this.handleChange} />
+>>>>>>> develop
                 </div>
                 <div className="input-group mb-3">
                   <div className="input-group-prepend">
                     <span className="input-group-text">u/</span>
                   </div>
+<<<<<<< HEAD
                   <input type="text" className="form-control" placeholder="Username" name="username" value={this.state.username} onChange={this.handleChange} data-toggle="tooltip" data-placement="top" title="Username must not have spaces"
                   title="Enter a name that does no contain any special characters"/>
                 </div>
                 <div className="form-group">
                   <input type="password" className="form-control" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} data-toggle="tooltip" data-placement="top" title="Enter Password"
                   title="Enter a unique, secure password"/>
+=======
+                  <input type="text" className="form-control" placeholder="Username" name="username" value={this.state.username} onChange={this.handleChange} />
                 </div>
                 <div className="form-group">
-                  <input type="password" className="form-control" placeholder="Confirm Password" name="confirmedPassword" value={this.state.confirmedPassword} onChange={this.handleChange} data-toggle="tooltip" data-placement="top" title="Confirm Password" />
+                  <input type="password" className="form-control" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} />
+>>>>>>> develop
+                </div>
+                <div className="form-group">
+                  <input type="password" className="form-control" placeholder="Confirm Password" name="confirmedPassword" value={this.state.confirmedPassword} onChange={this.handleChange} />
                 </div>
                 <div className="button-group">
                   <button className="btn btn-secondary" onClick={this.cancelClicked}>Cancel</button>

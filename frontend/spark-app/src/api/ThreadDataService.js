@@ -4,18 +4,14 @@ import { DATA_API_URL } from '../Constants'
 class ThreadDataService {
 
     newThread(request) {
-        console.log('addThread API endpoint called', axios.instance)
-        console.log(request);
         return axios.instance.post(`${DATA_API_URL}/thread`, request)
     }
 
     retrieveThreads() {
-        console.log('retrieveThreads API endpoint called')
         return axios.instance.get(`${DATA_API_URL}/thread`)
     }
 
     retrieveThread(thread_id) {
-        console.log('retrieveThread API endpoint called')
         return axios.instance.get(`${DATA_API_URL}/thread/${thread_id}`)
     }
 
@@ -31,14 +27,10 @@ class ThreadDataService {
     }
 
     addComment(thread_id, request) {
-        console.log("addComment API endpoint called")
-        console.log(request)
         return axios.instance.post(`${DATA_API_URL}/thread/${thread_id}/comment`, request)
     }
 
     addReport(thread_id, request) {
-        console.log("addReport API endpoint called")
-        console.log(request)
         return axios.instance.post(`${DATA_API_URL}/thread/${thread_id}/report`, request)
     }
 

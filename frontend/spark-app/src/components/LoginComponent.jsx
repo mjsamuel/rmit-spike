@@ -78,10 +78,10 @@ class LoginComponent extends React.Component {
                 {this.state.hasLoginFailed && <div className="alert alert-warning" id="error">Invalid Credentials or something is wrong</div>}
                 {this.state.showSuccessMessage && <div id="success">Login Sucessful</div>}
                 <div className="form-group">
-                  <input type="text" className="form-control" placeholder="Username" name="username" value={this.state.username} onChange={this.handleChange} data-toggle="tooltip" data-placement="top" title="Enter RMIT Spike UserName"/>
+                  <input type="text" className="form-control" placeholder="Username" name="username" value={this.state.username} onChange={this.handleChange} />
                 </div>
                 <div className="form-group">
-                  <input type="password" className="form-control" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} data-toggle="tooltip" data-placement="top" title="Enter Password" />
+                  <input type="password" className="form-control" placeholder="Password" name="password" value={this.state.password} onChange={this.handleChange} />
                 </div>
                 <div className="button-group">
                   <button className="btn btn-secondary" onClick={this.registerClicked}>Register</button>

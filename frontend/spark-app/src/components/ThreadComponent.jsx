@@ -7,6 +7,7 @@ import ChannelDataService from '../api/ChannelDataService.js'
 import CommentComponent from './CommentComponent.jsx'
 import InteractionEntryForm from './InteractionEntryForm.jsx'
 import UserDataService from '../api/UserDataService';
+import {USER_NAME_SESSION_ATTRIBUTE_NAME} from './AuthenticationService.js'
 
 /**
  * ThreadComponent is a component representing a thread. It is responsible for rendering the
@@ -34,7 +35,9 @@ class ThreadComponent extends React.Component {
 			replyActive: true,
 			reportActive: false,
 			upspiked: false,
-			downspiked: false
+			downspiked: false,
+			primary_channel: '',
+			author: ''
 		}
 		this.id = this.props.match.params.id;
 		this.refresh = this.refresh.bind(this);
@@ -59,13 +62,20 @@ class ThreadComponent extends React.Component {
 	 * @param id: the id of the thread
 	 */
 	refresh() {
-		// console.log("Thread refreshed")
+    let tagChannelPattern = new RegExp("c/[a-zA-Z0-9]+");
+
 		ThreadDataService.retrieveThread(this.id)
 		.then((response) => {
-			console.log("Thread response", response);
+      if (response.data.taggedChannels) {
+        let taggedChannels = response.data.content.match(tagChannelPattern);
+        var taggedChannel = taggedChannels[0];
+
+        response.data.content = response.data.content.replace(tagChannelPattern,
+          `<a href="/c/${response.data.taggedChannels}">${taggedChannel}</a>`);
+      }
+
 			this.setState({
 				title: response.data.title,
-				primary_channel: response.data.primary_channel,
 				content: response.data.content,
 				tagged_channels: response.data.tagged_channels,
 				timeDelta: response.data.timeDelta
@@ -73,13 +83,17 @@ class ThreadComponent extends React.Component {
 
 			// Channel id resolution
 			ChannelDataService.getChannel(response.data.channelId, 1)
-			.then((response) => {
-				this.setState({primary_channel: response.data.channelName});
+			.then((channel_response) => {
+				this.setState({
+					primary_channel: channel_response.data.channelName
+				})
 			}).catch(error => console.log(error))
 			// User id resolution
 			UserDataService.getUser(response.data.authorId)
-			.then((response) => {
-				this.setState({author: response.data.username});
+			.then((user_response) => {
+				this.setState({
+					author: user_response.data.username
+				});
 			}).catch(error => console.log(error))
 
 		}).catch(function (error) {
@@ -104,7 +118,19 @@ class ThreadComponent extends React.Component {
 
 		CommentDataService.getComments(this.id)
 		.then((response) => {
-			console.log(response)
+
+      response.data.map((comment, i) => {
+        if (comment.taggedChannels) {
+          let taggedChannels = comment.content.match(tagChannelPattern);
+          var taggedChannel = taggedChannels[0];
+
+          comment.content = comment.content.replace(tagChannelPattern,
+            `<a href="/c/${comment.taggedChannels}">${taggedChannel}</a>`);
+        console.log(i + " tagged " + comment.taggedChannels)
+        }
+      });
+
+			// console.log(response)
 			this.setState({
 				comments: response.data,
 				commentsLoading: false
@@ -129,8 +155,6 @@ class ThreadComponent extends React.Component {
 			console.log(error.config);
 		  })
 
-
-		// console.log(this.state)
 	}
 
 	/**
@@ -138,7 +162,6 @@ class ThreadComponent extends React.Component {
 	 * the "Reply" form, as both cannot be open simultaneously.
 	 */
 	activateReport() {
-		// console.log("Activate report called");
 		this.setState({
 			reportActive: !this.state.reportActive,
 			replyActive: this.state.reportActive ? true : false
@@ -181,7 +204,6 @@ class ThreadComponent extends React.Component {
 		}
 		this.setState(updatePacket)
 		ThreadDataService.updateThread(this.id, updatePacket)
-		// console.log(this.state)
 	}
 
 
@@ -189,6 +211,7 @@ class ThreadComponent extends React.Component {
 	 * Renders the thread HTML
 	 */
     render() {
+		// console.log(this.state)
         return (
             <>
             	<div className="thread">
@@ -202,17 +225,17 @@ class ThreadComponent extends React.Component {
 	                	<h4>Posted by u/{this.state.author} {this.state.timeDelta}</h4>
 	                </div>
 	                <div className="thread-contents">
-	                    <p>{this.state.content}</p>
+	                    <p dangerouslySetInnerHTML={{ __html: this.state.content}} />
 	                </div>
 	                <div className="interactions">
-                		<button className={this.state.upspiked ? 'upspiked' : 'no-spike'} onClick={this.addUpSpike} data-toggle="tooltip" data-placement="top" title="Up Spike"> <FaAngleUp/> </button>
-                		<button className={this.state.downspiked ? 'downspiked' : 'no-spike'} onClick={this.addDownSpike} data-toggle="tooltip" data-placement="top" title="Down Spike"> <FaAngleDown/> </button>
+                		<button className={this.state.upspiked ? 'upspiked' : 'no-spike'} onClick={this.addUpSpike}> <FaAngleUp/> </button>
+                		<button className={this.state.downspiked ? 'downspiked' : 'no-spike'} onClick={this.addDownSpike}> <FaAngleDown/> </button>
                 		<div className="divider"/>
 	                	<span className="comment-interaction"> <FaRegComment/> {this.state.comments.length} Comments </span>
                 		<div className="divider"/>
                 		<button className="share-interaction" onClick={this.share} title="Share to others"> <FaShareAlt/> Share </button>
                 		<div className="divider"/>
-                		<button className="report-interaction" onClick={this.activateReport} data-toggle="tooltip" data-placement="top"> <FaFlag/> Report </button>
+                		<button className="report-interaction" onClick={this.activateReport}> <FaFlag/> Report </button>
 	                </div>
 	                <div className={this.state.replyActive ? 'active-reply' : 'hidden-reply'}>
 	                	<InteractionEntryForm thread_id={this.id} isReply={false} isReport={false} updateParent={this.refresh}/>

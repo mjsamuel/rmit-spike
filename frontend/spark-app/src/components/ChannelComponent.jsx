@@ -27,7 +27,7 @@ class ChannelComponent extends React.Component {
       subscribed: false,
       hasErrorOccured: false
     }
-
+    this.id = this.props.match.params.channelId;
     this.subscribeClicked = this.subscribeClicked.bind(this)
     this.newThreadClicked = this.newThreadClicked.bind(this)
   }
@@ -39,18 +39,6 @@ class ChannelComponent extends React.Component {
   componentDidMount() {
     const { match: { params } } = this.props;
     let userId = sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME);
-    // ChannelDataService.getChannel(params.channelId, userId)
-    //   .then((response) => {
-    //     let threads = []
-    //     if (response.data.threads) threads = response.data.threads;
-    //     this.setState({
-    //       channelId: params.channelId,
-    //       channelName: response.data.channelName,
-    //       threads: threads,
-    //       subscribed: response.data.subscribed
-    //     })
-
-    //   })
 
     ChannelDataService.getChannel(params.channelId, userId)
       .then((response) => {
@@ -99,6 +87,7 @@ class ChannelComponent extends React.Component {
    * Renders the channel HTML
    */
   render() {
+    console.log("Channel ID: ", this.id)
     return (
       <div className="channel">
         <div className="thread-list">
@@ -110,9 +99,9 @@ class ChannelComponent extends React.Component {
             })
           }
           <ul className="pagination">
-          <li className="page-item"><a className="page-link" href="#">Previous</a></li>
-          <li className="page-item"><a className="page-link" href="?page1">1</a></li>
-          <li className="page-item"><a className="page-link" href="#">Next</a></li>
+            <li className="page-item"><a className="page-link" href="#">Previous</a></li>
+            <li className="page-item"><a className="page-link" href="?page1">1</a></li>
+            <li className="page-item"><a className="page-link" href="#">Next</a></li>
           </ul>
         </div>
         <div className="side-panel">
@@ -122,7 +111,7 @@ class ChannelComponent extends React.Component {
           </button>
           <span>  </span>
           <button className="btn btn-success" onClick={this.newThreadClicked}>New Thread</button><br/>
-          <ChatComponent channelId={this.state.channelId}/>
+          <ChatComponent channelId={this.id}/>
         </div>
       </div>
     )

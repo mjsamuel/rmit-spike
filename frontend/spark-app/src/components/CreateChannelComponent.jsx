@@ -94,8 +94,8 @@ class CreateChannelComponent extends React.Component {
                   </select>
                 </div>
                 <div className="button-group">
-                  <button type="button" className="btn btn-secondary" onClick={this.cancelClicked} data-toggle="tooltip" data-placement="top" title="Cancel">Cancel</button>
-                  <button type="button" className="btn btn-success ml-2" onClick={this.confirmClicked} data-toggle="tooltip" data-placement="top" title="Submit Channel" >Confirm </button>
+                  <button type="button" className="btn btn-secondary" onClick={this.cancelClicked}>Cancel</button>
+                  <button type="button" className="btn btn-success ml-2" onClick={this.confirmClicked}>Confirm</button>
                 </div>
             </div>
         )

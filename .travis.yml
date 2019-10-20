@@ -50,7 +50,7 @@ matrix:
           script: ./deploy-frontend-prod.sh
           skip-cleanup: true
           on:
-            branch: master
+            branch: develop
 
     - language: java
       dist: trusty
@@ -59,7 +59,7 @@ matrix:
       install:
         - cd restful-web-services
         - ./install.config.sh
-        - mvn package
+        - mvn clean package -Dmaven.javadoc.skip=true -V -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
         - cd ..
       script:
         - cd restful-web-services
@@ -72,7 +72,7 @@ matrix:
           script: ./deploy-backend-prod.sh
           skip-cleanup: true
           on:
-            branch: master
+            branch: develop
 
 before_deploy:
   - if [ ! -d "$HOME/google-cloud-sdk/bin" ]; then rm -rf $HOME/google-cloud-sdk; export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash &> /dev/null; fi

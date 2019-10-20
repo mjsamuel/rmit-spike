@@ -8,8 +8,6 @@ class CommentDataService {
     }
 
     getComments(thread_id) {
-      console.log("Getting Comments...")
-      console.log("Authorization header:", axios.instance)
       return axios.instance.get(`${DATA_API_URL}/thread/${thread_id}/comment`)
 
     }

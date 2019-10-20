@@ -1,10 +1,9 @@
 package com.sept.rest.webservices.restfulwebservices.comment;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import com.jcabi.matchers.RegexMatchers;
+
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,94 +33,137 @@ public class CommentResourceTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-    private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcxNjM1NzQyLCJpYXQiOjE1NzEwMzA5NDJ9.j4ND8ACeyrt8OsLpPvOHhxTt7ofi4EjedBPSzlfxITt4vsYhPtr4BjFoYehhvG9bsfg2ymXfjOCQkCOrnpNv4w";
+
 	@Test
 	public void testAddComment() throws Exception {
-
         String comment = "{ \"authorId\": 1, \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard.\", \"threadId\": 1 }";
-        testCommentPost(comment);
+        String url = "/api/thread/1/comment";
+        MockHttpServletResponse response = testPost(url, comment);
 
+        assertNotNull(response.getContentAsString());
+        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+        assertThat(response.getHeader(HttpHeaders.LOCATION),
+                RegexMatchers.matchesPattern("^http://localhost/api/thread/1/comment/\\d"));
 	}
 
+	@Test
+    public void testAddCommentFailNoAuthor() throws Exception {
+        String comment = "{ \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard.\", \"threadId\": 1 }";
+        String url = "/api/thread/1/comment";
+        MockHttpServletResponse response = testPost(url, comment);
+
+        assertNotNull(response.getContentAsString());
+        assertEquals(HttpStatus.CONFLICT.value(), response.getStatus());
+    }
+
+    @Test
+    public void testAddCommentFailNoContent() throws Exception {
+        String comment = "{ \"authorId\": 1, \"upspikes\": 10, \"downspikes\": 3, \"threadId\": 1 }";
+        String url = "/api/thread/1/comment";
+        MockHttpServletResponse response = testPost(url, comment);
+
+        assertNotNull(response.getContentAsString());
+        assertEquals(HttpStatus.CONFLICT.value(), response.getStatus());
+    }
+
+    @Test
+    public void testAddCommentFailInvalidThreadId() throws Exception {
+        String comment = "{ \"authorId\": 1, \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard.\" }";
+        String url = "/api/thread/test_thread_id/comment";
+        MockHttpServletResponse response = testPost(url, comment);
+
+        assertNotNull(response.getContentAsString());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
+    }
 
     @Test
     public void testCommentGetById() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/comment/1")
-                .with(user(TEST_USER_ID))
-                .with(csrf())
-                .header("authorization", "Bearer " + token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        MockHttpServletResponse response = result.getResponse();
+        MockHttpServletResponse response = testGet("/api/comment/1");
         assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertNotNull(response.getContentAsString());
     }
 
     @Test
     public void testCommentGetByThreadId() throws Exception {
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/thread/1/comment")
-                .with(user(TEST_USER_ID))
-                .with(csrf())
-                .header("authorization", "Bearer " + token)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        MockHttpServletResponse response = result.getResponse();
+        MockHttpServletResponse response = testGet("/api/thread/1/comment");
         assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertNotNull(response.getContentAsString());
     }
 
-//    @Test
-//    public void testUpdateComment() throws Exception {
-//        String comment = "{ \"id\":1, \"archived\": true }";
-//        testCommentPut(comment);
-//    }
+    @Test
+    public void testUpdateCommentSuccess() throws Exception {
+        String comment = "{ \"id\":1, \"archived\": true }";
+        String url = "/api/comment/1";
+        MockHttpServletResponse response = testPut(url, comment);
 
-
-
-    public void testCommentPut(String comment) throws Exception {
-
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put("/api/comment/1")
-                .with(user(TEST_USER_ID))
-                .with(csrf())
-                .header("authorization", "Bearer " + token)
-                .content(comment)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        MockHttpServletResponse response = result.getResponse();
         assertEquals(HttpStatus.OK.value(), response.getStatus());
         assertNotNull(response.getContentAsString());
     }
 
-    private void testCommentPost(String comment) throws Exception {
-        System.out.println("Comment: " + comment);
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/thread/1/comment")
-                .with(user(TEST_USER_ID))
-                .with(csrf())
-                .header("authorization", "Bearer " + token)
-                .content(comment)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                .andReturn();
+    @Test
+    public void testUpdateCommentFailNoId() throws Exception {
+        String comment = "{ \"archived\": true }";
+        String url = "/api/comment/0";
+        MockHttpServletResponse response = testPut(url, comment);
 
+        assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+        assertNotNull(response.getContentAsString());
+	}
 
-        MockHttpServletResponse response = result.getResponse();
+    @Test
+    public void testUpdateCommentFailWrongURL() throws Exception {
+        String comment = "{ \"archived\": true }";
+        String url = "/api/comment";
+        MockHttpServletResponse response = testPut(url, comment);
+
+        assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+        assertNotNull(response.getContentAsString());
+    }
+    
+	@Test
+	public void testTagChannel() throws Exception {
+        String comment = "{ \"authorId\": 1, \"upspikes\": 10, \"downspikes\": 3, \"content\": \"Hi John, I'm not sure I agree with your sentiment. SEPT is far too hard.\", \"threadId\": 1, \"taggedChannels\": \"sept\" }";
+        String url = "/api/thread/1/comment";
+        MockHttpServletResponse response = testPost(url, comment);
+
+        assertNotNull(response.getContentAsString());
         assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+        assertThat(response.getHeader(HttpHeaders.LOCATION),
+                RegexMatchers.matchesPattern("^http://localhost/api/thread/1/comment/\\d"));
+	}
 
-        assertThat(response.getHeader(HttpHeaders.LOCATION), 
-            RegexMatchers.matchesPattern("^http://localhost/api/thread/1/comment/\\d"));
-        assertNotNull(response.getContentAsString());
 
+    public MockHttpServletResponse testGet(String url) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(url)
+                .with(user(TEST_USER_ID))
+                .with(csrf())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andReturn();
+        return result.getResponse();
     }
 
+    public MockHttpServletResponse testPut(String url, String content) throws Exception {
 
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.put(url)
+                .with(user(TEST_USER_ID))
+                .with(csrf())
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        return result.getResponse();
+    }
+
+    private MockHttpServletResponse testPost(String url, String content) throws Exception {
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post(url)
+                .with(user(TEST_USER_ID))
+                .with(csrf())
+                .content(content)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andReturn();
+        return result.getResponse();
+    }
 }
