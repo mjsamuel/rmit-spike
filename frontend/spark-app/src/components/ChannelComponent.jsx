@@ -116,7 +116,8 @@ class ChannelComponent extends React.Component {
           </ul>
         </div>
         <div className="side-panel">
-          <button id="subsribe-btn" className={this.state.subscribed ? "btn btn-secondary" : "btn btn-success"} onClick={this.subscribeClicked}>
+          <button id="subsribe-btn" className={this.state.subscribed ? "btn btn-secondary" : "btn btn-success"} onClick={this.subscribeClicked}
+          title={"Have c/" + this.state.channelName + "\'s most recent threads appear on your wall" }>
             {this.state.subscribed ? "Unsubscribe" : "Subscribe"}
           </button>
           <span>  </span>

@@ -210,9 +210,9 @@ class ThreadComponent extends React.Component {
                 		<div className="divider"/>
 	                	<span className="comment-interaction"> <FaRegComment/> {this.state.comments.length} Comments </span>
                 		<div className="divider"/>
-                		<button className="share-interaction" onClick={this.share} data-toggle="tooltip" data-placement="top" title="Share to Others"> <FaShareAlt/> Share </button>
+                		<button className="share-interaction" onClick={this.share} title="Share to others"> <FaShareAlt/> Share </button>
                 		<div className="divider"/>
-                		<button className="report-interaction" onClick={this.activateReport} data-toggle="tooltip" data-placement="top" title="Repost"> <FaFlag/> Report </button>
+                		<button className="report-interaction" onClick={this.activateReport} data-toggle="tooltip" data-placement="top"> <FaFlag/> Report </button>
 	                </div>
 	                <div className={this.state.replyActive ? 'active-reply' : 'hidden-reply'}>
 	                	<InteractionEntryForm thread_id={this.id} isReply={false} isReport={false} updateParent={this.refresh}/>
