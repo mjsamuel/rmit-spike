@@ -17,8 +17,9 @@ class LoginComponent extends React.Component {
             username: '',
             password: '',
             hasLoginFailed: false,
-            showSuccessMessage: false
-        }
+            showSuccessMessage: false,
+            errorText: ''
+        };
 
         this.handleChange = this.handleChange.bind(this)
         this.loginClicked = this.loginClicked.bind(this)
@@ -43,9 +44,25 @@ class LoginComponent extends React.Component {
      * If login succeeds, redirect to the user wall. If not display an error message.
      */
     loginClicked() {
-        if (this.state.username.trim() === "" || this.state.password.trim() === "") {
-          this.setState({ hasLoginFailed: true})
-        } else {
+        if (this.state.username.trim() === "" && this.state.password.trim() === "") {
+          this.setState({
+             hasLoginFailed: true,
+             errorText: "Error: Missing Credentials."
+            });
+        } 
+        else if (this.state.username.trim() === "") {
+          this.setState({
+            hasLoginFailed: true,
+            errorText: "Error: Invalid Username."
+          });
+        }
+        else if (this.state.password.trim() === "") {
+          this.setState({
+            hasLoginFailed: true,
+            errorText: "Error: Invalid Password."
+          });
+        }
+        else {
           AuthenticationService
               .executeJwtAuthenticationService(this.state.username, this.state.password)
               .then((response) => {
@@ -54,7 +71,10 @@ class LoginComponent extends React.Component {
                   this.props.history.push(`/wall`)
               }).catch(() => {
                   this.setState({ showSuccessMessage: false })
-                  this.setState({ hasLoginFailed: true })
+                  this.setState({ 
+                    hasLoginFailed: true, 
+                    errorText: "Error: Can't Communicate With Backend."
+                  })
               })
         }
     }
@@ -75,8 +95,8 @@ class LoginComponent extends React.Component {
               <img src={Logo} alt="RMIT Spike logo"/>
               <h1>RMIT SPIKE</h1>
               <div className="form">
-                {this.state.hasLoginFailed && <div className="alert alert-warning" id="error">Invalid Credentials or something is wrong</div>}
-                {this.state.showSuccessMessage && <div id="success">Login Sucessful</div>}
+                {this.state.hasLoginFailed && <div className="alert alert-warning" id="error">{this.state.errorText}</div>}
+                {this.state.showSuccessMessage && <div id="success">Login Successful</div>}
                 <div className="form-group">
                   <input type="text" className="form-control" placeholder="Username" name="username" value={this.state.username} onChange={this.handleChange} />
                 </div>

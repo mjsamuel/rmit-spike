@@ -35,7 +35,7 @@ describe('NewThreadComponent', () => {
 		expect(component.state('channelName')).toEqual(state.channelName);
 	})
 
-	it('displays an error message when title is left emty', async() => {
+	it('displays an error message when title is left empty', async() => {
 		component.setState({
 			title: '',
 			body: 'body'
@@ -45,10 +45,10 @@ describe('NewThreadComponent', () => {
 		await component.update();
 
 		let alert = component.find('#error');
-		expect(alert.text()).toEqual("Error: Missing field/s");
+		expect(alert.text()).toEqual("Error: Invalid Title.");
 	})
 
-  it('displays an error message when body is left emty', async() => {
+  it('displays an error message when body is left empty', async() => {
 		component.setState({
 			title: 'title',
 			body: ''
@@ -58,7 +58,7 @@ describe('NewThreadComponent', () => {
 		await component.update();
 
 		let alert = component.find('#error');
-		expect(alert.text()).toEqual("Error: Missing field/s");
+		expect(alert.text()).toEqual("Error: Invalid Body.");
 	})
 
 	it('displays an error message when communication with the backend fails', async() => {

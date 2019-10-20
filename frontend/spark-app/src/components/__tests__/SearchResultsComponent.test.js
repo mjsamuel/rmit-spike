@@ -1,35 +1,43 @@
-import React from 'react'
+import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import { shallow, mount } from 'enzyme'
-import SearchResultsComponent from '../SearchResultsComponent.jsx'
+import { shallow, mount } from 'enzyme';
+import SearchResultsComponent from '../SearchResultsComponent';
+import MockAdapter from 'axios-mock-adapter';
+import axios from '../../axios.js'
+import { DATA_API_URL } from '../../Constants'
 
 describe('SearchResultsComponent', () => {
 	var component, searchResults;
 
-	beforeEach(() => {
+	beforeAll(() => {
+		var mock = new MockAdapter(axios.instance)
+
 		searchResults = {
-			users: [
-				{
-					username: "johnDoe",
-					userId: "001"
-				},
-				{
-					username: "janeDoe",
-					userId: "002"
-				}
-			],
-			channels: [
-				{
-					channelName: "sept",
-					channelId: "001"
-				},
+			channels:
+				[
+		  		{
+		    		id: 1,
+		      	name: "SEPT",
+		    	}
+		   	],
+		    users:
+					[
+		    		{
+		        	id: 1,
+		          username: "sept",
+		          firstName: "john",
+		          lastName: "doe",
+		          upspikes: 20
+		        }
+		      ]
+		    }
 
-			]
-		}
-	})
+		const searchQuery = "sept";
 
-	beforeEach(() => {
-		component = mount(<SearchResultsComponent query="test-search"/>)
+		mock.onGet(`${DATA_API_URL}/search?query=${searchQuery}`).reply(200, searchResults)
+
+		component = mount(<SearchResultsComponent query={searchQuery}/>)
+
 	})
 
 	it('should exist', async() => {
@@ -39,17 +47,15 @@ describe('SearchResultsComponent', () => {
 		expect(component.state('channels')).toEqual(searchResults.channels);
 	})
 
-	it('should render users properly', async() => {
-		await component.update();
+	it('should render users properly', () => {
 		let user1 = component.find("#search-username-0");
 		let user2 = component.find("#search-username-1");
 		expect(user1.text()).toEqual("u/" + searchResults.users[0].username);
-		expect(user2.text()).toEqual("u/" + searchResults.users[1].username);
 	})
 
 	it('should render channels properly', async() => {
 		await component.update();
 		let channel1 = component.find("#search-channel-0");
-		expect(channel1.text()).toEqual("c/" + searchResults.channels[0].channelName);
+		expect(channel1.text()).toEqual("c/" + searchResults.channels[0].name);
 	})
 })

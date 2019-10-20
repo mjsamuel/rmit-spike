@@ -61,19 +61,39 @@ class NewThreadComponent extends React.Component {
      * form data along with the current user's username and channel id
      */
     confirmClicked() {
-      if (this.state.title.trim() === "" || this.state.body.trim() === "") {
+      if (this.state.title.trim() === "" && this.state.body.trim() === "") {
         this.setState({
           hasSubmissionFailed: true,
-          errorText: "Error: Missing field/s"
+          errorText: "Error: Missing Fields."
+        });
+      }
+      else if (this.state.title.trim() === "") {
+        this.setState({
+          hasSubmissionFailed: true,
+          errorText: "Error: Invalid Title."
+        });
+      }
+      else if (this.state.body.trim() === "") {
+        this.setState({
+          hasSubmissionFailed: true,
+          errorText: "Error: Invalid Body."
         });
       }
       else {
+        let tagChannelPattern = new RegExp("c\/[a-zA-Z0-9]+");
+        let taggedChannels = this.state.body.match(tagChannelPattern);
+        var taggedChannel;
+        if (taggedChannels) {
+          taggedChannel = taggedChannels[0].substring(2);
+        }
+
         const request = {
           channelId: this.state.channelId,
           title: this.state.title,
           content: this.state.body,
           datetime: Date.now(),
-          authorId: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME)
+          authorId: sessionStorage.getItem(USER_NAME_SESSION_ATTRIBUTE_NAME),
+          taggedChannels: taggedChannel
         }
 
         ThreadDataService.newThread(request)
@@ -84,10 +104,11 @@ class NewThreadComponent extends React.Component {
         })
         .catch((error) => {
           console.log(error)
-          this.setState({
-            hasSubmissionFailed: true,
-            errorText: "Error: Failed communicating with backend"
+          this.setState({ 
+            hasSubsmissionFailed: true, 
+            errorText: "Error: Can't Communicate With Backend."
           })
+          
           if (error.response) {
             // The request was made and the server responded with a status code
             // that falls out of the range of 2xx

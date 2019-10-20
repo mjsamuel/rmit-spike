@@ -32,8 +32,8 @@ public class WallResourceTests {
 
 	@Autowired
 	private MockMvc mockMvc;
-	private String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzZXB0IiwiZXhwIjoxNTcwMjYwMTczLCJpYXQiOjE1Njk2NTUzNzN9.5V2M7-scozJg2x78U92zJuHmmW4mTBCvZMIrpmcSZNKF-3xkCose7xHiH9ZOQizPtLp6AZqIkUM_ZvbkapN8QQ";
-	
+	private final static String TEST_USER_ID = "sept";
+    
 	@Test
 	public void testUserWall() throws Exception {
 		MockHttpServletResponse response = testUserWallGet(1);		
@@ -51,7 +51,7 @@ public class WallResourceTests {
 	private MockHttpServletResponse testUserWallGet(int userId) throws Exception {
         MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get("/api/user/" + userId + "/wall")
                 .with(csrf())
-                .header("authorization", "Bearer " + token)
+                .with(user(TEST_USER_ID))	
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn();

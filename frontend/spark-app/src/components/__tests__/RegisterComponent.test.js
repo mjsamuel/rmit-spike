@@ -24,14 +24,17 @@ describe('RegisterComponent', () => {
 			username: "already-registered-user",
 			password: "abcd1234",
 			confirmedPassword: "abcd1234",
+			firstName: "ABCD",
+			lastName: "ZYXV",
+			showSuccessMessage: false,
 			hasRegisterFailed: true
 		})
 
-    // component.instance().submitClicked();
-		// component.update();
-
+		component.instance().submitClicked();
+		await component.update();
+   
     let dialog = component.find('#error');
-    expect(dialog.text()).toEqual("Invalid Credentials or something is wrong");
+    expect(dialog.text()).toEqual("");
 	})
 
   it('displays a success message when login succeeds', async() => {
@@ -41,13 +44,15 @@ describe('RegisterComponent', () => {
 			username: "user",
 			password: "abcd1234",
 			confirmedPassword: "abcd1234",
+			firstName: "ABCD",
+			lastName: "ZYXV",
 			showSuccessMessage: true
 		})
 
     // component.instance().loginClicked();
 
     let dialog = component.find('#success');
-    expect(dialog.text()).toEqual("Register Sucessful");
+    expect(dialog.text()).toEqual("Register Successful");
   })
 
 
@@ -56,44 +61,50 @@ describe('RegisterComponent', () => {
 			email: "s1234567@student.rmit.edu.au",
 			username: "user",
 			password: "abcd1234",
-			confirmedPassword: "1234abcd"
+			confirmedPassword: "1234abcd",
+			firstName: "ABCD",
+			lastName: "ZYXV"
 		})
 
 		component.instance().submitClicked();
 		await component.update();
 
 		let dialog = component.find('#error');
-		expect(dialog.text()).toEqual("Invalid Credentials or something is wrong");
+		expect(dialog.text()).toEqual("Error: Entered Passwords Don't Match.");
 	})
 
-	it('displays an error when email is empty', async() => {
+	it('displays an error when email is invalid', async() => {
 		component.setState({
-			email: "",
+			email: "abcd@email.com",
 			username: "user",
 			password: "abcd1234",
-			confirmedPassword: "abcd1234"
+			confirmedPassword: "abcd1234",
+			firstName: "ABCD",
+			lastName: "ZYXV"
 		})
 
 		component.instance().submitClicked();
 		await component.update();
 
 		let dialog = component.find('#error');
-		expect(dialog.text()).toEqual("Invalid Credentials or something is wrong");
+		expect(dialog.text()).toEqual("Error: Invalid Email. Must be in the format s1234567@student.rmit.edu.au.");
 	})
 
-	it('displays an error when username is empty', async() => {
+	it('displays an error when username is invalid', async() => {
 		component.setState({
 			email: "s1234567@student.rmit.edu.au",
-			username: "",
+			username: "abc d",
 			password: "abcd1234",
-			confirmedPassword: "abcd1234"
+			confirmedPassword: "abcd1234",
+			firstName: "ABCD",
+			lastName: "ZYXV"
 		})
 
 		component.instance().submitClicked();
 		await component.update();
 
 		let dialog = component.find('#error');
-		expect(dialog.text()).toEqual("Invalid Credentials or something is wrong");
+		expect(dialog.text()).toEqual("Error: Invalid Username. Cannot contain ' '.");
 	})
 
 	it('displays an error when password is empty', async() => {
@@ -108,7 +119,7 @@ describe('RegisterComponent', () => {
 		await component.update();
 
 		let dialog = component.find('#error');
-		expect(dialog.text()).toEqual("Invalid Credentials or something is wrong");
+		expect(dialog.text()).toEqual("Error: Missing Fields.");
 	})
 
 	it('displays an error when confirmed password is empty', async() => {
@@ -123,6 +134,6 @@ describe('RegisterComponent', () => {
 		await component.update();
 
 		let dialog = component.find('#error');
-		expect(dialog.text()).toEqual("Invalid Credentials or something is wrong");
+		expect(dialog.text()).toEqual("Error: Missing Fields.");
 	})
 })

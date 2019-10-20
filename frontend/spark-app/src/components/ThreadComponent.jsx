@@ -62,8 +62,18 @@ class ThreadComponent extends React.Component {
 	 * @param id: the id of the thread
 	 */
 	refresh() {
+    let tagChannelPattern = new RegExp("c/[a-zA-Z0-9]+");
+
 		ThreadDataService.retrieveThread(this.id)
 		.then((response) => {
+      if (response.data.taggedChannels) {
+        let taggedChannels = response.data.content.match(tagChannelPattern);
+        var taggedChannel = taggedChannels[0];
+
+        response.data.content = response.data.content.replace(tagChannelPattern,
+          `<a href="/c/${response.data.taggedChannels}">${taggedChannel}</a>`);
+      }
+
 			this.setState({
 				title: response.data.title,
 				content: response.data.content,
@@ -108,6 +118,18 @@ class ThreadComponent extends React.Component {
 
 		CommentDataService.getComments(this.id)
 		.then((response) => {
+
+      response.data.map((comment, i) => {
+        if (comment.taggedChannels) {
+          let taggedChannels = comment.content.match(tagChannelPattern);
+          var taggedChannel = taggedChannels[0];
+
+          comment.content = comment.content.replace(tagChannelPattern,
+            `<a href="/c/${comment.taggedChannels}">${taggedChannel}</a>`);
+        console.log(i + " tagged " + comment.taggedChannels)
+        }
+      });
+
 			// console.log(response)
 			this.setState({
 				comments: response.data,
@@ -203,7 +225,7 @@ class ThreadComponent extends React.Component {
 	                	<h4>Posted by u/{this.state.author} {this.state.timeDelta}</h4>
 	                </div>
 	                <div className="thread-contents">
-	                    <p>{this.state.content}</p>
+	                    <p dangerouslySetInnerHTML={{ __html: this.state.content}} />
 	                </div>
 	                <div className="interactions">
                 		<button className={this.state.upspiked ? 'upspiked' : 'no-spike'} onClick={this.addUpSpike}> <FaAngleUp/> </button>

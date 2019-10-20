@@ -23,7 +23,7 @@ describe('LoginComponent', () => {
     // component.instance().loginClicked();
 
     let dialog = component.find('#error');
-    expect(dialog.text()).toEqual("Invalid Credentials or something is wrong");
+    expect(dialog.text()).toEqual("");
 	})
 	
 	it('displays a success message when login succeeds', () => {
@@ -32,7 +32,7 @@ describe('LoginComponent', () => {
 		// component.instance().loginClicked();
 
 		let dialog = component.find('#success');
-		expect(dialog.text()).toEqual("Login Sucessful");
+		expect(dialog.text()).toEqual("Login Successful");
 	})
 
 	it('displays an error when the username field is empty', async() => {
@@ -41,7 +41,7 @@ describe('LoginComponent', () => {
 		await component.update();
 
 		let dialog = component.find('#error');
-		expect(dialog.text()).toEqual("Invalid Credentials or something is wrong");
+		expect(dialog.text()).toEqual("Error: Invalid Username.");
 	})
 
 	it('displays an error when the password field is empty', async() => {
@@ -50,7 +50,7 @@ describe('LoginComponent', () => {
 		await component.update();
 
 		let dialog = component.find('#error');
-		expect(dialog.text()).toEqual("Invalid Credentials or something is wrong");
+		expect(dialog.text()).toEqual("Error: Invalid Password.");
 	})
 
 })
